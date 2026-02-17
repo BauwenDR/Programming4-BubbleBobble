@@ -396,10 +396,12 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+.idea/
 
 #cmake output
 build
 build_web
+cmake-build-*/
 
 # Dear Imgui settings file
 imgui.ini

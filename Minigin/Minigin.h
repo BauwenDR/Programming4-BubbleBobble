@@ -1,5 +1,4 @@
 #pragma once
-#include <string>
 #include <functional>
 #include <filesystem>
 
@@ -7,7 +6,6 @@ namespace dae
 {
 	class Minigin final
 	{
-		bool m_quit{};
 	public:
 		explicit Minigin(const std::filesystem::path& dataPath);
 		~Minigin();
@@ -18,5 +16,9 @@ namespace dae
 		Minigin(Minigin&& other) = delete;
 		Minigin& operator=(const Minigin& other) = delete;
 		Minigin& operator=(Minigin&& other) = delete;
+
+	private:
+		SDL_Window* m_pWindow{};
+		bool m_quit{};
 	};
 }

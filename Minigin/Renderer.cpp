@@ -1,5 +1,4 @@
 ﻿#include <stdexcept>
-#include <cstring>
 #include <iostream>
 #include "Renderer.h"
 #include "SceneManager.h"
@@ -11,11 +10,7 @@ void dae::Renderer::Init(SDL_Window* window)
 
 	SDL_SetHint(SDL_HINT_RENDER_VSYNC, "1");
 
-#if defined(__EMSCRIPTEN__)
 	m_renderer = SDL_CreateRenderer(window, nullptr);
-#else
-	m_renderer = SDL_CreateRenderer(window, nullptr);
-#endif
 
 	if (m_renderer == nullptr)
 	{
