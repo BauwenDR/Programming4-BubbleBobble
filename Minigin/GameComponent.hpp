@@ -10,6 +10,7 @@ namespace dae
 class GameComponent
 {
 public:
+
     virtual void start([[maybe_unused]] dae::GameObject &object) = 0;
     virtual void update([[maybe_unused]] dae::GameObject &object) = 0;
     virtual void render([[maybe_unused]] const dae::GameObject &object) const = 0;
