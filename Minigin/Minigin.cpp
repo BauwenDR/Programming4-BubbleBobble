@@ -41,7 +41,7 @@ void LoopCallback(void* arg)
 // These entries in the debug output help to identify that issue.
 void PrintSDLVersion()
 {
-	LogSDLVersion("Compiled with SDL", SDL_MAJOR_VERSION, SDL_MINOR_VERSION, SDL_MICRO_VERSION);
+	LogSDLVersion("Compiled with SDL ", SDL_MAJOR_VERSION, SDL_MINOR_VERSION, SDL_MICRO_VERSION);
 	int version = SDL_GetVersion();
 	LogSDLVersion("Linked with SDL ", SDL_VERSIONNUM_MAJOR(version), SDL_VERSIONNUM_MINOR(version), SDL_VERSIONNUM_MICRO(version));
 
