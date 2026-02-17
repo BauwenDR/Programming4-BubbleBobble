@@ -1,0 +1,10 @@
+#ifndef MINIGIN_GAMECOMPONENT_HPP
+#define MINIGIN_GAMECOMPONENT_HPP
+
+
+class GameComponent
+{
+};
+
+
+#endif //MINIGIN_GAMECOMPONENT_HPP

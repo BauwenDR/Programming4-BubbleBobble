@@ -1,6 +1,6 @@
 #include <SDL3/SDL.h>
-#include "Texture2D.h"
-#include "Renderer.h"
+#include "Texture2D.hpp"
+#include "Renderer.hpp"
 #include <stdexcept>
 
 dae::Texture2D::~Texture2D()

@@ -1,8 +1,8 @@
 ﻿#include <stdexcept>
 #include <iostream>
-#include "Renderer.h"
-#include "SceneManager.h"
-#include "Texture2D.h"
+#include "Renderer.hpp"
+#include "SceneManager.hpp"
+#include "Texture2D.hpp"
 
 void dae::Renderer::Init(SDL_Window* window)
 {

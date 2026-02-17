@@ -11,11 +11,11 @@
 
 #include <SDL3/SDL.h>
 #include <SDL3_ttf/SDL_ttf.h>
-#include "Minigin.h"
-#include "InputManager.h"
-#include "SceneManager.h"
-#include "Renderer.h"
-#include "ResourceManager.h"
+#include "Minigin.hpp"
+#include "InputManager.hpp"
+#include "SceneManager.hpp"
+#include "Renderer.hpp"
+#include "ResourceManager.hpp"
 
 // TODO move to some sort of logger
 void LogSDLVersion(const std::string& message, int major, int minor, int patch)

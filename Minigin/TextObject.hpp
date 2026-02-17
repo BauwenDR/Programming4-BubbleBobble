@@ -1,8 +1,8 @@
 #pragma once
 #include <string>
 #include <memory>
-#include "GameObject.h"
-#include "Transform.h"
+#include "GameObject.hpp"
+#include "Transform.hpp"
 
 namespace dae
 {

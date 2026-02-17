@@ -1,7 +1,7 @@
 #include <string>
-#include "GameObject.h"
-#include "ResourceManager.h"
-#include "Renderer.h"
+#include "GameObject.hpp"
+#include "ResourceManager.hpp"
+#include "Renderer.hpp"
 
 dae::GameObject::~GameObject() = default;
 
