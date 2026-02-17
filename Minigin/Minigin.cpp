@@ -2,6 +2,8 @@
 #include <sstream>
 #include <iostream>
 
+#include "Time.hpp"
+
 #if WIN32
 #define WIN32_LEAN_AND_MEAN 
 #include <windows.h>
@@ -98,6 +100,11 @@ void dae::Minigin::Run(const std::function<void()>& load)
 void dae::Minigin::RunOneFrame()
 {
 	m_quit = !InputManager::GetInstance().ProcessInput();
+
+	Time::pre_update();
+
 	SceneManager::GetInstance().Update();
 	Renderer::GetInstance().Render();
+
+	Time::post_update();
 }
