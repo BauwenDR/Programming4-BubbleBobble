@@ -6,6 +6,8 @@ using namespace dae;
 void Scene::Add(std::unique_ptr<GameObject> object)
 {
 	assert(object != nullptr && "Cannot add a null GameObject to the scene.");
+
+	object->Start();
 	m_objects.emplace_back(std::move(object));
 }
 

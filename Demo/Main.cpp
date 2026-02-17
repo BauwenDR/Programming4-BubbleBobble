@@ -1,6 +1,10 @@
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_main.h>
 
+#include "FpsComponent.hpp"
+#include "Texture2D.hpp"
+#include "TextureComponent.hpp"
+
 #if _DEBUG && __has_include(<vld.h>)
 #include <vld.h>
 #endif
@@ -19,19 +23,29 @@ static void load()
 	auto& scene = dae::SceneManager::GetInstance().CreateScene();
 
 	auto go = std::make_unique<dae::GameObject>();
-	go->SetTexture("background.png");
+	go->AddComponent(std::make_shared<dae::TextureComponent>(dae::ResourceManager::GetInstance().LoadTexture("background.png")));
 	scene.Add(std::move(go));
 
 	go = std::make_unique<dae::GameObject>();
-	go->SetTexture("logo.png");
-	go->SetPosition(358, 180);
+	go->Position = { 358, 180 };
+	go->AddComponent(std::make_shared<dae::TextureComponent>(dae::ResourceManager::GetInstance().LoadTexture("logo.png")));
 	scene.Add(std::move(go));
 
+	go = std::make_unique<dae::GameObject>();
 	auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
-	auto to = std::make_unique<dae::TextComponent>("Programming 4 Assignment", font);
-	to->SetColor({ 255, 255, 0, 255 });
-	to->SetPosition(292, 20);
-	scene.Add(std::move(to));
+	auto to = std::make_shared<dae::TextComponent>("Programming 4 Assignment", font);
+	go->Position = { 292, 20, 0 };
+	to->set_color({ 255, 255, 0, 255 });
+	go->AddComponent(to);
+	scene.Add(std::move(go));
+
+	go = std::make_unique<dae::GameObject>();
+	to = std::make_shared<dae::TextComponent>("FPS: 00", font);
+	to->set_color({ 200, 200, 200, 255 });
+	go->Position = { 10, 10 };
+	go->AddComponent(std::make_shared<FpsComponent>());
+	go->AddComponent(to);
+	scene.Add(std::move(go));
 }
 
 int main(int, char*[]) {

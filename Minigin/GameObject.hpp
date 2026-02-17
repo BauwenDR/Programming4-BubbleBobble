@@ -1,4 +1,5 @@
 #pragma once
+#include <iostream>
 #include <string>
 #include <memory>
 
@@ -6,33 +7,46 @@
 #include "Transform.hpp"
 
 template <typename T>
-concept IsGameComponent = std::is_base_of_v<GameComponent, T>;
+concept GameComponentChild = std::is_base_of_v<dae::GameComponent, T>;
 
 namespace dae
 {
+
 	class Texture2D;
 	class GameObject final
 	{
 	public:
-		Transform Transform{};
+		Transform Position{};
 
+		void Start();
 		void Update();
 		void Render() const;
 
-		void AddComponent(std::shared_ptr<GameComponent> component);
 
-		template <IsGameComponent T>
+		template <GameComponentChild T>
+		void AddComponent(const std::shared_ptr<T>& component)
+		{
+			// TODO better error handling
+			const auto &[_, success]{m_components.try_emplace(typeid(T).name(), component)};
+
+			if (!success)
+			{
+				std::cerr << "Failed to add component " << typeid(component).name() << std::endl;
+			}
+		}
+
+		template <GameComponentChild T>
 		std::shared_ptr<T> GetComponent()
 		{
 			if (const auto it = m_components.find(typeid(T).name()); it != m_components.end())
 			{
-				return it->second;
+				return std::dynamic_pointer_cast<T>(it->second);
 			}
 
 			return std::shared_ptr<T>(nullptr);
 		}
 
-		template <IsGameComponent T>
+		template <GameComponentChild T>
 		void RemoveComponent()
 		{
 			m_components.erase(typeid(T).name());
@@ -44,6 +58,7 @@ namespace dae
 		GameObject(GameObject&& other) = delete;
 		GameObject& operator=(const GameObject& other) = delete;
 		GameObject& operator=(GameObject&& other) = delete;
+
 	private:
 		std::unordered_map<std::string, std::shared_ptr<GameComponent>> m_components{};
 	};

@@ -6,6 +6,7 @@
 #include "GameComponent.hpp"
 #include "GameObject.hpp"
 
+// TODO this component can probably make use of the TextureComponent
 namespace dae
 {
 	class Font;
@@ -17,8 +18,8 @@ namespace dae
 		void update(GameObject &object) override;
 		void render(const GameObject &object) const override;
 
-		void SetText(const std::string_view& text);
-		void SetColor(const SDL_Color& color);
+		void set_text(const std::string_view& text);
+		void set_color(const SDL_Color& color);
 
 		TextComponent(const std::string_view& text, std::shared_ptr<Font> font, const SDL_Color& color = { 255, 255, 255, 255 });
 

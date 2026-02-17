@@ -1,11 +1,20 @@
 #include "GameObject.hpp"
 
+#include <iostream>
 #include <ranges>
 
 #include "GameComponent.hpp"
 #include "ResourceManager.hpp"
 
 dae::GameObject::~GameObject() = default;
+
+void dae::GameObject::Start()
+{
+	for (const auto &component: m_components | std::views::values)
+	{
+		component->start(*this);
+	}
+}
 
 void dae::GameObject::Update()
 {
@@ -21,13 +30,4 @@ void dae::GameObject::Render() const
 	{
 		component->render(*this);
 	}
-}
-
-void dae::GameObject::AddComponent(std::shared_ptr<GameComponent> component)
-{
-}
-
-void dae::GameObject::AddComponent(std::shared_ptr<GameComponent> component)
-{
-	m_components.insert(std::make_pair());
 }

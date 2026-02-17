@@ -4,6 +4,7 @@
 namespace Time
 {
     float get_delta_time();
+    float get_frame_rate();
 
     // TODO put in separate (non-public) header file
     void pre_update();

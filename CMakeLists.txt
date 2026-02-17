@@ -13,6 +13,11 @@ else()
     set(TARGET_PARAM WIN32)
 endif()
 
+set(DEMO_SOURCE_FILES
+        Demo/Main.cpp
+        Demo/FpsComponent.cpp
+)
+
 # list source files here
 add_executable(${TARGET_NAME} ${TARGET_PARAM}
         Minigin/Font.cpp
@@ -23,11 +28,12 @@ add_executable(${TARGET_NAME} ${TARGET_PARAM}
         Minigin/ResourceManager.cpp
         Minigin/Scene.cpp
         Minigin/SceneManager.cpp
-        Minigin/TextObject.cpp
+        Minigin/TextComponent.cpp
         Minigin/Texture2D.cpp
+        Minigin/TextureComponent.cpp
         Minigin/Time.cpp
         Minigin/Transform.cpp
-        Demo/Main.cpp
+        ${DEMO_SOURCE_FILES}
 )
 
 # enable c++20 features
