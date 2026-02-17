@@ -3,25 +3,25 @@
 #include <memory>
 #include "Transform.hpp"
 
+class GameComponent;
+
 namespace dae
 {
 	class Texture2D;
-	class GameObject
+	class GameObject final
 	{
-		Transform m_transform{};
-		std::shared_ptr<Texture2D> m_texture{};
 	public:
-		virtual void Update();
-		virtual void Render() const;
-
-		void SetTexture(const std::string& filename);
-		void SetPosition(float x, float y);
+		void Update();
+		void Render() const;
 
 		GameObject() = default;
-		virtual ~GameObject();
+		~GameObject();
 		GameObject(const GameObject& other) = delete;
 		GameObject(GameObject&& other) = delete;
 		GameObject& operator=(const GameObject& other) = delete;
 		GameObject& operator=(GameObject&& other) = delete;
+
+	private:
+		std::unordered_map<std::string, std::shared_ptr<GameComponent>> m_components{};
 	};
 }

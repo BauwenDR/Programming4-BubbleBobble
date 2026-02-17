@@ -1,15 +1,16 @@
-﻿#include <stdexcept>
+﻿#include "TextComponent.hpp"
+
+#include <stdexcept>
 #include <SDL3_ttf/SDL_ttf.h>
-#include "TextObject.hpp"
 #include "Renderer.hpp"
 #include "Font.hpp"
 #include "Texture2D.hpp"
 
-dae::TextObject::TextObject(const std::string& text, std::shared_ptr<Font> font, const SDL_Color& color)
+dae::TextComponent::TextComponent(const std::string& text, std::shared_ptr<Font> font, const SDL_Color& color)
 	: m_needsUpdate(true), m_text(text), m_color(color), m_font(std::move(font)), m_textTexture(nullptr)
 { }
 
-void dae::TextObject::Update()
+void dae::TextComponent::update(GameObject &object)
 {
 	if (m_needsUpdate)
 	{
@@ -29,7 +30,7 @@ void dae::TextObject::Update()
 	}
 }
 
-void dae::TextObject::Render() const
+void dae::TextComponent::render([[maybe_unused]] dae::GameObject &object) const
 {
 	if (m_textTexture != nullptr)
 	{
@@ -38,18 +39,18 @@ void dae::TextObject::Render() const
 	}
 }
 
-void dae::TextObject::SetText(const std::string& text)
+void dae::TextComponent::SetText(const std::string& text)
 {
 	m_text = text;
 	m_needsUpdate = true;
 }
 
-void dae::TextObject::SetPosition(const float x, const float y)
+void dae::TextComponent::SetPosition(const float x, const float y)
 {
 	m_transform.SetPosition(x, y);
 }
 
-void dae::TextObject::SetColor(const SDL_Color& color) 
+void dae::TextComponent::SetColor(const SDL_Color& color)
 { 
 	m_color = color; 
 	m_needsUpdate = true; 

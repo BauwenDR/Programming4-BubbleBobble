@@ -8,7 +8,7 @@
 #include "Minigin.hpp"
 #include "SceneManager.hpp"
 #include "ResourceManager.hpp"
-#include "TextObject.hpp"
+#include "TextComponent.hpp"
 #include "Scene.hpp"
 
 #include <filesystem>
@@ -28,7 +28,7 @@ static void load()
 	scene.Add(std::move(go));
 
 	auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
-	auto to = std::make_unique<dae::TextObject>("Programming 4 Assignment", font);
+	auto to = std::make_unique<dae::TextComponent>("Programming 4 Assignment", font);
 	to->SetColor({ 255, 255, 0, 255 });
 	to->SetPosition(292, 20);
 	scene.Add(std::move(to));
