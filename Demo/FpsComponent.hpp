@@ -13,9 +13,9 @@ namespace dae
 class FpsComponent : public dae::GameComponent
 {
 public:
-    void start(dae::GameObject &object) override;
-    void update(dae::GameObject &object) override;
-    void render(const dae::GameObject &object) const override;
+    void Start(dae::GameObject &object) override;
+    void Update(dae::GameObject &object) override;
+    void Render(const dae::GameObject &object) const override;
 
     ~FpsComponent() override = default;
 

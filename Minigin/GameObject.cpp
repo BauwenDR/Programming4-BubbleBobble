@@ -1,6 +1,5 @@
 #include "GameObject.hpp"
 
-#include <iostream>
 #include <ranges>
 
 #include "GameComponent.hpp"
@@ -12,7 +11,7 @@ void dae::GameObject::Start()
 {
 	for (const auto &component: m_components | std::views::values)
 	{
-		component->start(*this);
+		component->Start(*this);
 	}
 }
 
@@ -20,7 +19,7 @@ void dae::GameObject::Update()
 {
 	for (const auto &component: m_components | std::views::values)
 	{
-		component->update(*this);
+		component->Update(*this);
 	}
 }
 
@@ -28,6 +27,16 @@ void dae::GameObject::Render() const
 {
 	for (const auto &component: m_components | std::views::values)
 	{
-		component->render(*this);
+		component->Render(*this);
 	}
+}
+
+void dae::GameObject::OnEndOfFrame()
+{
+	for (const auto& name : m_components_to_remove)
+	{
+		m_components.erase(name);
+	}
+
+	m_components_to_remove.clear();
 }

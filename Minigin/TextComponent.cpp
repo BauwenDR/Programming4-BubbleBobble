@@ -6,9 +6,9 @@
 #include "Font.hpp"
 #include "Texture2D.hpp"
 
-void dae::TextComponent::start([[maybe_unused]] dae::GameObject &object) {}
+void dae::TextComponent::Start([[maybe_unused]] dae::GameObject &object) {}
 
-void dae::TextComponent::update([[maybe_unused]] GameObject &object)
+void dae::TextComponent::Update([[maybe_unused]] GameObject &object)
 {
 	if (m_needsUpdate)
 	{
@@ -28,7 +28,7 @@ void dae::TextComponent::update([[maybe_unused]] GameObject &object)
 	}
 }
 
-void dae::TextComponent::render([[maybe_unused]] const dae::GameObject &object) const
+void dae::TextComponent::Render([[maybe_unused]] const dae::GameObject &object) const
 {
 	if (m_textTexture != nullptr)
 	{

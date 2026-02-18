@@ -17,6 +17,14 @@ void dae::SceneManager::Render()
 	}
 }
 
+void dae::SceneManager::OnEndOfFrame()
+{
+	for (const auto& scene : m_scenes)
+	{
+		scene->OnEndOfFrame();
+	}
+}
+
 dae::Scene& dae::SceneManager::CreateScene()
 {
 	m_scenes.emplace_back(new Scene());

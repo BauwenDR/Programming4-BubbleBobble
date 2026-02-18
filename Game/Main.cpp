@@ -5,11 +5,11 @@
 #include <vld.h>
 #endif
 
-#include "Minigin.h"
-#include "SceneManager.h"
-#include "ResourceManager.h"
-#include "TextObject.h"
-#include "Scene.h"
+#include "Minigin.hpp"
+#include "SceneManager.hpp"
+#include "ResourceManager.hpp"
+#include "TextObject.hpp"
+#include "Scene.hpp"
 
 #include <filesystem>
 namespace fs = std::filesystem;

@@ -9,7 +9,7 @@ namespace Time
     static std::chrono::high_resolution_clock::time_point current_time{};
     static std::chrono::high_resolution_clock::time_point last_time{};
 
-    constexpr uint32_t us_per_frame{16500};
+    constexpr uint32_t ms_per_frame{16};
 
     static float delta_time{};
 
@@ -45,6 +45,6 @@ void Time::pre_update()
 
 void Time::post_update()
 {
-    const auto sleep_time = current_time + std::chrono::microseconds(us_per_frame) - std::chrono::high_resolution_clock::now();
+    const auto sleep_time = current_time + std::chrono::milliseconds(ms_per_frame) - std::chrono::high_resolution_clock::now();
     std::this_thread::sleep_for(sleep_time);
 }

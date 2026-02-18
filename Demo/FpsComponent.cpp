@@ -6,12 +6,12 @@
 #include "TextComponent.hpp"
 #include "Time.hpp"
 
-void FpsComponent::start([[maybe_unused]] dae::GameObject &object)
+void FpsComponent::Start([[maybe_unused]] dae::GameObject &object)
 {
     m_text_component = object.GetComponent<dae::TextComponent>();
 }
 
-void FpsComponent::update([[maybe_unused]] dae::GameObject &object)
+void FpsComponent::Update([[maybe_unused]] dae::GameObject &object)
 {
     if (m_text_component)
     {
@@ -19,6 +19,6 @@ void FpsComponent::update([[maybe_unused]] dae::GameObject &object)
     }
 }
 
-void FpsComponent::render([[maybe_unused]] const dae::GameObject &object) const
+void FpsComponent::Render([[maybe_unused]] const dae::GameObject &object) const
 {
 }

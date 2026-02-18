@@ -22,6 +22,7 @@ namespace dae
 		void Update();
 		void Render() const;
 
+		void OnEndOfFrame();
 
 		template <GameComponentChild T>
 		void AddComponent(const std::shared_ptr<T>& component)
@@ -49,7 +50,7 @@ namespace dae
 		template <GameComponentChild T>
 		void RemoveComponent()
 		{
-			m_components.erase(typeid(T).name());
+			m_components_to_remove.emplace_back(typeid(T).name());
 		}
 
 		GameObject() = default;
@@ -61,5 +62,6 @@ namespace dae
 
 	private:
 		std::unordered_map<std::string, std::shared_ptr<GameComponent>> m_components{};
+		std::vector<std::string> m_components_to_remove{};
 	};
 }

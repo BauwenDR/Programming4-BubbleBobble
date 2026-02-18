@@ -15,6 +15,7 @@ namespace dae
 
 		void Update();
 		void Render() const;
+		void OnEndOfFrame();
 
 		~Scene() = default;
 		Scene(const Scene& other) = delete;

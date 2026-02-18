@@ -9,15 +9,15 @@
 
 namespace dae
 {
-    void TextureComponent::start([[maybe_unused]] GameObject &object)
+    void TextureComponent::Start([[maybe_unused]] GameObject &object)
     {
     }
 
-    void TextureComponent::update([[maybe_unused]] GameObject &object)
+    void TextureComponent::Update([[maybe_unused]] GameObject &object)
     {
     }
 
-    void TextureComponent::render([[maybe_unused]] const GameObject &object) const
+    void TextureComponent::Render([[maybe_unused]] const GameObject &object) const
     {
         if (m_texture != nullptr)
         {

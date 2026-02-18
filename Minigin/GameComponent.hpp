@@ -10,9 +10,9 @@ namespace dae
     {
     public:
 
-        virtual void start([[maybe_unused]] dae::GameObject &object) = 0;
-        virtual void update([[maybe_unused]] dae::GameObject &object) = 0;
-        virtual void render([[maybe_unused]] const dae::GameObject &object) const = 0;
+        virtual void Start([[maybe_unused]] dae::GameObject &object) = 0;
+        virtual void Update([[maybe_unused]] dae::GameObject &object) = 0;
+        virtual void Render([[maybe_unused]] const dae::GameObject &object) const = 0;
 
         GameComponent() = default;
         virtual ~GameComponent() = default;

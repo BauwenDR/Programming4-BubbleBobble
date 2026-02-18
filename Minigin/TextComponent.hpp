@@ -14,9 +14,9 @@ namespace dae
 	class TextComponent final : public GameComponent
 	{
 	public:
-		void start(GameObject &object) override;
-		void update(GameObject &object) override;
-		void render(const GameObject &object) const override;
+		void Start(GameObject &object) override;
+		void Update(GameObject &object) override;
+		void Render(const GameObject &object) const override;
 
 		void set_text(const std::string_view& text);
 		void set_color(const SDL_Color& color);
