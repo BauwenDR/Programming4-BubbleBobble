@@ -1,42 +1,43 @@
 #include "GameObject.hpp"
 
-#include <ranges>
-
 #include "GameComponent.hpp"
 #include "ResourceManager.hpp"
 
+bool dae::GameObject::IsMarkedForDelete() const
+{
+	return m_isToBeRemoved;
+}
+
 dae::GameObject::~GameObject() = default;
 
-void dae::GameObject::Start()
+void dae::GameObject::Start() const
 {
-	for (const auto &component: m_components | std::views::values)
+	for (const auto &component : m_components)
 	{
-		component->Start(*this);
+		component->Start();
 	}
 }
 
-void dae::GameObject::Update()
+void dae::GameObject::Update() const
 {
-	for (const auto &component: m_components | std::views::values)
+	for (const auto &component : m_components)
 	{
-		component->Update(*this);
+		component->Update();
 	}
+}
+
+void dae::GameObject::PostUpdate()
+{
+	std::erase_if(m_components, [](const auto& component)
+	{
+		return component->IsMarkedForDelete();
+	});
 }
 
 void dae::GameObject::Render() const
 {
-	for (const auto &component: m_components | std::views::values)
+	for (const auto &component : m_components)
 	{
-		component->Render(*this);
+		component->Render();
 	}
-}
-
-void dae::GameObject::OnEndOfFrame()
-{
-	for (const auto& name : m_components_to_remove)
-	{
-		m_components.erase(name);
-	}
-
-	m_components_to_remove.clear();
 }

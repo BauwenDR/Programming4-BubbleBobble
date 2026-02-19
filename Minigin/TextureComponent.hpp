@@ -7,15 +7,18 @@
 namespace dae
 {
     class Texture2D;
+
     class TextureComponent : public GameComponent
     {
     public:
-        TextureComponent(std::shared_ptr<Texture2D> texture) : m_texture(std::move(texture)) {}
-        ~TextureComponent() override = default;
+        void Start() override {};
+        void Update() override {};
+        void Render() const override;
 
-        void Start(GameObject &object) override;
-        void Update(GameObject &object) override;
-        void Render(const GameObject &object) const override;
+        void SetTexture(const std::shared_ptr<Texture2D> &newTexture);
+
+        explicit TextureComponent(GameObject *pGameObject, std::shared_ptr<Texture2D> texture = nullptr);
+        ~TextureComponent() override = default;
 
     private:
         std::shared_ptr<Texture2D> m_texture{};

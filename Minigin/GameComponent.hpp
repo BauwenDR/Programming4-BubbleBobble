@@ -10,17 +10,26 @@ namespace dae
     {
     public:
 
-        virtual void Start([[maybe_unused]] dae::GameObject &object) = 0;
-        virtual void Update([[maybe_unused]] dae::GameObject &object) = 0;
-        virtual void Render([[maybe_unused]] const dae::GameObject &object) const = 0;
+        virtual void Start() = 0;
+        virtual void Update() = 0;
+        virtual void Render() const = 0;
 
-        GameComponent() = default;
+        [[nodiscard]] GameObject *GetGameObject() const;
+        [[nodiscard]] bool IsMarkedForDelete() const;
+
         virtual ~GameComponent() = default;
 
         GameComponent(const GameComponent &other) = delete;
         GameComponent(GameComponent &&other) noexcept = delete;
         GameComponent &operator=(const GameComponent &other) = delete;
         GameComponent &operator=(GameComponent &&other) noexcept = delete;
+
+    protected:
+        explicit GameComponent(GameObject* owner);
+
+    private:
+        GameObject* m_pGameObject{};
+        bool m_markedForDeletion{false};
     };
 }
 

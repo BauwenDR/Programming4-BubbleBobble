@@ -32,6 +32,14 @@ void Scene::Update()
 	}
 }
 
+void Scene::PostUpdate()
+{
+	std::erase_if(m_objects, [](const auto& gameObject)
+	{
+		return gameObject->IsMarkedForDelete();
+	});
+}
+
 void Scene::Render() const
 {
 	for (const auto& object : m_objects)
@@ -39,12 +47,3 @@ void Scene::Render() const
 		object->Render();
 	}
 }
-
-void Scene::OnEndOfFrame()
-{
-	for (const auto& object : m_objects)
-	{
-		object->OnEndOfFrame();
-	}
-}
-

@@ -21,6 +21,7 @@ set(DEMO_SOURCE_FILES
 # list source files here
 add_executable(${TARGET_NAME} ${TARGET_PARAM}
         Minigin/Font.cpp
+        Minigin/GameComponent.cpp
         Minigin/GameObject.cpp
         Minigin/InputManager.cpp
         Minigin/Minigin.cpp

@@ -1,7 +1,8 @@
 #pragma once
+#include <algorithm>
 #include <iostream>
-#include <string>
 #include <memory>
+#include <variant>
 
 #include "GameComponent.hpp"
 #include "Transform.hpp"
@@ -18,40 +19,44 @@ namespace dae
 	public:
 		Transform Position{};
 
-		void Start();
-		void Update();
+		void Start() const;
+		void Update() const;
+		void PostUpdate();
 		void Render() const;
 
-		void OnEndOfFrame();
-
 		template <GameComponentChild T>
-		void AddComponent(const std::shared_ptr<T>& component)
+		void AddComponent(std::unique_ptr<T> component)
 		{
-			// TODO better error handling
-			const auto &[_, success]{m_components.try_emplace(typeid(T).name(), component)};
-
-			if (!success)
+			if (component == nullptr)
 			{
-				std::cerr << "Failed to add component " << typeid(component).name() << std::endl;
-			}
-		}
-
-		template <GameComponentChild T>
-		std::shared_ptr<T> GetComponent()
-		{
-			if (const auto it = m_components.find(typeid(T).name()); it != m_components.end())
-			{
-				return std::dynamic_pointer_cast<T>(it->second);
+				assert(false && "Cannot add a [null] component");
+				return;
 			}
 
-			return std::shared_ptr<T>(nullptr);
+			if (component->GetGameObject() != this)
+			{
+				assert(false && "Cannot add a child component with a different parent");
+				return;
+			}
+
+			m_components.push_back(std::move(component));
 		}
 
 		template <GameComponentChild T>
-		void RemoveComponent()
+		T* GetComponent()
 		{
-			m_components_to_remove.emplace_back(typeid(T).name());
+
+			auto foundComponent{std::find_if(m_components.begin(), m_components.end(), [](const auto &component)
+			{
+				return dynamic_cast<T*>(component.get()) != nullptr;
+			})};
+
+			return foundComponent != m_components.end()
+				? dynamic_cast<T*>(foundComponent->get())
+				: nullptr;
 		}
+
+		bool IsMarkedForDelete() const;
 
 		GameObject() = default;
 		~GameObject();
@@ -61,7 +66,8 @@ namespace dae
 		GameObject& operator=(GameObject&& other) = delete;
 
 	private:
-		std::unordered_map<std::string, std::shared_ptr<GameComponent>> m_components{};
-		std::vector<std::string> m_components_to_remove{};
+		std::vector<std::unique_ptr<GameComponent>> m_components;
+
+		bool m_isToBeRemoved{false};
 	};
 }

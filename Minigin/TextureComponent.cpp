@@ -1,7 +1,3 @@
-//
-// Created by bauwen on 2/17/26.
-//
-
 #include "TextureComponent.hpp"
 
 #include "GameObject.hpp"
@@ -9,20 +5,22 @@
 
 namespace dae
 {
-    void TextureComponent::Start([[maybe_unused]] GameObject &object)
-    {
-    }
-
-    void TextureComponent::Update([[maybe_unused]] GameObject &object)
-    {
-    }
-
-    void TextureComponent::Render([[maybe_unused]] const GameObject &object) const
+    void TextureComponent::Render() const
     {
         if (m_texture != nullptr)
         {
-            const auto& pos = object.Position.GetPosition();
+            const auto &pos = GetGameObject()->Position.GetPosition();
             Renderer::GetInstance().RenderTexture(*m_texture, pos.x, pos.y);
         }
     }
-} // dae
+
+    void TextureComponent::SetTexture(const std::shared_ptr<Texture2D> &newTexture)
+    {
+        m_texture = newTexture;
+    }
+
+    TextureComponent::TextureComponent(GameObject *pGameObject, std::shared_ptr<Texture2D> texture)
+        : GameComponent(pGameObject), m_texture(std::move(texture))
+    {
+    }
+}

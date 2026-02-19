@@ -4,24 +4,23 @@
 #include <SDL3/SDL_pixels.h>
 
 #include "GameComponent.hpp"
-#include "GameObject.hpp"
 
-// TODO this component can probably make use of the TextureComponent
 namespace dae
 {
+	class TextureComponent;
 	class Font;
 	class Texture2D;
 	class TextComponent final : public GameComponent
 	{
 	public:
-		void Start(GameObject &object) override;
-		void Update(GameObject &object) override;
-		void Render(const GameObject &object) const override;
+		void Start() override;
+		void Update() override;
+		void Render() const override {};
 
-		void set_text(const std::string_view& text);
-		void set_color(const SDL_Color& color);
+		void SetText(const std::string_view& text);
+		void SetColor(const SDL_Color& color);
 
-		TextComponent(const std::string_view& text, std::shared_ptr<Font> font, const SDL_Color& color = { 255, 255, 255, 255 });
+		TextComponent(GameObject *pGameObject, const std::string_view& text, std::shared_ptr<Font> font, const SDL_Color& color = { 255, 255, 255, 255 });
 
 		~TextComponent() override = default;
 		TextComponent(const TextComponent& other) = delete;
@@ -34,6 +33,7 @@ namespace dae
 		std::string m_text{};
 		SDL_Color m_color{ 255, 255, 255, 255 };
 		std::shared_ptr<Font> m_font{};
-		std::shared_ptr<Texture2D> m_textTexture{};
+
+        TextureComponent* m_textureComponent{};
 	};
 }

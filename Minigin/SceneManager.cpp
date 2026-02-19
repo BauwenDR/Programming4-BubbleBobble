@@ -21,7 +21,7 @@ void dae::SceneManager::OnEndOfFrame()
 {
 	for (const auto& scene : m_scenes)
 	{
-		scene->OnEndOfFrame();
+		scene->PostUpdate();
 	}
 }
 
