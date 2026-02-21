@@ -29,13 +29,13 @@ static void load()
 
 	// Logo object
 	go = std::make_unique<dae::GameObject>();
-	go->Position = { 358, 180 };
+	go->m_Position = { 358, 180 };
 	go->AddComponent(std::make_unique<dae::TextureComponent>(go.get(), dae::ResourceManager::GetInstance().LoadTexture("logo.png")));
 	scene.Add(std::move(go));
 
 	// Programming 4 assignment text
 	go = std::make_unique<dae::GameObject>();
-	go->Position = { 292, 20, 0 };
+	go->m_Position = { 292, 20, 0 };
 	auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
 	auto to = std::make_unique<dae::TextComponent>(go.get(), "Programming 4 Assignment", font);
 	to->SetColor({255, 255, 0, 255});
@@ -45,7 +45,7 @@ static void load()
 
 	// Fps component
 	go = std::make_unique<dae::GameObject>();
-	go->Position = { 10, 10, 0 };
+	go->m_Position = { 10, 10, 0 };
 	to = std::make_unique<dae::TextComponent>(go.get(), "FPS: 00.0", font);
 	to->SetColor({255, 255, 255, 255});
 	go->AddComponent(std::make_unique<dae::TextureComponent>(go.get()));

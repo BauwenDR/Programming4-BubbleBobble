@@ -17,12 +17,19 @@ namespace dae
 	class GameObject final
 	{
 	public:
-		Transform Position{};
 
 		void Start() const;
 		void Update() const;
 		void PostUpdate();
 		void Render() const;
+
+		GameObject* GetParent() const;
+		void SetParent(GameObject *parent, bool keepWorldPosition);
+		size_t GetChildCount() const;
+		GameObject* GetChildAt(size_t index) const;
+
+		const glm::vec3& GetWorldPosition();
+		void SetLocalPosition(const glm::vec3& position);
 
 		template <GameComponentChild T>
 		void AddComponent(std::unique_ptr<T> component)
@@ -66,8 +73,22 @@ namespace dae
 		GameObject& operator=(GameObject&& other) = delete;
 
 	private:
-		std::vector<std::unique_ptr<GameComponent>> m_components;
+		void AddChild(GameObject* child);
+		void RemoveChild(GameObject* child);
+		bool IsChild(const GameObject* child) const;
+
+		void UpdateWorldPosition();
+
+		// vec3 for translations if fine for now. Making use of thr Transform in the future is to be condsidered.
+		glm::vec3 m_localPosition{};
+		glm::vec3 m_worldPosition{};
+
+		GameObject *m_pParent{};
+		std::vector<GameObject*> m_children{};
+
+		std::vector<std::unique_ptr<GameComponent>> m_components{};
 
 		bool m_isToBeRemoved{false};
+		bool m_positionIsDirty{false};
 	};
 }
