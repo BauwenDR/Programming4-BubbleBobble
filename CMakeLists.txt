@@ -16,6 +16,7 @@ endif()
 set(DEMO_SOURCE_FILES
         Demo/Main.cpp
         Demo/FpsComponent.cpp
+        Demo/RotateAroundParentComponent.cpp
 )
 
 # list source files here

@@ -89,6 +89,8 @@ dae::Minigin::~Minigin()
 void dae::Minigin::Run(const std::function<void()>& load)
 {
 	load();
+	Time::pre_update();
+
 #ifndef __EMSCRIPTEN__
 	while (!m_quit)
 		RunOneFrame();

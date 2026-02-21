@@ -9,7 +9,7 @@ namespace dae
     {
         if (m_texture != nullptr)
         {
-            const auto &pos = GetGameObject()->m_Position.GetPosition();
+            const auto &pos = GetGameObject()->GetWorldPosition();
             Renderer::GetInstance().RenderTexture(*m_texture, pos.x, pos.y);
         }
     }
