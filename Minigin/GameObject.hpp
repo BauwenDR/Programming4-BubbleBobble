@@ -1,8 +1,6 @@
 #pragma once
 #include <algorithm>
-#include <iostream>
 #include <memory>
-#include <variant>
 
 #include "GameComponent.hpp"
 #include "Transform.hpp"
@@ -23,10 +21,10 @@ namespace dae
 		void PostUpdate();
 		void Render() const;
 
-		GameObject* GetParent() const;
+		[[nodiscard]] GameObject* GetParent() const;
 		void SetParent(GameObject *parent, bool keepWorldPosition);
-		size_t GetChildCount() const;
-		GameObject* GetChildAt(size_t index) const;
+		[[nodiscard]] size_t GetChildCount() const;
+		[[nodiscard]] GameObject* GetChildAt(size_t index) const;
 
 		const glm::vec3& GetWorldPosition();
 		void SetLocalPosition(const glm::vec3& position);
@@ -63,7 +61,7 @@ namespace dae
 				: nullptr;
 		}
 
-		bool IsMarkedForDelete() const;
+		[[nodiscard]] bool IsMarkedForDelete() const;
 
 		GameObject() = default;
 		~GameObject();

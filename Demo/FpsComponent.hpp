@@ -16,7 +16,7 @@ namespace demo
     public:
         void Start() override;
         void Update() override;
-        void Render() const override {};
+        void Render() const override {}
 
         explicit FpsComponent(dae::GameObject *pGameObject) : GameComponent(pGameObject) {}
         ~FpsComponent() override = default;

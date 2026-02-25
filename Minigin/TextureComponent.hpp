@@ -11,8 +11,8 @@ namespace dae
     class TextureComponent : public GameComponent
     {
     public:
-        void Start() override {};
-        void Update() override {};
+        void Start() override {}
+        void Update() override {}
         void Render() const override;
 
         void SetTexture(const std::shared_ptr<Texture2D> &newTexture);
