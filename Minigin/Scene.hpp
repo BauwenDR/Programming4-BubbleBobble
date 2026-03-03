@@ -1,7 +1,9 @@
 #pragma once
 #include <memory>
 #include <vector>
+
 #include "GameObject.hpp"
+#include "GuiWindow.hpp"
 
 namespace dae
 {
@@ -12,9 +14,17 @@ namespace dae
 		void Remove(const GameObject& object);
 		void RemoveAll();
 
+
+		//void AddGui(GuiWindow *pGui);
+		void AddGui(std::unique_ptr<GuiWindow> gui);
+		void RemoveGui(const GuiWindow &gui);
+		void RemoveAllGui();
+
 		void Update();
-		void Render() const;
 		void PostUpdate();
+
+		void Render() const;
+		void RenderGui() const;
 
 		~Scene() = default;
 		Scene(const Scene& other) = delete;
@@ -26,7 +36,8 @@ namespace dae
 		friend class SceneManager;
 		explicit Scene() = default;
 
-		std::vector < std::unique_ptr<GameObject>> m_objects{};
+		std::vector <std::unique_ptr<GameObject>> m_objects{};
+		std::vector <std::unique_ptr<GuiWindow>> m_guis{};
 	};
 
 }

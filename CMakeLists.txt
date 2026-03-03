@@ -17,6 +17,7 @@ set(DEMO_SOURCE_FILES
         Demo/Main.cpp
         Demo/FpsComponent.cpp
         Demo/RotateAroundParentComponent.cpp
+        Demo/TempGuiWindow.cpp
 )
 
 # list source files here
@@ -24,6 +25,7 @@ add_executable(${TARGET_NAME} ${TARGET_PARAM}
         Minigin/Font.cpp
         Minigin/GameComponent.cpp
         Minigin/GameObject.cpp
+        Minigin/GuiWindow.cpp
         Minigin/InputManager.cpp
         Minigin/Minigin.cpp
         Minigin/Renderer.cpp

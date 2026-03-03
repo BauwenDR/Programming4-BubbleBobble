@@ -3,6 +3,7 @@
 
 #include "FpsComponent.hpp"
 #include "RotateAroundParentComponent.hpp"
+#include "TempGuiWindow.hpp"
 #include "Texture2D.hpp"
 #include "TextureComponent.hpp"
 
@@ -73,6 +74,7 @@ static void load()
 	child->AddComponent(std::make_unique<demo::RotateAroundParentComponent>(*child, -6.0f, 50.0f));
 
 	scene.Add(std::move(go));
+	scene.AddGui(std::make_unique<TempGuiWindow>());
 }
 
 int main(int, char*[]) {
