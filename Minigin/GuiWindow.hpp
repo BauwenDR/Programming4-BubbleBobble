@@ -10,6 +10,11 @@ public:
 
     virtual ~GuiWindow() = default;
 
+    GuiWindow(const GuiWindow &other) = delete;
+    GuiWindow(GuiWindow &&other) noexcept = delete;
+    GuiWindow & operator=(const GuiWindow &other) = delete;
+    GuiWindow & operator=(GuiWindow &&other) noexcept = delete;
+
 protected:
     explicit GuiWindow(const std::string &windowName);
 
