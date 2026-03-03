@@ -17,7 +17,7 @@ namespace dae
 
         void SetTexture(const std::shared_ptr<Texture2D> &newTexture);
 
-        explicit TextureComponent(GameObject *pGameObject, std::shared_ptr<Texture2D> texture = nullptr);
+        explicit TextureComponent(GameObject &gameObject, std::shared_ptr<Texture2D> texture = nullptr);
         ~TextureComponent() override = default;
 
     private:

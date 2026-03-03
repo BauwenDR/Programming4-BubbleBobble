@@ -10,7 +10,7 @@
 
 void dae::TextComponent::Start()
 {
-	m_textureComponent = GetGameObject()->GetComponent<TextureComponent>();
+	m_textureComponent = GetGameObject().GetComponent<TextureComponent>();
 }
 
 void dae::TextComponent::Update()
@@ -54,7 +54,7 @@ void dae::TextComponent::SetColor(const SDL_Color& color)
 	m_needsUpdate = true;
 }
 
-dae::TextComponent::TextComponent(GameObject *pGameObject, const std::string_view& text, std::shared_ptr<Font> font, const SDL_Color& color)
-	: GameComponent(pGameObject), m_needsUpdate(true), m_text(text), m_color(color), m_font(std::move(font))
+dae::TextComponent::TextComponent(GameObject &gameObject, const std::string_view& text, std::shared_ptr<Font> font, const SDL_Color& color)
+	: GameComponent(gameObject), m_needsUpdate(true), m_text(text), m_color(color), m_font(std::move(font))
 {
 }

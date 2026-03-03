@@ -10,7 +10,7 @@ namespace demo
 {
     void FpsComponent::Start()
     {
-        m_textComponent = GetGameObject()->GetComponent<dae::TextComponent>();
+        m_textComponent = GetGameObject().GetComponent<dae::TextComponent>();
     }
 
     void FpsComponent::Update()

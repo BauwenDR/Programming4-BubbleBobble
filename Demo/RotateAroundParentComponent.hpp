@@ -12,7 +12,11 @@ namespace demo
         void Update() override;
         void Render() const override {}
 
-        explicit RotateAroundParentComponent(dae::GameObject* owner, const float rotateSpeed, const float radius) : GameComponent(owner), m_rotateSpeed(rotateSpeed), m_rotateRadius(radius) {}
+        explicit RotateAroundParentComponent(dae::GameObject& gameObject, const float rotateSpeed, const float radius)
+            : GameComponent(gameObject)
+              , m_rotateSpeed(rotateSpeed)
+              , m_rotateRadius(radius)
+        {}
         ~RotateAroundParentComponent() override = default;
 
     private:

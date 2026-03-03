@@ -9,7 +9,7 @@ namespace dae
     {
         if (m_texture != nullptr)
         {
-            const auto &pos = GetGameObject()->GetWorldPosition();
+            const auto &pos = GetGameObject().GetWorldPosition();
             Renderer::GetInstance().RenderTexture(*m_texture, pos.x, pos.y);
         }
     }
@@ -19,8 +19,8 @@ namespace dae
         m_texture = newTexture;
     }
 
-    TextureComponent::TextureComponent(GameObject *pGameObject, std::shared_ptr<Texture2D> texture)
-        : GameComponent(pGameObject), m_texture(std::move(texture))
+    TextureComponent::TextureComponent(GameObject &gameObject, std::shared_ptr<Texture2D> texture)
+        : GameComponent(gameObject), m_texture(std::move(texture))
     {
     }
 }

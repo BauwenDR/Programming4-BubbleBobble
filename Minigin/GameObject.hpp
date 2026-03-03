@@ -38,7 +38,7 @@ namespace dae
 				return;
 			}
 
-			if (component->GetGameObject() != this)
+			if (&component->GetGameObject() != this)
 			{
 				assert(false && "Cannot add a child component with a different parent");
 				return;
@@ -77,7 +77,10 @@ namespace dae
 
 		void UpdateWorldPosition();
 
-		// vec3 for translations if fine for now. Making use of thr Transform in the future is to be condsidered.
+		Transform m_localTransform{};
+		Transform m_worldTransform{};
+
+		// vec3 for translations if fine for now. Making use of thr Transform in the future is to be considered.
 		glm::vec3 m_localPosition{};
 		glm::vec3 m_worldPosition{};
 

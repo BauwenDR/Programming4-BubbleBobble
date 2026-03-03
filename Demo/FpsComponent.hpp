@@ -18,7 +18,7 @@ namespace demo
         void Update() override;
         void Render() const override {}
 
-        explicit FpsComponent(dae::GameObject *pGameObject) : GameComponent(pGameObject) {}
+        explicit FpsComponent(dae::GameObject &gameObject) : GameComponent(gameObject) {}
         ~FpsComponent() override = default;
 
         FpsComponent(const FpsComponent &other) = delete;
