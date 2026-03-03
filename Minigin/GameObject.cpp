@@ -8,13 +8,24 @@ bool dae::GameObject::IsMarkedForDelete() const
 	return m_isToBeRemoved;
 }
 
-dae::GameObject::~GameObject() = default;
+dae::GameObject::~GameObject()
+{
+	for (const auto &child : m_children)
+	{
+		delete child;
+	}
+}
 
 void dae::GameObject::Start() const
 {
 	for (const auto &component: m_components)
 	{
 		component->Start();
+	}
+
+	for (const auto &child : m_children)
+	{
+		child->Start();
 	}
 }
 
@@ -24,6 +35,11 @@ void dae::GameObject::Update() const
 	{
 		component->Update();
 	}
+
+	for (const auto &child : m_children)
+	{
+		child->Update();
+	}
 }
 
 void dae::GameObject::PostUpdate()
@@ -32,6 +48,11 @@ void dae::GameObject::PostUpdate()
 	{
 		return component->IsMarkedForDelete();
 	});
+
+	for (const auto &child : m_children)
+	{
+		child->PostUpdate();
+	}
 }
 
 void dae::GameObject::Render() const
@@ -39,6 +60,11 @@ void dae::GameObject::Render() const
 	for (const auto &component: m_components)
 	{
 		component->Render();
+	}
+
+	for (const auto &child : m_children)
+	{
+		child->Render();
 	}
 }
 
@@ -59,8 +85,10 @@ void dae::GameObject::SetParent(GameObject *parent, bool keepWorldPosition)
 		if (keepWorldPosition)
 		{
 			SetLocalPosition(GetWorldPosition() - parent->GetWorldPosition());
+		} else
+		{
+			SetPositionDirty();
 		}
-		m_positionIsDirty = true;
 	}
 
 	if (m_pParent)
@@ -68,7 +96,7 @@ void dae::GameObject::SetParent(GameObject *parent, bool keepWorldPosition)
 		m_pParent->RemoveChild(this);
 	}
 	m_pParent = parent;
-	if (m_pParent != nullptr)
+	if (m_pParent)
 	{
 		m_pParent->AddChild(this);
 	}
@@ -98,7 +126,7 @@ const glm::vec3 &dae::GameObject::GetWorldPosition()
 void dae::GameObject::SetLocalPosition(const glm::vec3 &position)
 {
 	m_localPosition = position;
-	m_positionIsDirty = true;
+	SetPositionDirty();
 }
 
 void dae::GameObject::AddChild(GameObject *child)
@@ -129,4 +157,14 @@ void dae::GameObject::UpdateWorldPosition()
 		}
 	}
 	m_positionIsDirty = false;
+}
+
+void dae::GameObject::SetPositionDirty()
+{
+	m_positionIsDirty = true;
+
+	for (const auto &child : m_children)
+	{
+		child->SetPositionDirty();
+	}
 }

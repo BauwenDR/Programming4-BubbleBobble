@@ -51,7 +51,7 @@ namespace dae
 		T* GetComponent()
 		{
 
-			auto foundComponent{std::find_if(m_components.begin(), m_components.end(), [](const auto &component)
+			auto foundComponent{std::find_if(std::begin(m_components), std::end(m_components), [](const auto &component)
 			{
 				return dynamic_cast<T*>(component.get()) != nullptr;
 			})};
@@ -65,6 +65,7 @@ namespace dae
 
 		GameObject() = default;
 		~GameObject();
+
 		GameObject(const GameObject& other) = delete;
 		GameObject(GameObject&& other) = delete;
 		GameObject& operator=(const GameObject& other) = delete;
@@ -76,6 +77,7 @@ namespace dae
 		bool IsChild(const GameObject* child) const;
 
 		void UpdateWorldPosition();
+		void SetPositionDirty();
 
 		Transform m_localTransform{};
 		Transform m_worldTransform{};
@@ -85,7 +87,7 @@ namespace dae
 		glm::vec3 m_worldPosition{};
 
 		GameObject *m_pParent{};
-		std::vector<GameObject*> m_children{};
+		std::vector<GameObject*> m_children{};	// TODO: find a way of converting these to unique_ptrs
 
 		std::vector<std::unique_ptr<GameComponent>> m_components{};
 

@@ -58,21 +58,20 @@ static void load()
 	go = std::make_unique<dae::GameObject>();
 	go->SetLocalPosition({ 200.0f, 200.0f, 0.0f });
 	dae::GameObject* parentObject{go.get()};
-	scene.Add(std::move(go));
 
-	go = std::make_unique<dae::GameObject>();
-	go->SetParent(parentObject, false);
-	go->SetLocalPosition({ 0.0f, 0.0f, 0.0f });
-	go->AddComponent(std::make_unique<dae::TextureComponent>(*go.get(), dae::ResourceManager::GetInstance().LoadTexture("Character.png")));
-	go->AddComponent(std::make_unique<demo::RotateAroundParentComponent>(*go.get(), 4.0f, 20.0f));
-	parentObject = go.get();
-	scene.Add(std::move(go));
+	auto child = new dae::GameObject();
+	child->SetParent(parentObject, false);
+	child->SetLocalPosition({ 0.0f, 0.0f, 0.0f });
+	child->AddComponent(std::make_unique<dae::TextureComponent>(*child, dae::ResourceManager::GetInstance().LoadTexture("Character.png")));
+	child->AddComponent(std::make_unique<demo::RotateAroundParentComponent>(*child, 4.0f, 20.0f));
+	parentObject = child;
 
-	go = std::make_unique<dae::GameObject>();
-	go->SetParent(parentObject, false);
-	go->SetLocalPosition({ 0.0f, 0.0f, 0.0f });
-	go->AddComponent(std::make_unique<dae::TextureComponent>(*go.get(), dae::ResourceManager::GetInstance().LoadTexture("Character.png")));
-	go->AddComponent(std::make_unique<demo::RotateAroundParentComponent>(*go.get(), -6.0f, 50.0f));
+	child = new dae::GameObject();
+	child->SetParent(parentObject, false);
+	child->SetLocalPosition({ 0.0f, 0.0f, 0.0f });
+	child->AddComponent(std::make_unique<dae::TextureComponent>(*child, dae::ResourceManager::GetInstance().LoadTexture("Character.png")));
+	child->AddComponent(std::make_unique<demo::RotateAroundParentComponent>(*child, -6.0f, 50.0f));
+
 	scene.Add(std::move(go));
 }
 
