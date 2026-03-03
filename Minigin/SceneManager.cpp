@@ -7,6 +7,11 @@ void dae::SceneManager::Update()
 	{
 		scene->Update();
 	}
+
+	for (const auto& scene : m_scenes)
+	{
+		scene->PostUpdate();
+	}
 }
 
 void dae::SceneManager::Render()
@@ -14,14 +19,6 @@ void dae::SceneManager::Render()
 	for (const auto& scene : m_scenes)
 	{
 		scene->Render();
-	}
-}
-
-void dae::SceneManager::OnEndOfFrame()
-{
-	for (const auto& scene : m_scenes)
-	{
-		scene->PostUpdate();
 	}
 }
 

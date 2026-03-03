@@ -7,6 +7,11 @@ namespace dae
         return m_markedForDeletion;
     }
 
+    void GameComponent::MarkForDelete()
+    {
+        m_markedForDeletion = true;
+    }
+
     GameObject &GameComponent::GetGameObject() const
     {
         return m_GameObject;

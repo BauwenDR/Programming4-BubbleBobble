@@ -13,6 +13,8 @@ namespace dae
         virtual void Update() = 0;
         virtual void Render() const = 0;
 
+        void MarkForDelete();
+
         [[nodiscard]] GameObject &GetGameObject() const;
         [[nodiscard]] bool IsMarkedForDelete() const;
 

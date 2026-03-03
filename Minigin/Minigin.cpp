@@ -107,5 +107,6 @@ void dae::Minigin::RunOneFrame()
 	SceneManager::GetInstance().Update();
 	Renderer::GetInstance().Render();
 
+
 	Time::post_frame();
 }

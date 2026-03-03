@@ -34,6 +34,11 @@ void Scene::Update()
 
 void Scene::PostUpdate()
 {
+	for (const auto &gameObject : m_objects)
+	{
+		gameObject->PostUpdate();
+	}
+
 	std::erase_if(m_objects, [](const auto& gameObject)
 	{
 		return gameObject->IsMarkedForDelete();
