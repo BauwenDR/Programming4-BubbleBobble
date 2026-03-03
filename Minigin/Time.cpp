@@ -8,7 +8,7 @@ namespace Time
     static std::chrono::high_resolution_clock::time_point current_time{};
     static std::chrono::high_resolution_clock::time_point last_time{};
 
-    constexpr uint32_t ms_per_frame{16};
+    constexpr uint32_t ms_per_frame{06};
 
     static float delta_time{};
 }
