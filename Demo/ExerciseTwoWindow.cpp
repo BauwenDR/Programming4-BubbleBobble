@@ -56,7 +56,7 @@ void ExerciseTwoWindow::TrashCacheBig()
 {
     const auto bigArray{new BigObject[BUFFER_SIZE]}; // size of 2^22
 
-    std::vector<std::vector<long>> elapsedTimes(POWERS_OF_TWO);
+    std::vector<std::vector<long long>> elapsedTimes(POWERS_OF_TWO);
     for (int repeatCount{0}; repeatCount < m_samples; ++repeatCount)
     {
         for(int powerOfTwo{0}; powerOfTwo < POWERS_OF_TWO; powerOfTwo += 1) {
@@ -92,7 +92,7 @@ void ExerciseTwoWindow::TrashCacheSmall()
 {
     const auto bigArray{new SmallObject[BUFFER_SIZE]}; // size of 2^22
 
-    std::vector<std::vector<long>> elapsedTimes(POWERS_OF_TWO);
+    std::vector<std::vector<long long>> elapsedTimes(POWERS_OF_TWO);
     for (int repeatCount{0}; repeatCount < m_samples; ++repeatCount)
     {
         for(int powerOfTwo{0}; powerOfTwo < POWERS_OF_TWO; powerOfTwo += 1) {
