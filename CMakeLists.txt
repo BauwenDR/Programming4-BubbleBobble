@@ -125,6 +125,14 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(imgui)
 
+FetchContent_Declare(
+        implot
+        GIT_REPOSITORY https://github.com/epezent/implot
+        GIT_TAG v0.17
+        GIT_SHALLOW TRUE
+)
+FetchContent_MakeAvailable(implot)
+
 add_library(imgui STATIC
         ${imgui_SOURCE_DIR}/imgui.cpp
         ${imgui_SOURCE_DIR}/imgui_draw.cpp
@@ -134,10 +142,18 @@ add_library(imgui STATIC
         ${imgui_SOURCE_DIR}/backends/imgui_impl_sdlrenderer3.cpp
 )
 
+add_library(implot STATIC
+        ${implot_SOURCE_DIR}/implot.cpp
+        ${implot_SOURCE_DIR}/implot_items.cpp
+)
+
 target_include_directories(imgui PUBLIC ${imgui_SOURCE_DIR} ${sdl3_SOURCE_DIR}/include)
+target_include_directories(implot PUBLIC ${imgui_SOURCE_DIR} ${sdl3_SOURCE_DIR}/include)
 target_link_libraries(imgui PUBLIC SDL3::SDL3)
+
 # enable c++20 features
 target_compile_features(imgui PUBLIC cxx_std_20)
+target_compile_features(implot PUBLIC cxx_std_20)
 
 if (WIN32)
     # Add VLD (Visual Leak Detector) for memory leak detection on Windows
@@ -155,6 +171,7 @@ target_include_directories("${TARGET_NAME}" PUBLIC
         ${sdl3_image_SOURCE_DIR}/include
         ${sdl3_ttf_SOURCE_DIR}/include
         ${imgui_SOURCE_DIR}
+        ${implot_SOURCE_DIR}
         ${VLD_INCLUDE_DIR}
 )
 
@@ -163,6 +180,7 @@ target_link_libraries("${TARGET_NAME}" PUBLIC
         SDL3_ttf::SDL3_ttf
         glm::glm
         imgui
+        implot
         ${VLD_LIBRARIES}
 )
 

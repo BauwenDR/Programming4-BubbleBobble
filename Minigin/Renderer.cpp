@@ -6,6 +6,9 @@
 #include <iostream>
 
 #include "Renderer.hpp"
+
+#include <implot.h>
+
 #include "SceneManager.hpp"
 #include "Texture2D.hpp"
 
@@ -26,6 +29,8 @@ void dae::Renderer::Init(SDL_Window* window)
 
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
+	ImPlot::CreateContext();
+
 	ImGuiIO& io = ImGui::GetIO(); (void)io;
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
@@ -62,6 +67,8 @@ void dae::Renderer::Render() const
 
 void dae::Renderer::Destroy()
 {
+	ImPlot::DestroyContext();
+
 	ImGui_ImplSDLRenderer3_Shutdown();
 	ImGui_ImplSDL3_Shutdown();
 	ImGui::DestroyContext();
