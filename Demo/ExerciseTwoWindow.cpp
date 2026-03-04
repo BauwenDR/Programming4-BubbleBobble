@@ -54,9 +54,9 @@ void ExerciseTwoWindow::DrawWindowContent()
 // Quite a bit of duplicated code from this point on...
 void ExerciseTwoWindow::TrashCacheBig()
 {
-    const auto bigArray{new BigObject[BUFFER_SIZE]}; // size of 2^22
+    const auto bigArray{new BigObject[BUFFER_SIZE]}; // size of 2^20
 
-    std::vector<std::vector<long long>> elapsedTimes(POWERS_OF_TWO);
+    std::vector<std::vector<long>> elapsedTimes(POWERS_OF_TWO);
     for (int repeatCount{0}; repeatCount < m_samples; ++repeatCount)
     {
         for(int powerOfTwo{0}; powerOfTwo < POWERS_OF_TWO; powerOfTwo += 1) {
@@ -67,7 +67,7 @@ void ExerciseTwoWindow::TrashCacheBig()
             }
 
             auto end{std::chrono::high_resolution_clock::now()};
-            elapsedTimes[powerOfTwo].push_back(std::chrono::duration_cast<std::chrono::microseconds>(end - start).count());
+            elapsedTimes[powerOfTwo].push_back(static_cast<long>(std::chrono::duration_cast<std::chrono::microseconds>(end - start).count()));
         }
     }
 
@@ -90,9 +90,9 @@ void ExerciseTwoWindow::TrashCacheBig()
 
 void ExerciseTwoWindow::TrashCacheSmall()
 {
-    const auto bigArray{new SmallObject[BUFFER_SIZE]}; // size of 2^22
+    const auto bigArray{new SmallObject[BUFFER_SIZE]}; // size of 2^20
 
-    std::vector<std::vector<long long>> elapsedTimes(POWERS_OF_TWO);
+    std::vector<std::vector<long>> elapsedTimes(POWERS_OF_TWO);
     for (int repeatCount{0}; repeatCount < m_samples; ++repeatCount)
     {
         for(int powerOfTwo{0}; powerOfTwo < POWERS_OF_TWO; powerOfTwo += 1) {
@@ -103,7 +103,7 @@ void ExerciseTwoWindow::TrashCacheSmall()
             }
 
             auto end{std::chrono::high_resolution_clock::now()};
-            elapsedTimes[powerOfTwo].push_back(std::chrono::duration_cast<std::chrono::microseconds>(end - start).count());
+            elapsedTimes[powerOfTwo].push_back(static_cast<long>(std::chrono::duration_cast<std::chrono::microseconds>(end - start).count()));
         }
     }
 
