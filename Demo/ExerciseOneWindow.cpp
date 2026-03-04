@@ -29,7 +29,7 @@ void ExerciseOneWindow::TrashCache()
     const auto bigArray{new int[BUFFER_SIZE]}; // size of 2^26
     std::fill_n(bigArray, BUFFER_SIZE, 1);
 
-    std::vector<std::vector<long long>> elapsedTimes(POWERS_OF_TWO);
+    std::vector<std::vector<long>> elapsedTimes(POWERS_OF_TWO);
     for (int repeatCount{0}; repeatCount < m_samples; ++repeatCount)
     {
         for(int powerOfTwo{0}; powerOfTwo < POWERS_OF_TWO; powerOfTwo += 1) {
@@ -40,7 +40,7 @@ void ExerciseOneWindow::TrashCache()
             }
 
             auto end{std::chrono::high_resolution_clock::now()};
-            elapsedTimes[powerOfTwo].push_back(std::chrono::duration_cast<std::chrono::microseconds>(end - start).count());
+            elapsedTimes[powerOfTwo].push_back(static_cast<long>(std::chrono::duration_cast<std::chrono::microseconds>(end - start).count()));
         }
     }
 
