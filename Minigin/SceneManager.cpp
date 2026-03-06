@@ -22,7 +22,7 @@ void dae::SceneManager::Render()
 	}
 }
 
-void dae::SceneManager::RenderGui()
+void dae::SceneManager::RenderGui() const
 {
 	for (const auto& scene : m_scenes)
 	{

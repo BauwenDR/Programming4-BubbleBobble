@@ -15,9 +15,8 @@ endif()
 
 set(DEMO_SOURCE_FILES
         Demo/Main.cpp
-        Demo/ExerciseOneWindow.cpp
-        Demo/ExerciseTwoWindow.cpp
         Demo/FpsComponent.cpp
+        Demo/PlottingWindows.cpp
         Demo/RotateAroundParentComponent.cpp
 )
 

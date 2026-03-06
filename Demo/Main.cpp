@@ -1,9 +1,8 @@
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_main.h>
 
-#include "ExerciseOneWindow.hpp"
-#include "ExerciseTwoWindow.hpp"
 #include "FpsComponent.hpp"
+#include "PlottingWindows.hpp"
 #include "RotateAroundParentComponent.hpp"
 #include "Texture2D.hpp"
 #include "TextureComponent.hpp"
@@ -76,8 +75,8 @@ static void load()
 
 	scene.Add(std::move(go));
 
-	scene.AddGui(std::make_unique<ExerciseOneWindow>());
-	scene.AddGui(std::make_unique<ExerciseTwoWindow>());
+	scene.AddGui(std::make_unique<demo::ExerciseOneWindow>());
+	scene.AddGui(std::make_unique<demo::ExerciseTwoWindow>());
 }
 
 int main(int, char*[]) {

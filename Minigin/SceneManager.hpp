@@ -15,7 +15,7 @@ namespace dae
 		void Update();
 		void Render();
 
-		void RenderGui();
+		void RenderGui() const;
 
 	private:
 		friend class Singleton<SceneManager>;
