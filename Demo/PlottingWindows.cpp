@@ -24,7 +24,7 @@ void TrashCache(const int sampleCount, std::vector<int> &timings)
 {
     constexpr int POWERS_OF_TWO{11};
     std::unique_ptr<std::array<T, size>> buffer = std::make_unique<std::array<T, size>>();
-    std::vector<std::vector<long long>> elapsedTimes(POWERS_OF_TWO);
+    std::vector<std::vector<int64_t>> elapsedTimes(POWERS_OF_TWO);
 
     timings.clear();
     timings.reserve(POWERS_OF_TWO);
@@ -58,7 +58,7 @@ void TrashCache(const int sampleCount, std::vector<int> &timings)
         const auto [min, max]{std::ranges::minmax_element(elapsedTimes[index])};
 
         int timingsCount{sampleCount};
-        long sum{std::accumulate(elapsedTimes[index].begin(), elapsedTimes[index].end(), 0L)};
+        int64_t sum{std::accumulate(elapsedTimes[index].begin(), elapsedTimes[index].end(), 0L)};
 
         if (elapsedTimes[index].size() > 3)
         {
