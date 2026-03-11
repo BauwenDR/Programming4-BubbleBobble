@@ -2,28 +2,39 @@
 
 #include "GameObject.hpp"
 #include "InputManager.hpp"
-#include "MoveCommand.hpp"
-
-void MoveObjectComponent::Start()
-{
-}
+#include "Time.hpp"
 
 void MoveObjectComponent::Update()
 {
+   auto &gameObject{GetGameObject()};
+
+    if (m_desiredDirection != glm::vec3(0))
+    {
+        m_desiredDirection = normalize(m_desiredDirection);
+        gameObject.SetLocalPosition(gameObject.GetLocalTransform().GetPosition() + m_desiredDirection * m_speed * Time::get_delta_time());
+    }
+
+    m_desiredDirection = {0.0f, 0.0f, 0.0f};
 }
 
-MoveObjectComponent::MoveObjectComponent(dae::GameObject &gameObject, bool isKeyboard)
+MoveObjectComponent::MoveObjectComponent(dae::GameObject &gameObject, bool isKeyboard, float moveSpeed)
     : GameComponent(gameObject)
-    , moveUpCommand(std::make_unique<MoveCommand>(100.0f, gameObject, glm::vec3{0.0f, -1.0f, 0.0f}))
-    , moveDownCommand(std::make_unique<MoveCommand>(100.0f, gameObject, glm::vec3{0.0f, 1.0f, 0.0f}))
-    , moveLeftCommand(std::make_unique<MoveCommand>(100.0f, gameObject, glm::vec3{-1.0f, 0.0f, 0.0f}))
-    , moveRightCommand(std::make_unique<MoveCommand>(100.0f, gameObject, glm::vec3{1.0f, 0.0f, 0.0f}))
+    , m_speed{moveSpeed}
+    , m_moveUpCommand(std::make_unique<InputCommand>([this] {RegisterInput({0.0f, -1.0f, 0.0f});}))
+    , m_moveDownCommand(std::make_unique<InputCommand>([this] {RegisterInput({0.0f, 1.0f, 0.0f});}))
+    , m_moveLeftCommand(std::make_unique<InputCommand>([this] {RegisterInput({-1.0f, 0.0f, 0.0f});}))
+    , m_moveRightCommand(std::make_unique<InputCommand>([this] {RegisterInput({1.0f, 0.0f, 0.0f});}))
 {
     if (isKeyboard)
     {
-        dae::InputManager::Bind(SDLK_W, CommandTrigger::KeyHeld, moveUpCommand.get());
-        dae::InputManager::Bind(SDLK_S, CommandTrigger::KeyHeld, moveDownCommand.get());
-        dae::InputManager::Bind(SDLK_A, CommandTrigger::KeyHeld, moveLeftCommand.get());
-        dae::InputManager::Bind(SDLK_D, CommandTrigger::KeyHeld, moveRightCommand.get());
+        dae::InputManager::Bind(SDLK_W, CommandTrigger::KeyHeld, m_moveUpCommand.get());
+        dae::InputManager::Bind(SDLK_S, CommandTrigger::KeyHeld, m_moveDownCommand.get());
+        dae::InputManager::Bind(SDLK_A, CommandTrigger::KeyHeld, m_moveLeftCommand.get());
+        dae::InputManager::Bind(SDLK_D, CommandTrigger::KeyHeld, m_moveRightCommand.get());
     }
+}
+
+void MoveObjectComponent::RegisterInput(const glm::vec3 &direction)
+{
+    m_desiredDirection += direction;
 }

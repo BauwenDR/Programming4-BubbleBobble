@@ -15,7 +15,6 @@ endif()
 
 set(DEMO_SOURCE_FILES
         Demo/Main.cpp
-        Demo/MoveCommand.cpp
         Demo/MoveObjectComponent.cpp
         Demo/FpsComponent.cpp
         Demo/PlottingWindows.cpp
@@ -29,6 +28,7 @@ add_executable(${TARGET_NAME} ${TARGET_PARAM}
         Minigin/GameObject.cpp
         Minigin/GuiWindow.cpp
         Minigin/InputManager.cpp
+        Minigin/InputCommand.cpp
         Minigin/Minigin.cpp
         Minigin/Renderer.cpp
         Minigin/ResourceManager.cpp

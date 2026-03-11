@@ -7,12 +7,12 @@
 #include <SDL3/SDL.h>
 #include <backends/imgui_impl_sdl3.h>
 
-#include "ICommand.hpp"
+#include "InputCommand.hpp"
 
 struct KeyboardBinding
 {
 	SDL_Keycode key;
-	ICommand* command;
+	InputCommand* command;
 	CommandTrigger trigger;
 };
 
@@ -34,9 +34,14 @@ namespace dae::InputManager
 	}
 }
 
-void dae::InputManager::Bind(SDL_Keycode key, CommandTrigger triggerType, ICommand *command)
+void dae::InputManager::Bind(SDL_Keycode key, CommandTrigger triggerType, InputCommand *command)
 {
 	m_keyboardBindings.emplace_back(key, command, triggerType);
+}
+
+void dae::InputManager::Unbind(const InputCommand *inputCommand)
+{
+	std::erase_if(m_keyboardBindings, [inputCommand](const auto key) {return key.command == inputCommand;});
 }
 
 bool dae::InputManager::ProcessInput()
@@ -60,13 +65,13 @@ bool dae::InputManager::ProcessInput()
 		if (e.type == SDL_EVENT_KEY_DOWN)
 		{
 			m_heldKeyboardKeys.emplace(keycode);
-			ExecuteIfTriggerMatch(binding.base(), CommandTrigger::KeyDown);
+			ExecuteIfTriggerMatch(std::to_address(binding), CommandTrigger::KeyDown);
 		}
 
 		if (e.type == SDL_EVENT_KEY_UP)
 		{
 			m_heldKeyboardKeys.erase(keycode);
-			ExecuteIfTriggerMatch(binding.base(), CommandTrigger::KeyUp);
+			ExecuteIfTriggerMatch(std::to_address(binding), CommandTrigger::KeyUp);
 		}
 	}
 
@@ -76,7 +81,7 @@ bool dae::InputManager::ProcessInput()
 		const auto &binding{std::ranges::find_if(m_keyboardBindings, [keycode] (const auto key) {return key.key == keycode;})};
 		if (binding == m_keyboardBindings.end()) continue;
 
-		ExecuteIfTriggerMatch(binding.base(), CommandTrigger::KeyHeld);
+		ExecuteIfTriggerMatch(std::to_address(binding), CommandTrigger::KeyHeld);
 	}
 
 	// Controller input
