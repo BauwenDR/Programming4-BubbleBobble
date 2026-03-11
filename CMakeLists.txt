@@ -23,24 +23,26 @@ set(DEMO_SOURCE_FILES
 
 # list source files here
 add_executable(${TARGET_NAME} ${TARGET_PARAM}
-        Minigin/Font.cpp
-        Minigin/GameComponent.cpp
-        Minigin/GameObject.cpp
-        Minigin/GuiWindow.cpp
-        Minigin/InputManager.cpp
-        Minigin/InputCommand.cpp
-        Minigin/Minigin.cpp
-        Minigin/Renderer.cpp
-        Minigin/ResourceManager.cpp
-        Minigin/Scene.cpp
-        Minigin/SceneManager.cpp
-        Minigin/TextComponent.cpp
-        Minigin/Texture2D.cpp
-        Minigin/TextureComponent.cpp
-        Minigin/Time.cpp
-        Minigin/Transform.cpp
+        Minigin/src/Font.cpp
+        Minigin/src/GameComponent.cpp
+        Minigin/src/GameObject.cpp
+        Minigin/src/GuiWindow.cpp
+        Minigin/src/InputManager.cpp
+        Minigin/src/InputCommand.cpp
+        Minigin/src/Minigin.cpp
+        Minigin/src/Renderer.cpp
+        Minigin/src/ResourceManager.cpp
+        Minigin/src/Scene.cpp
+        Minigin/src/SceneManager.cpp
+        Minigin/src/TextComponent.cpp
+        Minigin/src/Texture2D.cpp
+        Minigin/src/TextureComponent.cpp
+        Minigin/src/Time.cpp
+        Minigin/src/Transform.cpp
         ${DEMO_SOURCE_FILES}
 )
+
+target_include_directories(${TARGET_NAME} PUBLIC Minigin/include PRIVATE Minigin/private)
 
 # enable c++20 features
 target_compile_features(${TARGET_NAME} PUBLIC cxx_std_20)
@@ -166,7 +168,7 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/steam")
 find_package(Steamworks QUIET)
 
 target_include_directories("${TARGET_NAME}" PUBLIC
-        ${CMAKE_SOURCE_DIR}/Minigin/
+        ${CMAKE_SOURCE_DIR}/Minigin/include
         ${glm_SOURCE_DIR}
         ${sdl3_SOURCE_DIR}/include
         ${sdl3_image_SOURCE_DIR}/include

@@ -1,18 +1,17 @@
 #include <SDL3/SDL.h>
-#include <SDL3/SDL_main.h>
 
 #include "FpsComponent.hpp"
 #include "MoveObjectComponent.hpp"
 #include "PlottingWindows.hpp"
 #include "RotateAroundParentComponent.hpp"
-#include "Texture2D.hpp"
-#include "TextureComponent.hpp"
 
 #if _DEBUG && __has_include(<vld.h>)
 #include <vld.h>
 #endif
 
 #include "Minigin.hpp"
+#include "Texture2D.hpp"
+#include "TextureComponent.hpp"
 #include "SceneManager.hpp"
 #include "ResourceManager.hpp"
 #include "TextComponent.hpp"
