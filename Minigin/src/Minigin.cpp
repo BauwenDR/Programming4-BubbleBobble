@@ -64,6 +64,10 @@ dae::Minigin::Minigin(const std::filesystem::path& dataPath)
 		throw std::runtime_error(std::string("SDL_Init Error: ") + SDL_GetError());
 	}
 
+#ifndef _WIN32
+	SDL_InitSubSystem(SDL_INIT_GAMEPAD);
+#endif
+
 	m_pWindow = SDL_CreateWindow(
 		"Programming 4 assignment",
 		1024,
