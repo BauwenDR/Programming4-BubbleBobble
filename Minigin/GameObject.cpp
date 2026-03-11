@@ -122,6 +122,11 @@ const glm::vec3 &dae::GameObject::GetWorldPosition()
     return m_worldTransform.GetPosition();
 }
 
+const dae::Transform &dae::GameObject::GetLocalTransform() const
+{
+    return m_localTransform;
+}
+
 void dae::GameObject::SetLocalPosition(const glm::vec3 &position)
 {
     m_localTransform.SetPosition(position);

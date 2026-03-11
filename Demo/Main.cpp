@@ -2,6 +2,7 @@
 #include <SDL3/SDL_main.h>
 
 #include "FpsComponent.hpp"
+#include "MoveObjectComponent.hpp"
 #include "PlottingWindows.hpp"
 #include "RotateAroundParentComponent.hpp"
 #include "Texture2D.hpp"
@@ -64,7 +65,7 @@ static void load()
 	child->SetParent(parentObject, false);
 	child->SetLocalPosition({ 0.0f, 0.0f, 0.0f });
 	child->AddComponent(std::make_unique<dae::TextureComponent>(*child, dae::ResourceManager::GetInstance().LoadTexture("Character.png")));
-	child->AddComponent(std::make_unique<demo::RotateAroundParentComponent>(*child, 4.0f, 20.0f));
+	child->AddComponent(std::make_unique<MoveObjectComponent>(*child, true));
 	parentObject = child;
 
 	child = new dae::GameObject();

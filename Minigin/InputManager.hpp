@@ -4,15 +4,17 @@
 
 class ICommand;
 
-// Controller key abstracts away Xinput and SDL bindings
-enum class CommandTrigger
+// The kind of key command that will trigger the command to
+// This type is also used to bridge between Controller and Keyboard input
+enum class CommandTrigger : uint8_t
 {
 	KeyDown,
 	KeyUp,
 	KeyHeld
 };
 
-enum class ControllerKey
+// Controller key abstracts away Xinput and SDL bindings
+enum class ControllerKey : uint8_t
 {
 	DpadUp,
 	DpadDown,
@@ -36,7 +38,7 @@ namespace dae
 {
 	namespace InputManager {
 		void Bind(SDL_Keycode key, CommandTrigger tiggerType, ICommand* command);
-		void Bind(ControllerKey key, CommandTrigger triggerType, ICommand* command);
+		// void Bind(ControllerKey key, CommandTrigger triggerType, ICommand* command);
 		bool ProcessInput();
 	};
 }

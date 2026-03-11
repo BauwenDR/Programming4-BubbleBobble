@@ -103,7 +103,7 @@ void dae::Minigin::RunOneFrame()
 {
 	Time::pre_update();
 
-	m_quit = !InputManager::GetInstance().ProcessInput();
+	m_quit = !InputManager::ProcessInput();
 	SceneManager::GetInstance().Update();
 	Renderer::GetInstance().Render();
 

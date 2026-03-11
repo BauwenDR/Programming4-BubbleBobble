@@ -26,7 +26,9 @@ namespace dae
 		[[nodiscard]] GameObject* GetChildAt(size_t index) const;
 
 		const glm::vec3& GetWorldPosition();
-		void SetLocalPosition(const glm::vec3& position);
+
+		const Transform	&GetLocalTransform() const;
+		void SetLocalPosition(const glm::vec3& transform);
 
 		template <GameComponentChild T>
 		void AddComponent(std::unique_ptr<T> component)

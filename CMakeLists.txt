@@ -15,6 +15,8 @@ endif()
 
 set(DEMO_SOURCE_FILES
         Demo/Main.cpp
+        Demo/MoveCommand.cpp
+        Demo/MoveObjectComponent.cpp
         Demo/FpsComponent.cpp
         Demo/PlottingWindows.cpp
         Demo/RotateAroundParentComponent.cpp
