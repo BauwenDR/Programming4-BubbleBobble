@@ -1,9 +1,11 @@
 #include <SDL3/SDL.h>
+#if (_WIN32 || _WIN64)
+#include <SDL3/SDL_main.h>
+#endif
 
 #include "FpsComponent.hpp"
 #include "MoveObjectComponent.hpp"
 #include "PlottingWindows.hpp"
-#include "RotateAroundParentComponent.hpp"
 
 #if _DEBUG && __has_include(<vld.h>)
 #include <vld.h>
@@ -55,7 +57,7 @@ static void load()
 	go->AddComponent(std::move(to));
 	scene.Add(std::move(go));
 
-	// 2 Rotating characters (1 headless object containing the object transform and 2 rotating components)
+	// Moving characters
 	go = std::make_unique<dae::GameObject>();
 	go->SetLocalPosition({ 200.0f, 200.0f, 0.0f });
 	dae::GameObject* parentObject{go.get()};
@@ -65,13 +67,12 @@ static void load()
 	child->SetLocalPosition({ 0.0f, 0.0f, 0.0f });
 	child->AddComponent(std::make_unique<dae::TextureComponent>(*child, dae::ResourceManager::GetInstance().LoadTexture("Character.png")));
 	child->AddComponent(std::make_unique<MoveObjectComponent>(*child, false, 100.0f));
-	parentObject = child;
 
 	child = new dae::GameObject();
 	child->SetParent(parentObject, false);
-	child->SetLocalPosition({ 0.0f, 0.0f, 0.0f });
+	child->SetLocalPosition({ 50.0f, 50.0f, 0.0f });
 	child->AddComponent(std::make_unique<dae::TextureComponent>(*child, dae::ResourceManager::GetInstance().LoadTexture("Character.png")));
-	child->AddComponent(std::make_unique<demo::RotateAroundParentComponent>(*child, -6.0f, 50.0f));
+	child->AddComponent(std::make_unique<MoveObjectComponent>(*child, true, 100.0f));
 
 	scene.Add(std::move(go));
 
