@@ -58,7 +58,7 @@ void TrashCache(const int sampleCount, std::vector<int> &timings)
         const auto [min, max]{std::ranges::minmax_element(elapsedTimes[index])};
 
         int timingsCount{sampleCount};
-        int64_t sum{std::accumulate(elapsedTimes[index].begin(), elapsedTimes[index].end(), 0L)};
+        int64_t sum{std::accumulate(elapsedTimes[index].begin(), elapsedTimes[index].end(), 0LL)};
 
         if (elapsedTimes[index].size() > 3)
         {

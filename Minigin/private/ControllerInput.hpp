@@ -40,7 +40,7 @@ namespace dae::InputManager::Controller
     class XControllerInput final : public ControllerInput
     {
     public:
-        void update() override;
+        void Update() override;
 
         ~XControllerInput() override = default;
     };

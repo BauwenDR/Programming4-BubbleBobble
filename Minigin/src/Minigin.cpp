@@ -64,7 +64,7 @@ dae::Minigin::Minigin(const std::filesystem::path& dataPath)
 		throw std::runtime_error(std::string("SDL_Init Error: ") + SDL_GetError());
 	}
 
-#ifndef _WIN32
+#if not (_WIN32 or _WIN64)
 	SDL_InitSubSystem(SDL_INIT_GAMEPAD);
 #endif
 
