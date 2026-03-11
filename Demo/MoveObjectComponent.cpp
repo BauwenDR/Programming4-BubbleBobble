@@ -11,7 +11,7 @@ void MoveObjectComponent::Update()
     if (m_desiredDirection != glm::vec3(0))
     {
         m_desiredDirection = normalize(m_desiredDirection);
-        gameObject.SetLocalPosition(gameObject.GetLocalTransform().GetPosition() + m_desiredDirection * m_speed * Time::get_delta_time());
+        gameObject.SetLocalPosition(gameObject.GetLocalTransform().GetPosition() + m_desiredDirection * m_speed * Time::timeDelta());
     }
 
     m_desiredDirection = {0.0f, 0.0f, 0.0f};

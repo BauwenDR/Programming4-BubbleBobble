@@ -1,4 +1,5 @@
 #include "Time.hpp"
+#include "TimePrivate.hpp"
 
 #include <chrono>
 #include <thread>
@@ -13,19 +14,19 @@ namespace Time
     static float delta_time{};
 }
 
-float Time::get_delta_time()
+float Time::timeDelta()
 {
     return delta_time;
 }
 
-void Time::pre_update()
+void Time::preUpdate()
 {
     current_time = std::chrono::high_resolution_clock::now();
     delta_time = std::chrono::duration<float>(current_time - last_time).count();
     last_time = current_time;
 }
 
-void Time::post_frame()
+void Time::postFrame()
 {
     const auto sleep_time = current_time + std::chrono::milliseconds(ms_per_frame) - std::chrono::high_resolution_clock::now();
     std::this_thread::sleep_for(sleep_time);

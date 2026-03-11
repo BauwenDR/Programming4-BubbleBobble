@@ -17,7 +17,7 @@ namespace demo
     {
         if (!m_textComponent) return;
 
-        m_elapsedTime += Time::get_delta_time();
+        m_elapsedTime += Time::timeDelta();
         m_passedFrames++;
 
         if (m_elapsedTime > RefreshThreshold)

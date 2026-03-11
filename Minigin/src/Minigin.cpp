@@ -2,8 +2,6 @@
 #include <sstream>
 #include <iostream>
 
-#include "Time.hpp"
-
 #if WIN32
 #define WIN32_LEAN_AND_MEAN 
 #include <windows.h>
@@ -11,6 +9,8 @@
 
 #include <SDL3/SDL.h>
 #include <SDL3_ttf/SDL_ttf.h>
+
+#include "TimePrivate.hpp"
 #include "Minigin.hpp"
 #include "InputManager.hpp"
 #include "SceneManager.hpp"
@@ -89,7 +89,7 @@ dae::Minigin::~Minigin()
 void dae::Minigin::Run(const std::function<void()>& load)
 {
 	load();
-	Time::pre_update();
+	Time::preUpdate();
 
 #ifndef __EMSCRIPTEN__
 	while (!m_quit)
@@ -101,12 +101,12 @@ void dae::Minigin::Run(const std::function<void()>& load)
 
 void dae::Minigin::RunOneFrame()
 {
-	Time::pre_update();
+	Time::preUpdate();
 
 	m_quit = !InputManager::ProcessInput();
 	SceneManager::GetInstance().Update();
 	Renderer::GetInstance().Render();
 
 
-	Time::post_frame();
+	Time::postFrame();
 }
