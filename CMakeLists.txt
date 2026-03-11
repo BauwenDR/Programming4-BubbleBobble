@@ -23,12 +23,16 @@ set(DEMO_SOURCE_FILES
 
 # list source files here
 add_executable(${TARGET_NAME} ${TARGET_PARAM}
+        Minigin/src/ControllerInput.cpp
+        Minigin/src/ControllerInputSdl.cpp
+        Minigin/src/ControllerInputXInput.cpp
         Minigin/src/Font.cpp
         Minigin/src/GameComponent.cpp
         Minigin/src/GameObject.cpp
         Minigin/src/GuiWindow.cpp
-        Minigin/src/InputManager.cpp
         Minigin/src/InputCommand.cpp
+        Minigin/src/InputManager.cpp
+        Minigin/src/KeyboardInput.cpp
         Minigin/src/Minigin.cpp
         Minigin/src/Renderer.cpp
         Minigin/src/ResourceManager.cpp

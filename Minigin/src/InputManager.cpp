@@ -1,47 +1,31 @@
 #include "InputManager.hpp"
-
-#include <algorithm>
-#include <vector>
-#include <set>
+#include "InputManagerPrivate.hpp"
 
 #include <SDL3/SDL.h>
 #include <backends/imgui_impl_sdl3.h>
 
-#include "InputCommand.hpp"
+#include "ControllerInput.hpp"
+#include "KeyboardInput.hpp"
 
-struct KeyboardBinding
+void dae::InputManager::Init()
 {
-	SDL_Keycode key;
-	InputCommand* command;
-	CommandTrigger trigger;
-};
-
-namespace dae::InputManager
-{
-	std::set<SDL_Keycode> m_heldKeyboardKeys{};
-	std::vector<KeyboardBinding> m_keyboardBindings{};
-
-	void ExecuteIfTriggerMatch(const KeyboardBinding *binding, CommandTrigger commandTrigger)
-	{
-		// Extract some names into local variables for easier to read code
-		const auto &trigger{binding->trigger};
-		const auto &command{binding->command};
-
-		if (trigger == commandTrigger)
-		{
-			command->Execute();
-		}
-	}
+	Controller::Initialize();
 }
 
-void dae::InputManager::Bind(SDL_Keycode key, CommandTrigger triggerType, InputCommand *command)
+void dae::InputManager::Bind(SDL_Keycode key, CommandTrigger tiggerType, InputCommand *command)
 {
-	m_keyboardBindings.emplace_back(key, command, triggerType);
+	Keyboard::Bind(key, tiggerType, command);
+}
+
+void dae::InputManager::Bind(ControllerKey key, CommandTrigger tiggerType, InputCommand *command)
+{
+	Controller::Bind(key, tiggerType, command);
 }
 
 void dae::InputManager::Unbind(const InputCommand *inputCommand)
 {
-	std::erase_if(m_keyboardBindings, [inputCommand](const auto key) {return key.command == inputCommand;});
+	Keyboard::Unbind(inputCommand);
+	Controller::Unbind(inputCommand);
 }
 
 bool dae::InputManager::ProcessInput()
@@ -54,37 +38,15 @@ bool dae::InputManager::ProcessInput()
 			return false;
 		}
 
+		Keyboard::ProcessEvent(e);
 		ImGui_ImplSDL3_ProcessEvent(&e);
-
-		const SDL_Keycode keycode{e.key.key};
-		const auto &binding{std::ranges::find_if(m_keyboardBindings, [keycode] (const auto key) {return key.key == keycode;})};
-
-		// If there is no action using this key, there is no use in tracking it
-		if (binding == m_keyboardBindings.end()) continue;
-
-		if (e.type == SDL_EVENT_KEY_DOWN)
-		{
-			m_heldKeyboardKeys.emplace(keycode);
-			ExecuteIfTriggerMatch(std::to_address(binding), CommandTrigger::KeyDown);
-		}
-
-		if (e.type == SDL_EVENT_KEY_UP)
-		{
-			m_heldKeyboardKeys.erase(keycode);
-			ExecuteIfTriggerMatch(std::to_address(binding), CommandTrigger::KeyUp);
-		}
 	}
 
 	// Trigger all held down events
-	for (const auto keycode : m_heldKeyboardKeys)
-	{
-		const auto &binding{std::ranges::find_if(m_keyboardBindings, [keycode] (const auto key) {return key.key == keycode;})};
-		if (binding == m_keyboardBindings.end()) continue;
+	Keyboard::ProcessHeldKeys();
 
-		ExecuteIfTriggerMatch(std::to_address(binding), CommandTrigger::KeyHeld);
-	}
-
-	// Controller input
+	// Controller input (all states)
+	Controller::UpdateKeys();
 
 	return true;
 }

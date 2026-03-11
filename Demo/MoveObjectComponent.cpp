@@ -27,10 +27,16 @@ MoveObjectComponent::MoveObjectComponent(dae::GameObject &gameObject, bool isKey
 {
     if (isKeyboard)
     {
-        dae::InputManager::Bind(SDLK_W, CommandTrigger::KeyHeld, m_moveUpCommand.get());
-        dae::InputManager::Bind(SDLK_S, CommandTrigger::KeyHeld, m_moveDownCommand.get());
-        dae::InputManager::Bind(SDLK_A, CommandTrigger::KeyHeld, m_moveLeftCommand.get());
-        dae::InputManager::Bind(SDLK_D, CommandTrigger::KeyHeld, m_moveRightCommand.get());
+        dae::InputManager::Bind(SDLK_W, dae::InputManager::CommandTrigger::KeyHeld, m_moveUpCommand.get());
+        dae::InputManager::Bind(SDLK_S, dae::InputManager::CommandTrigger::KeyHeld, m_moveDownCommand.get());
+        dae::InputManager::Bind(SDLK_A, dae::InputManager::CommandTrigger::KeyHeld, m_moveLeftCommand.get());
+        dae::InputManager::Bind(SDLK_D, dae::InputManager::CommandTrigger::KeyHeld, m_moveRightCommand.get());
+    } else
+    {
+        dae::InputManager::Bind(dae::InputManager::ControllerKey::DpadUp, dae::InputManager::CommandTrigger::KeyHeld, m_moveUpCommand.get());
+        dae::InputManager::Bind(dae::InputManager::ControllerKey::DpadDown, dae::InputManager::CommandTrigger::KeyHeld, m_moveDownCommand.get());
+        dae::InputManager::Bind(dae::InputManager::ControllerKey::DpadLeft, dae::InputManager::CommandTrigger::KeyHeld, m_moveLeftCommand.get());
+        dae::InputManager::Bind(dae::InputManager::ControllerKey::DpadRight, dae::InputManager::CommandTrigger::KeyHeld, m_moveRightCommand.get());
     }
 }
 

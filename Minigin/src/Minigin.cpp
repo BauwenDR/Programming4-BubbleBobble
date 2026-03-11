@@ -2,6 +2,8 @@
 #include <sstream>
 #include <iostream>
 
+#include "InputManagerPrivate.hpp"
+
 #if WIN32
 #define WIN32_LEAN_AND_MEAN 
 #include <windows.h>
@@ -74,6 +76,7 @@ dae::Minigin::Minigin(const std::filesystem::path& dataPath)
 		throw std::runtime_error(std::string("SDL_CreateWindow Error: ") + SDL_GetError());
 	}
 
+	InputManager::Init();
 	Renderer::GetInstance().Init(m_pWindow);
 	ResourceManager::GetInstance().Init(dataPath);
 }
