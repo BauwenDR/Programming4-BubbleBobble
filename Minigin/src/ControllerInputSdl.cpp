@@ -22,7 +22,7 @@ namespace dae::InputManager::Controller
         {SDL_GAMEPAD_BUTTON_START, ControllerKey::Start}
     };
 
-    SDLControllerInput::SDLControllerInput()
+    ControllerInputImpl::ControllerInputImpl()
     {
         int gamepadCount{};
         const auto gamepadIds = SDL_GetGamepads(&gamepadCount);
@@ -33,7 +33,7 @@ namespace dae::InputManager::Controller
         }
     }
 
-    void SDLControllerInput::Update()
+    void ControllerInputImpl::Update()
     {
         if (m_pGamepad == nullptr) return;
 
@@ -52,7 +52,7 @@ namespace dae::InputManager::Controller
         m_heldButtons = inputMask;
     }
 
-    SDLControllerInput::~SDLControllerInput()
+    ControllerInputImpl::~ControllerInputImpl()
     {
         SDL_CloseGamepad(m_pGamepad);
     }

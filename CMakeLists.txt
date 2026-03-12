@@ -21,11 +21,8 @@ set(DEMO_SOURCE_FILES
         Demo/RotateAroundParentComponent.cpp
 )
 
-# list source files here
-add_executable(${TARGET_NAME} ${TARGET_PARAM}
+set(MINIGIN_SOURCE_FILES
         Minigin/src/ControllerInput.cpp
-        Minigin/src/ControllerInputSdl.cpp
-        Minigin/src/ControllerInputXInput.cpp
         Minigin/src/Font.cpp
         Minigin/src/GameComponent.cpp
         Minigin/src/GameObject.cpp
@@ -43,9 +40,21 @@ add_executable(${TARGET_NAME} ${TARGET_PARAM}
         Minigin/src/TextureComponent.cpp
         Minigin/src/Time.cpp
         Minigin/src/Transform.cpp
-        ${DEMO_SOURCE_FILES}
 )
 
+# Target specific source files
+if (WIN32)
+    set(MINIGIN_SOURCE_FILES ${MINIGIN_SOURCE_FILES} Minigin/src/ControllerInputXInput.cpp)
+else()
+    set(MINIGIN_SOURCE_FILES ${MINIGIN_SOURCE_FILES} Minigin/src/ControllerInputSdl.cpp)
+endif()
+
+
+# list source files here
+add_executable(${TARGET_NAME} ${TARGET_PARAM}
+        ${MINIGIN_SOURCE_FILES}
+        ${DEMO_SOURCE_FILES}
+)
 target_include_directories(${TARGET_NAME} PUBLIC Minigin/include PRIVATE Minigin/private)
 
 # enable c++20 features
@@ -194,7 +203,6 @@ target_link_libraries("${TARGET_NAME}" PUBLIC
 if(MSVC)
     # compile at warning level 4 + treat warnings as errors
     target_compile_options(${TARGET_NAME} PRIVATE /W4 /WX)
-    target_link_libraries("${TARGET_NAME}" PUBLIC xinput)
 else()
     target_compile_options(${TARGET_NAME} PRIVATE -Wall -Wextra -Werror)
 endif()
@@ -224,6 +232,9 @@ elseif(WIN32)
     set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT ${TARGET_NAME})
     # Set working directory to output folder
     set_target_properties(${TARGET_NAME} PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY "$<TARGET_FILE_DIR:${TARGET_NAME}>")
+
+    # Add XInput as library
+    target_link_libraries("${TARGET_NAME}" PUBLIC xinput)
 
     # Copy SDL dlls to output folder
     set(SDL_RUNTIME_DLLS

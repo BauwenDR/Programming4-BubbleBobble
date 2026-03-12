@@ -37,7 +37,7 @@ namespace dae::InputManager::Controller
     };
 
 #if _WIN32 or _WIN64
-    class XControllerInput final : public ControllerInput
+    class ControllerInputImpl final : public ControllerInput
     {
     public:
         void Update() override;
@@ -46,13 +46,13 @@ namespace dae::InputManager::Controller
     };
 #endif
 
-    class SDLControllerInput final : public ControllerInput
+    class ControllerInputImpl final : public ControllerInput
     {
     public:
-        SDLControllerInput();
+        ControllerInputImpl();
         void Update() override;
 
-        ~SDLControllerInput() override;
+        ~ControllerInputImpl() override;
 
     private:
         SDL_Gamepad *m_pGamepad{};

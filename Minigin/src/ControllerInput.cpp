@@ -13,11 +13,7 @@ namespace dae::InputManager::Controller
 
     void Initialize()
     {
-#if WIN32
-    controllerInputImpl = std::make_unique<XControllerInput>();
-#else
-    controllerInputImpl = std::make_unique<SDLControllerInput>();
-#endif
+        controllerInputImpl = std::make_unique<ControllerInputImpl>();
     }
 
     void Bind(ControllerKey key, CommandTrigger triggerType, InputCommand *command)

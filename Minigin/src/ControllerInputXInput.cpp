@@ -1,10 +1,10 @@
 #include "ControllerInput.hpp"
 
-#if _WIN32 or _WIN64
+#define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
 #include <Xinput.h>
 
-void dae::InputManager::Controller::XControllerInput::Update() {
+void dae::InputManager::Controller::ControllerInputImpl::Update() {
     XINPUT_STATE state{};
     ZeroMemory(&state, sizeof(XINPUT_STATE));
     const auto xInputState{ XInputGetState(0, &state) };
@@ -19,4 +19,3 @@ void dae::InputManager::Controller::XControllerInput::Update() {
 
     m_heldButtons = inputMask;
 }
-#endif
