@@ -3,6 +3,7 @@
 #include <memory>
 #include <vector>
 
+#include "ControllerInputImpl.hpp"
 #include "InputCommand.hpp"
 #include "InputManagerPrivate.hpp"
 

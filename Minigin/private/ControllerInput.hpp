@@ -1,7 +1,5 @@
 #ifndef MINIGIN_CONTROLLERINPUT_HPP
 #define MINIGIN_CONTROLLERINPUT_HPP
-#include <SDL3/SDL_gamepad.h>
-
 #include "InputManager.hpp"
 
 namespace dae::InputManager::Controller
@@ -26,36 +24,14 @@ namespace dae::InputManager::Controller
         virtual ~ControllerInput() = default;
         virtual void Update() = 0;
 
-        uint16_t GetPressedButtons() const { return m_pressedButtons; }
-        uint16_t GetReleasedButtons() const {return m_releasedButtons; }
-        uint16_t GetHeldButtons() const { return m_heldButtons; }
+        [[nodiscard]] uint16_t GetPressedButtons() const { return m_pressedButtons; }
+        [[nodiscard]] uint16_t GetReleasedButtons() const {return m_releasedButtons; }
+        [[nodiscard]] uint16_t GetHeldButtons() const { return m_heldButtons; }
 
     protected:
         uint16_t m_pressedButtons{};
         uint16_t m_releasedButtons{};
         uint16_t m_heldButtons{};
-    };
-
-#if _WIN32 or _WIN64
-    class ControllerInputImpl final : public ControllerInput
-    {
-    public:
-        void Update() override;
-
-        ~XControllerInput() override = default;
-    };
-#endif
-
-    class ControllerInputImpl final : public ControllerInput
-    {
-    public:
-        ControllerInputImpl();
-        void Update() override;
-
-        ~ControllerInputImpl() override;
-
-    private:
-        SDL_Gamepad *m_pGamepad{};
     };
 }
 

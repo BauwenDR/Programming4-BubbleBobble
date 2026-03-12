@@ -1,6 +1,6 @@
 #include <unordered_map>
 
-#include "ControllerInput.hpp"
+#include "ControllerInputImpl.hpp"
 #include "InputManager.hpp"
 
 namespace dae::InputManager::Controller
@@ -22,17 +22,6 @@ namespace dae::InputManager::Controller
         {SDL_GAMEPAD_BUTTON_START, ControllerKey::Start}
     };
 
-    ControllerInputImpl::ControllerInputImpl()
-    {
-        int gamepadCount{};
-        const auto gamepadIds = SDL_GetGamepads(&gamepadCount);
-
-        if (gamepadCount > 0)
-        {
-            m_pGamepad = SDL_OpenGamepad(gamepadIds[0]);
-        }
-    }
-
     void ControllerInputImpl::Update()
     {
         if (m_pGamepad == nullptr) return;
@@ -51,6 +40,18 @@ namespace dae::InputManager::Controller
 
         m_heldButtons = inputMask;
     }
+
+    ControllerInputImpl::ControllerInputImpl()
+    {
+        int gamepadCount{};
+        const auto gamepadIds = SDL_GetGamepads(&gamepadCount);
+
+        if (gamepadCount > 0)
+        {
+            m_pGamepad = SDL_OpenGamepad(gamepadIds[0]);
+        }
+    }
+
 
     ControllerInputImpl::~ControllerInputImpl()
     {
