@@ -7,7 +7,7 @@
 
 class InputCommand;
 
-namespace dae::InputManager::Keyboard
+namespace dae::Input::Keyboard
 {
     struct KeyboardBinding
     {

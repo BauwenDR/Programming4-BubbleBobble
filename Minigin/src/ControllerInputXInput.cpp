@@ -1,12 +1,12 @@
-#include "ControllerInputImpl.hpp"
+#include "ControllerInput.hpp"
 
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
 #include <Xinput.h>
 
-namespace dae::InputManager::Controller
+namespace dae::Input::Controller
 {
-    void ControllerInputImpl::Update() {
+    void ControllerInput::Update() {
         XINPUT_STATE state{};
         ZeroMemory(&state, sizeof(XINPUT_STATE));
         const auto xInputState{ XInputGetState(0, &state) };
@@ -22,7 +22,7 @@ namespace dae::InputManager::Controller
         m_heldButtons = inputMask;
     }
 
-    ControllerInputImpl::ControllerInputImpl() {}
+    ControllerInput::ControllerInput() {}
 
-    ControllerInputImpl::~ControllerInputImpl() {}
+    ControllerInput::~ControllerInput() {}
 }

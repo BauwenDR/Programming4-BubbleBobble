@@ -1,6 +1,7 @@
 #include "InputCommand.hpp"
 
 #include "InputManager.hpp"
+#include "KeyboardInput.hpp"
 
 void InputCommand::Execute() const
 {
@@ -14,5 +15,5 @@ InputCommand::InputCommand(const std::function<void()> &onInput)
 
 InputCommand::~InputCommand()
 {
-    dae::InputManager::Unbind(this);
+    dae::Input::Keyboard::Unbind(this);
 }

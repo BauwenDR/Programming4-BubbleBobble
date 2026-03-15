@@ -2,7 +2,7 @@
 #define MINIGIN_INPUTMANAGERPRIVATE_HPP
 #include "InputManager.hpp"
 
-namespace dae::InputManager
+namespace dae::Input
 {
     void Init();
 

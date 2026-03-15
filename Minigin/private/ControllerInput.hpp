@@ -1,38 +1,35 @@
-#ifndef MINIGIN_CONTROLLERINPUT_HPP
-#define MINIGIN_CONTROLLERINPUT_HPP
-#include "InputManager.hpp"
+#ifndef MINIGIN_CONTROLLERINPUTIMPL_HPP
+#define MINIGIN_CONTROLLERINPUTIMPL_HPP
+#include <memory>
 
-namespace dae::InputManager::Controller
+#include "Input.hpp"
+
+class InputCommand;
+
+namespace dae::Input::Controller
 {
     struct ControllerBinding
     {
         ControllerKey key{};
+        std::size_t controllerIndex{};
         InputCommand* command{};
         CommandTrigger trigger{};
     };
 
-    void Initialize();
-
-    void Bind(ControllerKey key, CommandTrigger triggerType, InputCommand *command);
-    void Unbind(const InputCommand *inputCommand);
-
-    void UpdateKeys();
-
-    class ControllerInput
+    class ControllerInput final
     {
     public:
-        virtual ~ControllerInput() = default;
-        virtual void Update() = 0;
+        void Bind(ControllerKey key, std::size_t controllerIndex, CommandTrigger triggerType, InputCommand *command) const;
+        void Unbind(const InputCommand *inputCommand) const;
 
-        [[nodiscard]] uint16_t GetPressedButtons() const { return m_pressedButtons; }
-        [[nodiscard]] uint16_t GetReleasedButtons() const {return m_releasedButtons; }
-        [[nodiscard]] uint16_t GetHeldButtons() const { return m_heldButtons; }
+        void Update() const;
 
-    protected:
-        uint16_t m_pressedButtons{};
-        uint16_t m_releasedButtons{};
-        uint16_t m_heldButtons{};
+        ControllerInput();
+        ~ControllerInput();
+    private:
+        class Impl;
+        std::unique_ptr<Impl> m_impl;
     };
 }
 
-#endif //MINIGIN_CONTROLLERINPUT_HPP
+#endif //MINIGIN_CONTROLLERINPUTIMPL_HPP

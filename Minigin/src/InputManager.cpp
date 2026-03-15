@@ -1,5 +1,4 @@
 #include "InputManager.hpp"
-#include "InputManagerPrivate.hpp"
 
 #include <SDL3/SDL.h>
 #include <backends/imgui_impl_sdl3.h>
@@ -7,29 +6,21 @@
 #include "ControllerInput.hpp"
 #include "KeyboardInput.hpp"
 
-void dae::InputManager::Init()
-{
-	Controller::Initialize();
+void dae::InputManager::Bind(SDL_Keycode key, Input::CommandTrigger tiggerType, InputCommand *command) const {
+	Input::Keyboard::Bind(key, tiggerType, command);
 }
 
-void dae::InputManager::Bind(SDL_Keycode key, CommandTrigger tiggerType, InputCommand *command)
-{
-	Keyboard::Bind(key, tiggerType, command);
+void dae::InputManager::Bind(Input::ControllerKey key, std::size_t controllerIndex, Input::CommandTrigger tiggerType,
+	InputCommand *command) const {
+	m_controllerInput.Bind(key, controllerIndex, tiggerType, command);
 }
 
-void dae::InputManager::Bind(ControllerKey key, CommandTrigger tiggerType, InputCommand *command)
-{
-	Controller::Bind(key, tiggerType, command);
+void dae::InputManager::Unbind(const InputCommand *inputCommand) const {
+	Input::Keyboard::Unbind(inputCommand);
+	m_controllerInput.Unbind(inputCommand);
 }
 
-void dae::InputManager::Unbind(const InputCommand *inputCommand)
-{
-	Keyboard::Unbind(inputCommand);
-	Controller::Unbind(inputCommand);
-}
-
-bool dae::InputManager::ProcessInput()
-{
+bool dae::InputManager::ProcessInput() const {
 	SDL_Event e;
 
 	// Keyboard input
@@ -38,15 +29,15 @@ bool dae::InputManager::ProcessInput()
 			return false;
 		}
 
-		Keyboard::ProcessEvent(e);
+		Input::Keyboard::ProcessEvent(e);
 		ImGui_ImplSDL3_ProcessEvent(&e);
 	}
 
 	// Trigger all held down events
-	Keyboard::ProcessHeldKeys();
+	Input::Keyboard::ProcessHeldKeys();
 
 	// Controller input (all states)
-	Controller::UpdateKeys();
+	m_controllerInput.Update();
 
 	return true;
 }

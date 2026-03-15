@@ -22,7 +22,6 @@ set(DEMO_SOURCE_FILES
 )
 
 set(MINIGIN_SOURCE_FILES
-        Minigin/src/ControllerInput.cpp
         Minigin/src/Font.cpp
         Minigin/src/GameComponent.cpp
         Minigin/src/GameObject.cpp

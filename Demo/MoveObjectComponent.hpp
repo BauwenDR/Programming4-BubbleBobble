@@ -16,7 +16,7 @@ public:
     void Update() override;
     void Render() const override {}
 
-    MoveObjectComponent(dae::GameObject& gameObject, bool isKeyboard, float movesSpeed);
+    MoveObjectComponent(dae::GameObject& gameObject, float movesSpeed, int controller);
     ~MoveObjectComponent() override = default;
 
 private:

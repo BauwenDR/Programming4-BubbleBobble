@@ -17,7 +17,7 @@ void MoveObjectComponent::Update()
     m_desiredDirection = {0.0f, 0.0f, 0.0f};
 }
 
-MoveObjectComponent::MoveObjectComponent(dae::GameObject &gameObject, bool isKeyboard, float moveSpeed)
+MoveObjectComponent::MoveObjectComponent(dae::GameObject &gameObject, float moveSpeed, int controller)
     : GameComponent(gameObject)
     , m_speed{moveSpeed}
     , m_moveUpCommand(std::make_unique<InputCommand>([this] {RegisterInput({0.0f, -1.0f, 0.0f});}))
@@ -25,19 +25,23 @@ MoveObjectComponent::MoveObjectComponent(dae::GameObject &gameObject, bool isKey
     , m_moveLeftCommand(std::make_unique<InputCommand>([this] {RegisterInput({-1.0f, 0.0f, 0.0f});}))
     , m_moveRightCommand(std::make_unique<InputCommand>([this] {RegisterInput({1.0f, 0.0f, 0.0f});}))
 {
-    if (isKeyboard)
+    if (controller == 0)
     {
-        dae::InputManager::Bind(SDLK_W, dae::InputManager::CommandTrigger::KeyHeld, m_moveUpCommand.get());
-        dae::InputManager::Bind(SDLK_S, dae::InputManager::CommandTrigger::KeyHeld, m_moveDownCommand.get());
-        dae::InputManager::Bind(SDLK_A, dae::InputManager::CommandTrigger::KeyHeld, m_moveLeftCommand.get());
-        dae::InputManager::Bind(SDLK_D, dae::InputManager::CommandTrigger::KeyHeld, m_moveRightCommand.get());
-    } else
-    {
-        dae::InputManager::Bind(dae::InputManager::ControllerKey::DpadUp, dae::InputManager::CommandTrigger::KeyHeld, m_moveUpCommand.get());
-        dae::InputManager::Bind(dae::InputManager::ControllerKey::DpadDown, dae::InputManager::CommandTrigger::KeyHeld, m_moveDownCommand.get());
-        dae::InputManager::Bind(dae::InputManager::ControllerKey::DpadLeft, dae::InputManager::CommandTrigger::KeyHeld, m_moveLeftCommand.get());
-        dae::InputManager::Bind(dae::InputManager::ControllerKey::DpadRight, dae::InputManager::CommandTrigger::KeyHeld, m_moveRightCommand.get());
+        dae::InputManager::GetInstance().Bind(SDLK_W, dae::Input::CommandTrigger::KeyHeld, m_moveUpCommand.get());
+        dae::InputManager::GetInstance().Bind(SDLK_S, dae::Input::CommandTrigger::KeyHeld, m_moveDownCommand.get());
+        dae::InputManager::GetInstance().Bind(SDLK_A, dae::Input::CommandTrigger::KeyHeld, m_moveLeftCommand.get());
+        dae::InputManager::GetInstance().Bind(SDLK_D, dae::Input::CommandTrigger::KeyHeld, m_moveRightCommand.get());
+    } else {
+        dae::InputManager::GetInstance().Bind(SDLK_UP, dae::Input::CommandTrigger::KeyHeld, m_moveUpCommand.get());
+        dae::InputManager::GetInstance().Bind(SDLK_DOWN, dae::Input::CommandTrigger::KeyHeld, m_moveDownCommand.get());
+        dae::InputManager::GetInstance().Bind(SDLK_LEFT, dae::Input::CommandTrigger::KeyHeld, m_moveLeftCommand.get());
+        dae::InputManager::GetInstance().Bind(SDLK_RIGHT, dae::Input::CommandTrigger::KeyHeld, m_moveRightCommand.get());
     }
+
+    dae::InputManager::GetInstance().Bind(dae::Input::ControllerKey::DpadUp, controller, dae::Input::CommandTrigger::KeyHeld, m_moveUpCommand.get());
+    dae::InputManager::GetInstance().Bind(dae::Input::ControllerKey::DpadDown, controller, dae::Input::CommandTrigger::KeyHeld, m_moveDownCommand.get());
+    dae::InputManager::GetInstance().Bind(dae::Input::ControllerKey::DpadLeft, controller, dae::Input::CommandTrigger::KeyHeld, m_moveLeftCommand.get());
+    dae::InputManager::GetInstance().Bind(dae::Input::ControllerKey::DpadRight, controller, dae::Input::CommandTrigger::KeyHeld, m_moveRightCommand.get());
 }
 
 void MoveObjectComponent::RegisterInput(const glm::vec3 &direction)

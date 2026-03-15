@@ -66,13 +66,13 @@ static void load()
 	child->SetParent(parentObject, false);
 	child->SetLocalPosition({ 0.0f, 0.0f, 0.0f });
 	child->AddComponent(std::make_unique<dae::TextureComponent>(*child, dae::ResourceManager::GetInstance().LoadTexture("Character.png")));
-	child->AddComponent(std::make_unique<MoveObjectComponent>(*child, false, 100.0f));
+	child->AddComponent(std::make_unique<MoveObjectComponent>(*child, 100.0f, 0));
 
 	child = new dae::GameObject();
 	child->SetParent(parentObject, false);
 	child->SetLocalPosition({ 50.0f, 50.0f, 0.0f });
 	child->AddComponent(std::make_unique<dae::TextureComponent>(*child, dae::ResourceManager::GetInstance().LoadTexture("Character.png")));
-	child->AddComponent(std::make_unique<MoveObjectComponent>(*child, true, 200.0f));
+	child->AddComponent(std::make_unique<MoveObjectComponent>(*child, 200.0f, 1));
 
 	scene.Add(std::move(go));
 

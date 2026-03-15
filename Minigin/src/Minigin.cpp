@@ -65,7 +65,7 @@ dae::Minigin::Minigin(const std::filesystem::path& dataPath)
 	}
 
 #if not (_WIN32 or _WIN64)
-	SDL_InitSubSystem(SDL_INIT_GAMEPAD);
+	SDL_InitSubSystem(SDL_INIT_GAMEPAD | SDL_INIT_JOYSTICK);
 #endif
 
 	m_pWindow = SDL_CreateWindow(
@@ -80,7 +80,6 @@ dae::Minigin::Minigin(const std::filesystem::path& dataPath)
 		throw std::runtime_error(std::string("SDL_CreateWindow Error: ") + SDL_GetError());
 	}
 
-	InputManager::Init();
 	Renderer::GetInstance().Init(m_pWindow);
 	ResourceManager::GetInstance().Init(dataPath);
 }
@@ -110,7 +109,7 @@ void dae::Minigin::RunOneFrame()
 {
 	Time::preUpdate();
 
-	m_quit = !InputManager::ProcessInput();
+	m_quit = !InputManager::GetInstance().ProcessInput();
 	SceneManager::GetInstance().Update();
 	Renderer::GetInstance().Render();
 

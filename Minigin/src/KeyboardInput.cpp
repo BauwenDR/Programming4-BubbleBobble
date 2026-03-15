@@ -7,23 +7,23 @@
 #include "InputCommand.hpp"
 #include "InputManagerPrivate.hpp"
 
-namespace dae::InputManager::Keyboard
+namespace dae::Input::Keyboard
 {
     std::set<SDL_Keycode> m_heldKeys{};
     std::vector<KeyboardBinding> m_bindings{};
 }
 
-void dae::InputManager::Keyboard::Bind(SDL_Keycode key, CommandTrigger triggerType, InputCommand *command)
+void dae::Input::Keyboard::Bind(SDL_Keycode key, CommandTrigger triggerType, InputCommand *command)
 {
     m_bindings.emplace_back(key, command, triggerType);
 }
 
-void dae::InputManager::Keyboard::Unbind(const InputCommand *inputCommand)
+void dae::Input::Keyboard::Unbind(const InputCommand *inputCommand)
 {
     std::erase_if(m_bindings, [inputCommand](const auto key) {return key.command == inputCommand;});
 }
 
-void dae::InputManager::Keyboard::ProcessEvent(const SDL_Event &event)
+void dae::Input::Keyboard::ProcessEvent(const SDL_Event &event)
 {
     const SDL_Keycode keycode{event.key.key};
     const auto &binding{std::ranges::find_if(m_bindings, [keycode] (const auto key) {return key.key == keycode;})};
@@ -44,7 +44,7 @@ void dae::InputManager::Keyboard::ProcessEvent(const SDL_Event &event)
     }
 }
 
-void dae::InputManager::Keyboard::ProcessHeldKeys()
+void dae::Input::Keyboard::ProcessHeldKeys()
 {
     for (const auto &binding : m_bindings)
     {
