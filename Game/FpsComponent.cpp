@@ -6,7 +6,7 @@
 #include "TextComponent.hpp"
 #include "Time.hpp"
 
-namespace demo
+namespace game
 {
     void FpsComponent::Start()
     {

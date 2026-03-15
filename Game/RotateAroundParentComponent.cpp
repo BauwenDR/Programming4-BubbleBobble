@@ -5,7 +5,7 @@
 
 #include <numbers>
 
-namespace demo
+namespace game
 {
     void RotateAroundParentComponent::Update()
     {

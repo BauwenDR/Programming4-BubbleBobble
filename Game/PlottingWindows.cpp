@@ -70,7 +70,7 @@ void TrashCache(const int sampleCount, std::vector<int> &timings)
     }
 }
 
-void demo::ExerciseOneWindow::DrawWindowContent()
+void game::ExerciseOneWindow::DrawWindowContent()
 {
     ImGui::InputInt("Samples", &m_samples);
     if (ImGui::Button("Thrash the cache"))
@@ -87,7 +87,7 @@ void demo::ExerciseOneWindow::DrawWindowContent()
     }
 }
 
-void demo::ExerciseTwoWindow::DrawWindowContent()
+void game::ExerciseTwoWindow::DrawWindowContent()
 {
     ImGui::InputInt("Samples", &m_samples);
     if (ImGui::Button("Thrash the cache with Big GameObject"))

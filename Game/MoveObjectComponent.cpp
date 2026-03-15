@@ -4,7 +4,7 @@
 #include "InputManager.hpp"
 #include "Time.hpp"
 
-void MoveObjectComponent::Update()
+void game::MoveObjectComponent::Update()
 {
    auto &gameObject{GetGameObject()};
 
@@ -17,7 +17,7 @@ void MoveObjectComponent::Update()
     m_desiredDirection = {0.0f, 0.0f, 0.0f};
 }
 
-MoveObjectComponent::MoveObjectComponent(dae::GameObject &gameObject, float moveSpeed, int controller)
+game::MoveObjectComponent::MoveObjectComponent(dae::GameObject &gameObject, float moveSpeed, int controller)
     : GameComponent(gameObject)
     , m_speed{moveSpeed}
     , m_moveUpCommand(std::make_unique<InputCommand>([this] {RegisterInput({0.0f, -1.0f, 0.0f});}))
@@ -44,7 +44,7 @@ MoveObjectComponent::MoveObjectComponent(dae::GameObject &gameObject, float move
     dae::InputManager::GetInstance().Bind(dae::Input::ControllerKey::DpadRight, controller, dae::Input::CommandTrigger::KeyHeld, m_moveRightCommand.get());
 }
 
-void MoveObjectComponent::RegisterInput(const glm::vec3 &direction)
+void game::MoveObjectComponent::RegisterInput(const glm::vec3 &direction)
 {
     m_desiredDirection += direction;
 }

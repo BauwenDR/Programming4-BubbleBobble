@@ -13,12 +13,12 @@ else()
     set(TARGET_PARAM WIN32)
 endif()
 
-set(DEMO_SOURCE_FILES
-        Demo/Main.cpp
-        Demo/MoveObjectComponent.cpp
-        Demo/FpsComponent.cpp
-        Demo/PlottingWindows.cpp
-        Demo/RotateAroundParentComponent.cpp
+set(GAME_SOURCE_FILES
+        Game/Main.cpp
+        Game/MoveObjectComponent.cpp
+        Game/FpsComponent.cpp
+        Game/PlottingWindows.cpp
+        Game/RotateAroundParentComponent.cpp
 )
 
 set(MINIGIN_SOURCE_FILES
@@ -52,7 +52,7 @@ endif()
 # list source files here
 add_executable(${TARGET_NAME} ${TARGET_PARAM}
         ${MINIGIN_SOURCE_FILES}
-        ${DEMO_SOURCE_FILES}
+        ${GAME_SOURCE_FILES}
 )
 target_include_directories(${TARGET_NAME} PUBLIC Minigin/include PRIVATE Minigin/private)
 

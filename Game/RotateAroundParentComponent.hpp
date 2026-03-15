@@ -3,7 +3,7 @@
 
 #include "GameComponent.hpp"
 
-namespace demo
+namespace game
 {
     class RotateAroundParentComponent : public dae::GameComponent
     {

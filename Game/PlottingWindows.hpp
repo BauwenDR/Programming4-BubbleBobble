@@ -5,7 +5,7 @@
 
 #include "GuiWindow.hpp"
 
-namespace demo
+namespace game
 {
     class ExerciseOneWindow final : public GuiWindow
     {

@@ -9,7 +9,7 @@ namespace dae
     class TextComponent;
 }
 
-namespace demo
+namespace game
 {
     class FpsComponent : public dae::GameComponent
     {
