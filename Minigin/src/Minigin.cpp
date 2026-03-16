@@ -2,6 +2,7 @@
 #include <sstream>
 #include <iostream>
 
+#include "EventManager.hpp"
 #include "InputManagerPrivate.hpp"
 
 #if WIN32
@@ -110,6 +111,7 @@ void dae::Minigin::RunOneFrame()
 	Time::preUpdate();
 
 	m_quit = !InputManager::GetInstance().ProcessInput();
+	EventManager::GetInstance().TriggerEvents();
 	SceneManager::GetInstance().Update();
 	Renderer::GetInstance().Render();
 

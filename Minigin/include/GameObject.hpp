@@ -3,6 +3,7 @@
 #include <memory>
 
 #include "GameComponent.hpp"
+#include "IObserver.hpp"
 #include "Transform.hpp"
 
 template <typename T>
@@ -10,7 +11,6 @@ concept GameComponentChild = std::is_base_of_v<dae::GameComponent, T>;
 
 namespace dae
 {
-
 	class Texture2D;
 	class GameObject final
 	{
@@ -27,8 +27,12 @@ namespace dae
 
 		const glm::vec3& GetWorldPosition();
 
-		const Transform	&GetLocalTransform() const;
+		[[nodiscard]] const Transform &GetLocalTransform() const;
 		void SetLocalPosition(const glm::vec3& transform);
+
+		void AddObserver(IObserver* observer);
+		void RemoveObserver(IObserver* observer);
+		void NotifyObservers(uint32_t event);
 
 		template <GameComponentChild T>
 		void AddComponent(std::unique_ptr<T> component)
@@ -65,7 +69,7 @@ namespace dae
 		void MarkForDelete();
 		[[nodiscard]] bool IsMarkedForDelete() const;
 
-		GameObject() = default;
+		GameObject();
 		~GameObject() = default;
 
 		GameObject(const GameObject& other) = delete;
@@ -81,13 +85,15 @@ namespace dae
 		void UpdateWorldPosition();
 		void SetPositionDirty();
 
-		Transform m_localTransform{};
-		Transform m_worldTransform{};
+		std::vector<std::unique_ptr<GameObject>> m_children{};	// TODO: find a clean way of converting these to unique_ptrs
+		std::vector<std::unique_ptr<GameComponent>> m_components{};
+
+		std::vector<IObserver*> m_observers{};
+
+		Transform *m_localTransform{};
+		Transform *m_worldTransform{};
 
 		GameObject *m_pParent{};
-		std::vector<std::unique_ptr<GameObject>> m_children{};	// TODO: find a way of converting these to unique_ptrs
-
-		std::vector<std::unique_ptr<GameComponent>> m_components{};
 
 		bool m_markedForDelete{false};
 		bool m_positionIsDirty{false};
