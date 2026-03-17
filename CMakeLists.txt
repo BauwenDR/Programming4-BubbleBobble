@@ -23,6 +23,7 @@ set(GAME_SOURCE_FILES
 
 set(MINIGIN_SOURCE_FILES
         Minigin/src/EventManager.cpp
+        Minigin/src/EventRingBuffer.cpp
         Minigin/src/Font.cpp
         Minigin/src/GameComponent.cpp
         Minigin/src/GameObject.cpp

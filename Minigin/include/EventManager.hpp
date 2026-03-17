@@ -3,8 +3,8 @@
 
 #include <cstdint>
 #include <unordered_map>
-#include <vector>
 
+#include "EventRingBuffer.hpp"
 #include "Singleton.hpp"
 
 namespace dae {
@@ -18,19 +18,16 @@ namespace dae {
     public:
         void SendEvent(uint32_t event);
         void AttachHandler(uint32_t event, IEventHandler *handler);
-        void DetachHandler(IEventHandler *handler);
+        void DetachHandler(const IEventHandler *handler);
 
         void TriggerEvents();
     private:
         friend class Singleton;
         EventManager() = default;
 
-        std::unordered_map<uint32_t, IEventHandler*> m_handlers;
+        std::unordered_map<uint32_t, IEventHandler*> m_handlers{};
 
-        std::vector<uint32_t> m_messages{};
-        std::vector<uint32_t> m_newMessages{};
-
-        bool m_processingEvents{};
+        EventRingBuffer m_ringBuffer{};
     };
 }
 
