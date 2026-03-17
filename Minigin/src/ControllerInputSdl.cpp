@@ -1,10 +1,11 @@
 #include <iostream>
 #include <unordered_map>
+#include <vector>
 #include <SDL3/SDL_gamepad.h>
 
 #include "ControllerInput.hpp"
+#include "ICommand.hpp"
 #include "InputManager.hpp"
-#include "InputCommand.hpp"
 #include "InputManagerPrivate.hpp"
 
 namespace dae::Input::Controller
@@ -28,13 +29,19 @@ namespace dae::Input::Controller
 
     class ControllerInput::Impl {
     public:
-        void Bind(ControllerKey key, std::size_t controllerIndex, CommandTrigger triggerType, InputCommand *command);
-        void Unbind(const InputCommand *inputCommand);
+        void Bind(ControllerKey key, size_t controllerIndex, CommandTrigger triggerType, ICommand *command);
+        void Unbind(const ICommand *inputCommand);
 
         void Update();
 
         Impl();
         ~Impl();
+
+        Impl (const Impl &other) = delete;
+        Impl(Impl &&other) noexcept = delete;
+        Impl & operator=(const Impl &other) = delete;
+        Impl & operator=(Impl &&other) noexcept = delete;
+
     private:
         std::vector<SDL_Gamepad*> m_gamepads{};
         std::unordered_map<SDL_Gamepad*, std::size_t> m_gamepadOrder{};
@@ -64,12 +71,12 @@ namespace dae::Input::Controller
         }
     }
 
-    void ControllerInput::Impl::Bind(ControllerKey key, std::size_t controllerIndex, CommandTrigger triggerType, InputCommand *command)
+    void ControllerInput::Impl::Bind(ControllerKey key, std::size_t controllerIndex, CommandTrigger triggerType, ICommand *command)
     {
         m_bindings.emplace_back(key, controllerIndex, command, triggerType);
     }
 
-    void ControllerInput::Impl::Unbind(const InputCommand *inputCommand)
+    void ControllerInput::Impl::Unbind(const ICommand *inputCommand)
     {
         std::erase_if(m_bindings, [inputCommand](const auto &element) { return element.command == inputCommand; });
     }
@@ -153,11 +160,11 @@ namespace dae::Input::Controller
 
     ControllerInput::~ControllerInput() = default;
 
-    void ControllerInput::Bind(ControllerKey key, std::size_t controllerIndex, CommandTrigger triggerType, InputCommand *command) const {
+    void ControllerInput::Bind(ControllerKey key, std::size_t controllerIndex, CommandTrigger triggerType, ICommand *command) const {
         m_impl->Bind(key, controllerIndex, triggerType, command);
     }
 
-    void ControllerInput::Unbind(const InputCommand *inputCommand) const {
+    void ControllerInput::Unbind(const ICommand *inputCommand) const {
         m_impl->Unbind(inputCommand);
     }
 

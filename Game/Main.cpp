@@ -4,8 +4,7 @@
 #endif
 
 #include "FpsComponent.hpp"
-#include "MoveObjectComponent.hpp"
-#include "PlottingWindows.hpp"
+#include "PlayerInputComponent.hpp"
 
 #if _DEBUG && __has_include(<vld.h>)
 #include <vld.h>
@@ -66,18 +65,17 @@ static void load()
 	child->SetParent(parentObject, false);
 	child->SetLocalPosition({ 0.0f, 0.0f, 0.0f });
 	child->AddComponent(std::make_unique<dae::TextureComponent>(*child, dae::ResourceManager::GetInstance().LoadTexture("PlayerSprites.png"), glm::vec2{16.0f, 16.0f}, glm::vec2{0.0f, 0.0f}));
-	child->AddComponent(std::make_unique<game::MoveObjectComponent>(*child, 100.0f, 0));
+	child->AddComponent(std::make_unique<game::PlayerInputComponent>(*child, 100.0f, 0));
 
 	child = new dae::GameObject();
 	child->SetParent(parentObject, false);
 	child->SetLocalPosition({ 50.0f, 50.0f, 0.0f });
 	child->AddComponent(std::make_unique<dae::TextureComponent>(*child, dae::ResourceManager::GetInstance().LoadTexture("PlayerSprites.png"), glm::vec2{16.0f, 16.0f}, glm::vec2{1.0f, 0.0f}));
-	child->AddComponent(std::make_unique<game::MoveObjectComponent>(*child, 200.0f, 1));
+	child->AddComponent(std::make_unique<game::PlayerInputComponent>(*child, 200.0f, 1));
 
 	scene.Add(std::move(go));
 
-	scene.AddGui(std::make_unique<game::ExerciseOneWindow>());
-	scene.AddGui(std::make_unique<game::ExerciseTwoWindow>());
+	// Lives and Score components
 }
 
 int main(int, char*[]) {

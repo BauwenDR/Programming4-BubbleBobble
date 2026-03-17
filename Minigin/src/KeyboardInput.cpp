@@ -4,21 +4,21 @@
 #include <set>
 #include <vector>
 
-#include "InputCommand.hpp"
+#include "ICommand.hpp"
 #include "InputManagerPrivate.hpp"
 
 namespace dae::Input::Keyboard
 {
-    std::set<SDL_Keycode> m_heldKeys{};
-    std::vector<KeyboardBinding> m_bindings{};
+    static std::set<SDL_Keycode> m_heldKeys{};
+    static std::vector<KeyboardBinding> m_bindings{};
 }
 
-void dae::Input::Keyboard::Bind(SDL_Keycode key, CommandTrigger triggerType, InputCommand *command)
+void dae::Input::Keyboard::Bind(SDL_Keycode key, CommandTrigger triggerType, ICommand *command)
 {
     m_bindings.emplace_back(key, command, triggerType);
 }
 
-void dae::Input::Keyboard::Unbind(const InputCommand *inputCommand)
+void dae::Input::Keyboard::Unbind(const ICommand *inputCommand)
 {
     std::erase_if(m_bindings, [inputCommand](const auto key) {return key.command == inputCommand;});
 }

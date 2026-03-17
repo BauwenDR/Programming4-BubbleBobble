@@ -4,7 +4,10 @@
 
 #include "Input.hpp"
 
-class InputCommand;
+namespace dae
+{
+    class ICommand;
+}
 
 namespace dae::Input::Controller
 {
@@ -12,15 +15,15 @@ namespace dae::Input::Controller
     {
         ControllerKey key{};
         std::size_t controllerIndex{};
-        InputCommand* command{};
+        ICommand* command{};
         CommandTrigger trigger{};
     };
 
     class ControllerInput final
     {
     public:
-        void Bind(ControllerKey key, std::size_t controllerIndex, CommandTrigger triggerType, InputCommand *command) const;
-        void Unbind(const InputCommand *inputCommand) const;
+        void Bind(ControllerKey key, std::size_t controllerIndex, CommandTrigger triggerType, ICommand *command) const;
+        void Unbind(const ICommand *inputCommand) const;
 
         void Update() const;
 

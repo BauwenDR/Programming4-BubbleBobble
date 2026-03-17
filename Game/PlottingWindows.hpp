@@ -1,5 +1,6 @@
 #ifndef MINIGIN_PLOTTINGWINDOWS_HPP
 #define MINIGIN_PLOTTINGWINDOWS_HPP
+
 #include <array>
 #include <vector>
 
@@ -7,7 +8,7 @@
 
 namespace game
 {
-    class ExerciseOneWindow final : public GuiWindow
+    class ExerciseOneWindow final : public dae::GuiWindow
     {
     public:
         explicit ExerciseOneWindow()
@@ -27,7 +28,7 @@ namespace game
         void DrawWindowContent() override;
     };
 
-    class ExerciseTwoWindow final : public GuiWindow
+    class ExerciseTwoWindow final : public dae::GuiWindow
     {
     public:
         explicit ExerciseTwoWindow()
@@ -47,6 +48,5 @@ namespace game
         void DrawWindowContent() override;
     };
 }
-
 
 #endif //MINIGIN_PLOTTINGWINDOWS_HPP

@@ -6,16 +6,15 @@
 #include "ControllerInput.hpp"
 #include "KeyboardInput.hpp"
 
-void dae::InputManager::Bind(SDL_Keycode key, Input::CommandTrigger tiggerType, InputCommand *command) const {
+void dae::InputManager::Bind(SDL_Keycode key, Input::CommandTrigger tiggerType, ICommand *command) const {
 	Input::Keyboard::Bind(key, tiggerType, command);
 }
 
-void dae::InputManager::Bind(Input::ControllerKey key, std::size_t controllerIndex, Input::CommandTrigger tiggerType,
-	InputCommand *command) const {
+void dae::InputManager::Bind(Input::ControllerKey key, std::size_t controllerIndex, Input::CommandTrigger tiggerType, ICommand *command) const {
 	m_controllerInput.Bind(key, controllerIndex, tiggerType, command);
 }
 
-void dae::InputManager::Unbind(const InputCommand *inputCommand) const {
+void dae::InputManager::Unbind(const ICommand *inputCommand) const {
 	Input::Keyboard::Unbind(inputCommand);
 	m_controllerInput.Unbind(inputCommand);
 }

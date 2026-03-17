@@ -3,7 +3,7 @@
 #include <iostream>
 #include <stdexcept>
 
-void EventRingBuffer::Push(uint32_t value)
+void dae::EventRingBuffer::Push(uint32_t value)
 {
     m_ringBuffer[m_bufferHead] = value;
 
@@ -17,7 +17,7 @@ void EventRingBuffer::Push(uint32_t value)
     m_isFull = m_bufferHead == m_bufferTail;
 }
 
-uint32_t EventRingBuffer::Pop()
+uint32_t dae::EventRingBuffer::Pop()
 {
     if (IsEmpty())
     {
@@ -31,17 +31,17 @@ uint32_t EventRingBuffer::Pop()
     return value;
 }
 
-bool EventRingBuffer::IsFull() const
+bool dae::EventRingBuffer::IsFull() const
 {
     return m_isFull;
 }
 
-bool EventRingBuffer::IsEmpty() const
+bool dae::EventRingBuffer::IsEmpty() const
 {
     return !m_isFull && m_bufferHead == m_bufferTail;
 }
 
-int EventRingBuffer::IncrementValue(int value)
+int dae::EventRingBuffer::IncrementValue(int value)
 {
     return (value + 1) % BUFFER_SIZE;
 }

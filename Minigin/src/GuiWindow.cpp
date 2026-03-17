@@ -2,7 +2,7 @@
 
 #include <imgui.h>
 
-void GuiWindow::DrawWindow()
+void dae::GuiWindow::DrawWindow()
 {
     ImGui::Begin(m_windowName.c_str(), &m_showMenu);
 
@@ -11,7 +11,7 @@ void GuiWindow::DrawWindow()
     ImGui::End();
 }
 
-GuiWindow::GuiWindow(const std::string &windowName)
+dae::GuiWindow::GuiWindow(const std::string &windowName)
     : m_windowName(windowName)
 {
 }

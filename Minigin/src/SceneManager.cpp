@@ -30,6 +30,11 @@ void dae::SceneManager::RenderGui() const
 	}
 }
 
+void dae::SceneManager::Destroy()
+{
+	m_scenes.clear();
+}
+
 dae::Scene& dae::SceneManager::CreateScene()
 {
 	m_scenes.emplace_back(new Scene());

@@ -25,7 +25,7 @@ namespace dae {
         friend class Singleton;
         EventManager() = default;
 
-        std::unordered_map<uint32_t, IEventHandler*> m_handlers{};
+        std::unordered_multimap<uint32_t, IEventHandler*> m_handlers{};
 
         EventRingBuffer m_ringBuffer{};
     };

@@ -1,5 +1,7 @@
 #include "EventManager.hpp"
 
+#include <algorithm>
+
 void dae::EventManager::SendEvent(uint32_t event) {
     m_ringBuffer.Push(event);
 }
@@ -19,6 +21,10 @@ void dae::EventManager::TriggerEvents() {
 
         if (!m_handlers.contains(event)) continue;
 
-        m_handlers[event]->HandleEvent(event);
+        const auto [firstHandler, lastHandler]{m_handlers.equal_range(event)};
+        for (const auto&[eventName, handler] : std::ranges::subrange(firstHandler, lastHandler))
+        {
+            handler->HandleEvent(event);
+        }
     }
 }

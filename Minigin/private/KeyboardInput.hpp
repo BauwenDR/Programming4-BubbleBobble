@@ -5,19 +5,17 @@
 
 #include "InputManager.hpp"
 
-class InputCommand;
-
 namespace dae::Input::Keyboard
 {
     struct KeyboardBinding
     {
         SDL_Keycode key{};
-        InputCommand* command{};
+        ICommand* command{};
         CommandTrigger trigger{};
     };
 
-    void Bind(SDL_Keycode key, CommandTrigger triggerType, InputCommand *command);
-    void Unbind(const InputCommand *inputCommand);
+    void Bind(SDL_Keycode key, CommandTrigger triggerType, ICommand *command);
+    void Unbind(const ICommand *inputCommand);
 
     void ProcessEvent(const SDL_Event& event);
     void ProcessHeldKeys();

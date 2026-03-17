@@ -15,10 +15,16 @@ endif()
 
 set(GAME_SOURCE_FILES
         Game/Main.cpp
-        Game/MoveObjectComponent.cpp
+        Game/DecreaseLivesCommand.cpp
         Game/FpsComponent.cpp
+        Game/IncreaseScoreCommand.cpp
+        Game/LivesScoreComponent.cpp
+        Game/LivesUiComponent.cpp
+        Game/MoveCommand.cpp
+        Game/PlayerInputComponent.cpp
         Game/PlottingWindows.cpp
         Game/RotateAroundParentComponent.cpp
+        Game/ScoreUiComponent.cpp
 )
 
 set(MINIGIN_SOURCE_FILES
@@ -28,7 +34,6 @@ set(MINIGIN_SOURCE_FILES
         Minigin/src/GameComponent.cpp
         Minigin/src/GameObject.cpp
         Minigin/src/GuiWindow.cpp
-        Minigin/src/InputCommand.cpp
         Minigin/src/InputManager.cpp
         Minigin/src/KeyboardInput.cpp
         Minigin/src/Minigin.cpp

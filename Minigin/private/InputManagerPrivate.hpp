@@ -1,6 +1,6 @@
 #ifndef MINIGIN_INPUTMANAGERPRIVATE_HPP
 #define MINIGIN_INPUTMANAGERPRIVATE_HPP
-#include "InputManager.hpp"
+#include "Input.hpp"
 
 namespace dae::Input
 {

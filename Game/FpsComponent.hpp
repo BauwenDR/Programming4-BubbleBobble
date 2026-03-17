@@ -3,7 +3,6 @@
 
 #include "GameComponent.hpp"
 
-
 namespace dae
 {
     class TextComponent;
@@ -34,4 +33,5 @@ namespace game
         int m_passedFrames{};
     };
 }
+
 #endif //MINIGIN_FPSCOMPONENT_HPP

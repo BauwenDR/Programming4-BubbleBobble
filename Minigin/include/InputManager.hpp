@@ -10,16 +10,14 @@ namespace dae::Input::Controller {
 	class ControllerInput;
 }
 
-class InputCommand;
-
 namespace dae {
 	class InputManager final : public Singleton<InputManager>
 	{
 	public:
-		void Bind(SDL_Keycode key, Input::CommandTrigger tiggerType, InputCommand *command) const;
-		void Bind(Input::ControllerKey key, std::size_t controllerIndex, Input::CommandTrigger tiggerType, InputCommand *command) const;
+		void Bind(SDL_Keycode key, Input::CommandTrigger tiggerType, ICommand *command) const;
+		void Bind(Input::ControllerKey key, std::size_t controllerIndex, Input::CommandTrigger tiggerType, ICommand *command) const;
 
-		void Unbind(const InputCommand *inputCommand) const;
+		void Unbind(const ICommand *inputCommand) const;
 
 		[[nodiscard]] bool ProcessInput() const;
 
