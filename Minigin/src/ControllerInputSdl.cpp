@@ -91,9 +91,9 @@ namespace dae::Input::Controller
                 }
             }
 
-            const auto buttonChanges = inputMask ^ m_heldButtons[index];
-            m_pressedButtons[index] = buttonChanges & m_heldButtons[index];
-            m_releasedButtons[index] = buttonChanges & ~m_heldButtons[index];
+            const auto buttonChanges = m_heldButtons[index] ^ inputMask;
+            m_pressedButtons[index] = buttonChanges & inputMask;
+            m_releasedButtons[index] = buttonChanges & inputMask;
 
             m_heldButtons[index] = inputMask;
 
