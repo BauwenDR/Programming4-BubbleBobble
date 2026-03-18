@@ -1,18 +1,17 @@
 #include <SDL3/SDL.h>
-
-#include "LivesScoreComponent.hpp"
-#include "LivesUiComponent.hpp"
-#include "ScoreUiComponent.hpp"
 #if (_WIN32 || _WIN64)
 #include <SDL3/SDL_main.h>
 #endif
 
-#include "FpsComponent.hpp"
-#include "PlayerInputComponent.hpp"
-
 #if _DEBUG && __has_include(<vld.h>)
 #include <vld.h>
 #endif
+
+#include "LivesScoreComponent.hpp"
+#include "LivesUiComponent.hpp"
+#include "ScoreUiComponent.hpp"
+#include "FpsComponent.hpp"
+#include "PlayerInputComponent.hpp"
 
 #include "Minigin.hpp"
 #include "Texture2D.hpp"
@@ -78,6 +77,8 @@ static void load()
 	playerTwo->AddComponent(std::make_unique<game::PlayerInputComponent>(*playerTwo, 200.0f, 1));
 	scene.Add(std::move(go));
 
+	// TODO: tutorial for what buttons to press
+
 	// Lives and Score components
 	go = std::make_unique<dae::GameObject>();
 	go->SetLocalPosition({ 10.0f, 100.0f, 0.0f });
@@ -98,10 +99,10 @@ static void load()
 	scene.Add(std::move(go));
 
 	go = std::make_unique<dae::GameObject>();
-	to = std::make_unique<dae::TextComponent>(*go.get(), "Score: 3", smallFont);
-	to->SetColor({200, 200, 200, 255});
 	go->SetLocalPosition({ 10.0f, 140.0f, 0.0f });
-	go->AddComponent(std::make_unique<game::LivesUiComponent>(*go.get(), *playerTwo));
+	to = std::make_unique<dae::TextComponent>(*go.get(), "Score: 0", smallFont);
+	to->SetColor({200, 200, 200, 255});
+	go->AddComponent(std::make_unique<game::ScoreUiComponent>(*go.get(), *playerTwo));
 	go->AddComponent(std::make_unique<dae::TextureComponent>(*go.get()));
 	go->AddComponent(std::move(to));
 	scene.Add(std::move(go));
@@ -109,8 +110,8 @@ static void load()
 	go = std::make_unique<dae::GameObject>();
 	go->SetLocalPosition({ 10.0f, 160.0f, 0.0f });
 	to = std::make_unique<dae::TextComponent>(*go.get(), "# Lives: 3", smallFont);
-	to->SetColor({255, 255, 255, 255});
-	go->AddComponent(std::make_unique<game::ScoreUiComponent>(*go.get(), *playerTwo));
+	to->SetColor({200, 200, 200, 255});
+	go->AddComponent(std::make_unique<game::LivesUiComponent>(*go.get(), *playerTwo));
 	go->AddComponent(std::make_unique<dae::TextureComponent>(*go.get()));
 	go->AddComponent(std::move(to));
 	scene.Add(std::move(go));
