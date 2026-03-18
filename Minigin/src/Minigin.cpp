@@ -2,17 +2,16 @@
 #include <sstream>
 #include <iostream>
 
-#include "EventManager.hpp"
-#include "InputManagerPrivate.hpp"
-
-#if WIN32
-#define WIN32_LEAN_AND_MEAN 
+# if (_WIN32 or _WIN64)
+#define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #endif
 
 #include <SDL3/SDL.h>
 #include <SDL3_ttf/SDL_ttf.h>
 
+#include "EventManager.hpp"
+#include "SteamAchievements.hpp"
 #include "TimePrivate.hpp"
 #include "Minigin.hpp"
 #include "InputManager.hpp"
@@ -69,6 +68,11 @@ dae::Minigin::Minigin(const std::filesystem::path& dataPath)
 	SDL_InitSubSystem(SDL_INIT_GAMEPAD | SDL_INIT_JOYSTICK);
 #endif
 
+#if USE_STEAMWORKS
+	if (!SteamAPI_Init())
+		throw std::runtime_error(std::string("Fatal Error - Steam must be running to play this game (SteamAPI_Init() failed)."));
+#endif
+
 	m_pWindow = SDL_CreateWindow(
 		"Programming 4 assignment",
 		1024,
@@ -83,10 +87,18 @@ dae::Minigin::Minigin(const std::filesystem::path& dataPath)
 
 	Renderer::GetInstance().Init(m_pWindow);
 	ResourceManager::GetInstance().Init(dataPath);
+
+#if USE_STEAMWORKS
+	SteamAchievements::GetInstance().Initialize();
+#endif
 }
 
 dae::Minigin::~Minigin()
 {
+#if USE_STEAMWORKS
+	SteamAPI_Shutdown();
+#endif
+
 	SceneManager::GetInstance().Destroy();
 	Renderer::GetInstance().Destroy();
 	SDL_DestroyWindow(m_pWindow);
@@ -110,6 +122,10 @@ void dae::Minigin::Run(const std::function<void()>& load)
 void dae::Minigin::RunOneFrame()
 {
 	Time::preUpdate();
+
+#if USE_STEAMWORKS
+	SteamAPI_RunCallbacks();
+#endif
 
 	m_quit = !InputManager::GetInstance().ProcessInput();
 	EventManager::GetInstance().TriggerEvents();

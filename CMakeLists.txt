@@ -15,7 +15,7 @@ endif()
 
 set(GAME_SOURCE_FILES
         Game/Main.cpp
-        # Game/AchievementsComponent.cpp
+        Game/AchievementsComponent.cpp
         Game/DecreaseLivesCommand.cpp
         Game/FpsComponent.cpp
         Game/IncreaseScoreCommand.cpp
@@ -42,6 +42,7 @@ set(MINIGIN_SOURCE_FILES
         Minigin/src/ResourceManager.cpp
         Minigin/src/Scene.cpp
         Minigin/src/SceneManager.cpp
+        Minigin/src/SteamAchievements.cpp
         Minigin/src/TextComponent.cpp
         Minigin/src/Texture2D.cpp
         Minigin/src/TextureComponent.cpp

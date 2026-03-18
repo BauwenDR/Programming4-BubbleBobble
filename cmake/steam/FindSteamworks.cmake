@@ -56,11 +56,11 @@ endif()
 
 if(STEAMWORKS_ROOT AND EXISTS "${STEAMWORKS_ROOT}")
     set(_STEAMWORKS_INCLUDE_DIR
-        "${STEAMWORKS_ROOT}/sdk/public/steam"
+        "${STEAMWORKS_ROOT}/public/steam"
     )
 
     set(_STEAMWORKS_LIB_DIR
-        "${STEAMWORKS_ROOT}/sdk/redistributable_bin"
+        "${STEAMWORKS_ROOT}/redistributable_bin"
     )
 
     if(WIN32)

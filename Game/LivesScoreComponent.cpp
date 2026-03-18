@@ -10,14 +10,15 @@ void game::LivesScoreComponent::DecreaseLives()
 {
     m_lives = std::max(m_lives - 1, 0);
 
-    GetGameObject().NotifyObservers(dae::sdbm_hash("LIVES_CHANGED"));
+    GetGameObject().NotifyObservers(dae::sdbm_hash("PlayerDied"));
 }
 
 void game::LivesScoreComponent::IncreaseScore(int amount)
 {
     m_score += amount;
 
-    dae::EventManager::GetInstance().SendEvent(dae::sdbm_hash("SCORE_CHANGED"));
+    dae::EventManager::GetInstance().SendEvent(dae::sdbm_hash("ScoreChanged"));
+    GetGameObject().NotifyObservers(dae::sdbm_hash("ScoreChanged"));
 }
 
 int game::LivesScoreComponent::GetScore() const

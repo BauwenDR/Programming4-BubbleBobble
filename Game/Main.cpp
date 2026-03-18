@@ -1,9 +1,11 @@
 #include <SDL3/SDL.h>
-#if (_WIN32 || _WIN64)
+
+#include "AchievementsComponent.hpp"
+#if (_WIN32 or _WIN64)
 #include <SDL3/SDL_main.h>
 #endif
 
-#if _DEBUG && __has_include(<vld.h>)
+#if _DEBUG and __has_include(<vld.h>)
 #include <vld.h>
 #endif
 
@@ -115,7 +117,7 @@ static void load()
 	go->AddComponent(std::move(to));
 	scene.Add(std::move(go));
 
-	// TODO: tutorial for what buttons to press
+	// Tutorial text
 	go = std::make_unique<dae::GameObject>();
 	go->SetLocalPosition({ 10.0f, 70.0f, 0.0f });
 	to = std::make_unique<dae::TextComponent>(*go.get(), "Controls: controllers: d-pad = move, X = Less lives, A = Small pickup, B = Big pickup (Both players)", smallFont);
@@ -138,6 +140,12 @@ static void load()
 	to->SetColor({200, 200, 200, 255});
 	go->AddComponent(std::make_unique<dae::TextureComponent>(*go.get()));
 	go->AddComponent(std::move(to));
+	scene.Add(std::move(go));
+
+	// Achievements listener
+	go = std::make_unique<dae::GameObject>();
+	std::vector players{playerOne, playerTwo};
+	go->AddComponent(std::make_unique<game::AchievementsComponent>(*go.get(), players));
 	scene.Add(std::move(go));
 }
 

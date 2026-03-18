@@ -9,7 +9,7 @@
 
 void game::ScoreUiComponent::Start()
 {
-    dae::EventManager::GetInstance().AttachHandler(dae::sdbm_hash("SCORE_CHANGED"), this);
+    dae::EventManager::GetInstance().AttachHandler(dae::sdbm_hash("ScoreChanged"), this);
 
     m_textComponent = GetGameObject().GetComponent<dae::TextComponent>();
     assert(m_textComponent != nullptr);
@@ -20,7 +20,7 @@ void game::ScoreUiComponent::Start()
 
 void game::ScoreUiComponent::HandleEvent(uint32_t event)
 {
-    if (event != dae::sdbm_hash("SCORE_CHANGED")) return;
+    if (event != dae::sdbm_hash("ScoreChanged")) return;
     if (m_textComponent == nullptr) return;
     if (m_playerLivesComponent == nullptr) return;
 

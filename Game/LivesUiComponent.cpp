@@ -20,7 +20,7 @@ void game::LivesUiComponent::Start()
 
 void game::LivesUiComponent::Notify(dae::GameObject&, uint32_t event)
 {
-    if (event != dae::sdbm_hash("LIVES_CHANGED")) return;
+    if (event != dae::sdbm_hash("PlayerDied")) return;
     if (m_textComponent == nullptr) return;
     if (m_playerLivesComponent == nullptr) return;
 
