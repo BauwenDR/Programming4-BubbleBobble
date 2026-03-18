@@ -90,8 +90,8 @@ namespace dae
 
 		std::vector<IObserver*> m_observers{};
 
-		Transform *m_localTransform{};
-		Transform *m_worldTransform{};
+		std::unique_ptr<Transform> m_localTransform{};
+		std::unique_ptr<Transform> m_worldTransform{};
 
 		GameObject *m_pParent{};
 

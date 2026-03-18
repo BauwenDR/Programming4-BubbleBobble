@@ -19,18 +19,22 @@ namespace dae
     {
         m_texture = newTexture;
         InitTextureDetails();
+        SetSourceRect();
     }
 
     void TextureComponent::SetSpriteOffset(const glm::vec2 &spritePos)
     {
-        SetSourceRect(spritePos);
+        m_spritePosition = spritePos;
+        SetSourceRect();
     }
 
     TextureComponent::TextureComponent(GameObject &gameObject, std::shared_ptr<Texture2D> texture, const glm::vec2 &spriteSize, const glm::vec2 &spritePos)
         : GameComponent(gameObject), m_texture(std::move(texture)), m_spriteSize(spriteSize)
     {
+        m_spritePosition = spritePos;
+
         InitTextureDetails();
-        SetSourceRect(spritePos);
+        SetSourceRect();
     }
 
     void TextureComponent::InitTextureDetails() {
@@ -39,7 +43,7 @@ namespace dae
         m_imageSize = m_texture->GetSize();
     }
 
-    void TextureComponent::SetSourceRect(const glm::vec2 &spritePos) {
+    void TextureComponent::SetSourceRect() {
         m_srcRect = {0.0f, 0.0f, m_imageSize.x, m_imageSize.y};
 
         if (m_spriteSize.x < 0.0f || m_spriteSize.y < 0.0f) return;
@@ -47,8 +51,8 @@ namespace dae
         m_srcRect.w = m_spriteSize.x;
         m_srcRect.h = m_spriteSize.y;
 
-        m_srcRect.x = spritePos.x * m_spriteSize.x;
-        m_srcRect.y = spritePos.y * m_spriteSize.y;
+        m_srcRect.x = m_spritePosition.x * m_spriteSize.x;
+        m_srcRect.y = m_spritePosition.y * m_spriteSize.y;
 
         assert(m_srcRect.w > 0.0f && m_srcRect.h > 0.0f && "Image sprite bounds cannot be negative.");
         assert(m_srcRect.x + m_spriteSize.x <= m_imageSize.x && "New source rect width was out of bounds.");

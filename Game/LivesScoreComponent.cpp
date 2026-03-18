@@ -8,7 +8,7 @@
 
 void game::LivesScoreComponent::DecreaseLives()
 {
-    --m_lives;
+    m_lives = std::max(m_lives - 1, 0);
 
     GetGameObject().NotifyObservers(dae::sdbm_hash("LIVES_CHANGED"));
 }
@@ -38,11 +38,11 @@ void game::LivesScoreComponent::HandleEvent(uint32_t event)
     }
 }
 
-game::LivesScoreComponent::LivesScoreComponent(dae::GameObject &owner, const int playerNumber)
+game::LivesScoreComponent::LivesScoreComponent(dae::GameObject &owner, const int player)
     : GameComponent(owner)
 {
     // This is ugly; I know
-    if (playerNumber == 0)
+    if (player == 0)
     {
         m_smallScoreEventId = dae::sdbm_hash("PLAYER_ONE_SMALL_PICKUP");
         m_bigScoreEventId = dae::sdbm_hash("PLAYER_ONE_BIG_PICKUP");

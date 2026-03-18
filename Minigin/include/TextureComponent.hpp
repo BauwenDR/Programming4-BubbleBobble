@@ -28,11 +28,12 @@ namespace dae
 
         SDL_FRect m_srcRect{};
 
+        glm::vec2 m_spritePosition{};
         glm::vec2 m_imageSize{};
         glm::vec2 m_spriteSize{};
 
         void InitTextureDetails();
-        void SetSourceRect(const glm::vec2 &spritePos);
+        void SetSourceRect();
     };
 } // dae
 

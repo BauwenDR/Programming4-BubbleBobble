@@ -15,6 +15,7 @@ endif()
 
 set(GAME_SOURCE_FILES
         Game/Main.cpp
+        # Game/AchievementsComponent.cpp
         Game/DecreaseLivesCommand.cpp
         Game/FpsComponent.cpp
         Game/IncreaseScoreCommand.cpp

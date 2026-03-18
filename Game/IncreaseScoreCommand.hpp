@@ -1,5 +1,7 @@
 #ifndef MINIGIN_INCREASESCORECOMMAND_HPP
 #define MINIGIN_INCREASESCORECOMMAND_HPP
+#include <cstdint>
+
 #include "ICommand.hpp"
 
 
@@ -15,13 +17,16 @@ namespace game
     class IncreaseScoreCommand : public dae::ICommand
     {
     public:
-        IncreaseScoreCommand(dae::GameObject &object, int scoreToAdd);
+        IncreaseScoreCommand(dae::GameObject &object, int player, bool isBig);
         void Execute() override;
 
     private:
-        const int m_scoreToAdd{0};
-
         LivesScoreComponent* m_scoreComponent{};
+
+        uint32_t m_smallScoreEventId{};
+        uint32_t m_bigScoreEventId{};
+
+        bool m_isBig{};
     };
 }
 

@@ -6,12 +6,15 @@
 #include "GameComponent.hpp"
 
 namespace game {
+    class IncreaseScoreCommand;
+    class DecreaseLivesCommand;
+    class LivesScoreComponent;
     class MoveCommand;
 
     class PlayerInputComponent final : public dae::GameComponent
     {
     public:
-        void Start() override {}
+        void Start() override;
         void Update() override {}
         void Render() const override {}
 
@@ -24,10 +27,16 @@ namespace game {
         PlayerInputComponent & operator=(PlayerInputComponent &&other) noexcept = delete;
 
     private:
+        LivesScoreComponent *m_livesScoreComponent{};
+
         std::unique_ptr<MoveCommand> m_moveUpCommand{};
         std::unique_ptr<MoveCommand> m_moveDownCommand{};
         std::unique_ptr<MoveCommand> m_moveLeftCommand{};
         std::unique_ptr<MoveCommand> m_moveRightCommand{};
+
+        std::unique_ptr<DecreaseLivesCommand> m_decreaseLivesCommand{};
+        std::unique_ptr<IncreaseScoreCommand> m_increaseScoreCommandSmall{};
+        std::unique_ptr<IncreaseScoreCommand> m_increaseScoreCommandBig{};
     };
 }
 

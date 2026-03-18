@@ -23,7 +23,7 @@ namespace game
 
         void HandleEvent(uint32_t event) override;
 
-        LivesScoreComponent(dae::GameObject &owner, int playerNumber);
+        LivesScoreComponent(dae::GameObject &owner, int player);
         ~LivesScoreComponent() override;
 
         LivesScoreComponent(const LivesScoreComponent &other) = delete;
