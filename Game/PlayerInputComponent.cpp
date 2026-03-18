@@ -23,8 +23,8 @@ game::PlayerInputComponent::PlayerInputComponent(dae::GameObject &owner, float m
       , m_moveLeftCommand{std::make_unique<MoveCommand>(owner, movesSpeed, glm::vec3{-1.0f, 0.0f, 0.0f})}
       , m_moveRightCommand{std::make_unique<MoveCommand>(owner, movesSpeed, glm::vec3{1.0f, 0.0f, 0.0f})}
       , m_decreaseLivesCommand(std::make_unique<DecreaseLivesCommand>(owner))
-      , m_increaseScoreCommandSmall(std::make_unique<IncreaseScoreCommand>(owner, player, false))
-      , m_increaseScoreCommandBig(std::make_unique<IncreaseScoreCommand>(owner, player, true))
+      , m_increaseScoreCommandSmall(std::make_unique<IncreaseScoreCommand>(owner, false))
+      , m_increaseScoreCommandBig(std::make_unique<IncreaseScoreCommand>(owner, true))
 {
     const auto kbUp{player == 0 ? SDLK_W : SDLK_UP};
     const auto kbDown{player == 0 ? SDLK_S : SDLK_DOWN};
@@ -55,8 +55,12 @@ game::PlayerInputComponent::PlayerInputComponent(dae::GameObject &owner, float m
 
 game::PlayerInputComponent::~PlayerInputComponent()
 {
-    dae::InputManager::GetInstance().Unbind(m_moveUpCommand.get());
-    dae::InputManager::GetInstance().Unbind(m_moveDownCommand.get());
-    dae::InputManager::GetInstance().Unbind(m_moveLeftCommand.get());
+    dae::InputManager::GetInstance().Unbind(m_increaseScoreCommandBig.get());
+    dae::InputManager::GetInstance().Unbind(m_increaseScoreCommandSmall.get());
+    dae::InputManager::GetInstance().Unbind(m_decreaseLivesCommand.get());
+
     dae::InputManager::GetInstance().Unbind(m_moveRightCommand.get());
+    dae::InputManager::GetInstance().Unbind(m_moveLeftCommand.get());
+    dae::InputManager::GetInstance().Unbind(m_moveDownCommand.get());
+    dae::InputManager::GetInstance().Unbind(m_moveUpCommand.get());
 }

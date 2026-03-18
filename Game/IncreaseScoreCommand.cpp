@@ -2,7 +2,6 @@
 
 #include "GameObject.hpp"
 #include "LivesScoreComponent.hpp"
-#include "Sdbm.hpp"
 
 void game::IncreaseScoreCommand::Execute()
 {
@@ -10,26 +9,16 @@ void game::IncreaseScoreCommand::Execute()
 
     if (m_isBig)
     {
-        dae::EventManager::GetInstance().SendEvent(m_bigScoreEventId);
+        m_scoreComponent->IncreaseScore(BIG_SCORE_AMOUNT);
     } else
     {
-        dae::EventManager::GetInstance().SendEvent(m_smallScoreEventId);
+        m_scoreComponent->IncreaseScore(SMALL_SCORE_AMOUNT);
     }
 }
 
-game::IncreaseScoreCommand::IncreaseScoreCommand(dae::GameObject &object, int player, bool isBig)
+game::IncreaseScoreCommand::IncreaseScoreCommand(dae::GameObject &object, bool isBig)
     : m_scoreComponent(object.GetComponent<LivesScoreComponent>())
       , m_isBig(isBig)
 {
     assert(m_scoreComponent != nullptr && "Unable to find score component!");
-
-    if (player == 0)
-    {
-        m_smallScoreEventId = dae::sdbm_hash("PLAYER_ONE_SMALL_PICKUP");
-        m_bigScoreEventId = dae::sdbm_hash("PLAYER_ONE_BIG_PICKUP");
-    } else
-    {
-        m_smallScoreEventId = dae::sdbm_hash("PLAYER_TWO_SMALL_PICKUP");
-        m_bigScoreEventId = dae::sdbm_hash("PLAYER_TWO_BIG_PICKUP");
-    }
 }

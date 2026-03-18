@@ -17,14 +17,15 @@ namespace game
     class IncreaseScoreCommand : public dae::ICommand
     {
     public:
-        IncreaseScoreCommand(dae::GameObject &object, int player, bool isBig);
         void Execute() override;
 
-    private:
-        LivesScoreComponent* m_scoreComponent{};
+        IncreaseScoreCommand(dae::GameObject &object, bool isBig);
 
-        uint32_t m_smallScoreEventId{};
-        uint32_t m_bigScoreEventId{};
+    private:
+        static constexpr int SMALL_SCORE_AMOUNT{10};
+        static constexpr int BIG_SCORE_AMOUNT{100};
+
+        LivesScoreComponent* m_scoreComponent{};
 
         bool m_isBig{};
     };

@@ -65,7 +65,7 @@ static void load()
 	auto playerOne = go.get();
 	playerOne->SetLocalPosition({ 200.0f, 200.0f, 0.0f });
 	playerOne->AddComponent(std::make_unique<dae::TextureComponent>(*playerOne, dae::ResourceManager::GetInstance().LoadTexture("PlayerSprites.png"), glm::vec2{16.0f, 16.0f}, glm::vec2{0.0f, 0.0f}));
-	playerOne->AddComponent(std::make_unique<game::LivesScoreComponent>(*playerOne, 0));
+	playerOne->AddComponent(std::make_unique<game::LivesScoreComponent>(*playerOne));
 	playerOne->AddComponent(std::make_unique<game::PlayerInputComponent>(*playerOne, 100.0f, 0));
 	scene.Add(std::move(go));
 
@@ -73,17 +73,15 @@ static void load()
 	auto playerTwo = go.get();
 	playerTwo->SetLocalPosition({ 250.0f, 250.0f, 0.0f });
 	playerTwo->AddComponent(std::make_unique<dae::TextureComponent>(*playerTwo, dae::ResourceManager::GetInstance().LoadTexture("PlayerSprites.png"), glm::vec2{16.0f, 16.0f}, glm::vec2{1.0f, 0.0f}));
-	playerTwo->AddComponent(std::make_unique<game::LivesScoreComponent>(*playerTwo, 1));
+	playerTwo->AddComponent(std::make_unique<game::LivesScoreComponent>(*playerTwo));
 	playerTwo->AddComponent(std::make_unique<game::PlayerInputComponent>(*playerTwo, 200.0f, 1));
 	scene.Add(std::move(go));
-
-	// TODO: tutorial for what buttons to press
 
 	// Lives and Score components
 	go = std::make_unique<dae::GameObject>();
 	go->SetLocalPosition({ 10.0f, 100.0f, 0.0f });
 	to = std::make_unique<dae::TextComponent>(*go.get(), "Score: 0", smallFont);
-	to->SetColor({255, 255, 255, 255});
+	to->SetColor({200, 200, 200, 255});
 	go->AddComponent(std::make_unique<game::ScoreUiComponent>(*go.get(), *playerOne));
 	go->AddComponent(std::make_unique<dae::TextureComponent>(*go.get()));
 	go->AddComponent(std::move(to));
@@ -92,7 +90,7 @@ static void load()
 	go = std::make_unique<dae::GameObject>();
 	go->SetLocalPosition({ 10.0f, 120.0f, 0.0f });
 	to = std::make_unique<dae::TextComponent>(*go.get(), "# Lives: 3", smallFont);
-	to->SetColor({255, 255, 255, 255});
+	to->SetColor({200, 200, 200, 255});
 	go->AddComponent(std::make_unique<game::LivesUiComponent>(*go.get(), *playerOne));
 	go->AddComponent(std::make_unique<dae::TextureComponent>(*go.get()));
 	go->AddComponent(std::move(to));
@@ -115,6 +113,8 @@ static void load()
 	go->AddComponent(std::make_unique<dae::TextureComponent>(*go.get()));
 	go->AddComponent(std::move(to));
 	scene.Add(std::move(go));
+
+	// TODO: tutorial for what buttons to press
 }
 
 int main(int, char*[]) {

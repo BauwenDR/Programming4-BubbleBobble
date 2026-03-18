@@ -9,7 +9,7 @@
 
 void game::ScoreUiComponent::Start()
 {
-    m_observingPlayer.AddObserver(this);
+    dae::EventManager::GetInstance().AttachHandler(dae::sdbm_hash("SCORE_CHANGED"), this);
 
     m_textComponent = GetGameObject().GetComponent<dae::TextComponent>();
     assert(m_textComponent != nullptr);
@@ -18,7 +18,7 @@ void game::ScoreUiComponent::Start()
     assert(m_playerLivesComponent != nullptr);
 }
 
-void game::ScoreUiComponent::Notify(dae::GameObject&, uint32_t event)
+void game::ScoreUiComponent::HandleEvent(uint32_t event)
 {
     if (event != dae::sdbm_hash("SCORE_CHANGED")) return;
     if (m_textComponent == nullptr) return;
@@ -35,5 +35,5 @@ game::ScoreUiComponent::ScoreUiComponent(dae::GameObject &owner, dae::GameObject
 
 game::ScoreUiComponent::~ScoreUiComponent()
 {
-    m_observingPlayer.RemoveObserver(this);
+    dae::EventManager::GetInstance().DetachHandler(this);
 }

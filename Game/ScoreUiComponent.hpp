@@ -1,6 +1,7 @@
 #ifndef MINIGIN_SCOREUICOMPONENT_HPP
 #define MINIGIN_SCOREUICOMPONENT_HPP
 
+#include "EventManager.hpp"
 #include "GameComponent.hpp"
 #include "IObserver.hpp"
 
@@ -13,7 +14,9 @@ namespace game
 {
     class LivesScoreComponent;
 
-    class ScoreUiComponent final : public dae::GameComponent, public dae::IObserver
+    // Having this be an observer would probably be a better idea
+    // I have chosen to go for an Event Handler as of Assignment requirements
+    class ScoreUiComponent final : public dae::GameComponent, public dae::IEventHandler
     {
     public:
         // GameComponent functions
@@ -22,7 +25,7 @@ namespace game
         void Render() const override {}
 
         // Observer
-        void Notify(dae::GameObject &object, uint32_t event) override;
+        void HandleEvent(uint32_t event) override;
 
         // We should prob get player from some global object instead of param
         // But for now we use a param anyway
