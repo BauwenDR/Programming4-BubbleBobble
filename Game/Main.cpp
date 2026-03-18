@@ -24,6 +24,7 @@
 #include <filesystem>
 namespace fs = std::filesystem;
 
+// TODO some sort of scene descriptor or prefab generating is becoming quite needed
 static void load()
 {
 	auto& scene = dae::SceneManager::GetInstance().CreateScene();
@@ -79,7 +80,7 @@ static void load()
 
 	// Lives and Score components
 	go = std::make_unique<dae::GameObject>();
-	go->SetLocalPosition({ 10.0f, 100.0f, 0.0f });
+	go->SetLocalPosition({ 10.0f, 140.0f, 0.0f });
 	to = std::make_unique<dae::TextComponent>(*go.get(), "Score: 0", smallFont);
 	to->SetColor({200, 200, 200, 255});
 	go->AddComponent(std::make_unique<game::ScoreUiComponent>(*go.get(), *playerOne));
@@ -88,7 +89,7 @@ static void load()
 	scene.Add(std::move(go));
 
 	go = std::make_unique<dae::GameObject>();
-	go->SetLocalPosition({ 10.0f, 120.0f, 0.0f });
+	go->SetLocalPosition({ 10.0f, 160.0f, 0.0f });
 	to = std::make_unique<dae::TextComponent>(*go.get(), "# Lives: 3", smallFont);
 	to->SetColor({200, 200, 200, 255});
 	go->AddComponent(std::make_unique<game::LivesUiComponent>(*go.get(), *playerOne));
@@ -97,7 +98,7 @@ static void load()
 	scene.Add(std::move(go));
 
 	go = std::make_unique<dae::GameObject>();
-	go->SetLocalPosition({ 10.0f, 140.0f, 0.0f });
+	go->SetLocalPosition({ 10.0f, 180.0f, 0.0f });
 	to = std::make_unique<dae::TextComponent>(*go.get(), "Score: 0", smallFont);
 	to->SetColor({200, 200, 200, 255});
 	go->AddComponent(std::make_unique<game::ScoreUiComponent>(*go.get(), *playerTwo));
@@ -106,7 +107,7 @@ static void load()
 	scene.Add(std::move(go));
 
 	go = std::make_unique<dae::GameObject>();
-	go->SetLocalPosition({ 10.0f, 160.0f, 0.0f });
+	go->SetLocalPosition({ 10.0f, 200.0f, 0.0f });
 	to = std::make_unique<dae::TextComponent>(*go.get(), "# Lives: 3", smallFont);
 	to->SetColor({200, 200, 200, 255});
 	go->AddComponent(std::make_unique<game::LivesUiComponent>(*go.get(), *playerTwo));
@@ -115,6 +116,29 @@ static void load()
 	scene.Add(std::move(go));
 
 	// TODO: tutorial for what buttons to press
+	go = std::make_unique<dae::GameObject>();
+	go->SetLocalPosition({ 10.0f, 70.0f, 0.0f });
+	to = std::make_unique<dae::TextComponent>(*go.get(), "Controls: controllers: d-pad = move, X = Less lives, A = Small pickup, B = Big pickup (Both players)", smallFont);
+	to->SetColor({200, 200, 200, 255});
+	go->AddComponent(std::make_unique<dae::TextureComponent>(*go.get()));
+	go->AddComponent(std::move(to));
+	scene.Add(std::move(go));
+
+	go = std::make_unique<dae::GameObject>();
+	go->SetLocalPosition({ 10.0f, 90.0f, 0.0f });
+	to = std::make_unique<dae::TextComponent>(*go.get(), "Keyboard: controllers: WASD = move, C = Less lives, Z = Small pickup, X = Big pickup (Player 1)", smallFont);
+	to->SetColor({200, 200, 200, 255});
+	go->AddComponent(std::make_unique<dae::TextureComponent>(*go.get()));
+	go->AddComponent(std::move(to));
+	scene.Add(std::move(go));
+
+	go = std::make_unique<dae::GameObject>();
+	go->SetLocalPosition({ 10.0f, 110.0f, 0.0f });
+	to = std::make_unique<dae::TextComponent>(*go.get(), "Keyboard: controllers: WASD = move, N = Less lives, V = Small pickup, B = Big pickup (Player 1)", smallFont);
+	to->SetColor({200, 200, 200, 255});
+	go->AddComponent(std::make_unique<dae::TextureComponent>(*go.get()));
+	go->AddComponent(std::move(to));
+	scene.Add(std::move(go));
 }
 
 int main(int, char*[]) {
