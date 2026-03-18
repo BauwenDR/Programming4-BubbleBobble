@@ -15,22 +15,17 @@ namespace game
     class AchievementsComponent final : public dae::GameComponent, public dae::IObserver
     {
     public:
-        void Start() override {}
+        void Start() override;
         void Update() override {}
         void Render() const override {}
 
         void Notify(dae::GameObject &object, uint32_t event) override;
 
-        AchievementsComponent(dae::GameObject &owner, const std::vector<dae::GameObject*> &players);
-        ~AchievementsComponent() override;
-
-        AchievementsComponent(const AchievementsComponent &other) = delete;
-        AchievementsComponent(AchievementsComponent &&other) noexcept = delete;
-        AchievementsComponent & operator=(const AchievementsComponent &other) = delete;
-        AchievementsComponent & operator=(AchievementsComponent &&other) noexcept = delete;
+        AchievementsComponent(dae::GameObject &owner, dae::GameObject &player);
 
     private:
-        std::vector<dae::GameObject*> m_players{};
+        dae::GameObject &m_observingPlayer;
+        LivesScoreComponent *m_livesScoreComponent{};
     };
 }
 

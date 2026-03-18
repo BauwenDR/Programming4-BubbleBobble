@@ -5,15 +5,17 @@
 #include "Sdbm.hpp"
 #include "SteamAchievements.hpp"
 
-void game::AchievementsComponent::Notify(dae::GameObject& gameObject, uint32_t event)
+void game::AchievementsComponent::Start()
+{
+    m_livesScoreComponent = m_observingPlayer.GetComponent<LivesScoreComponent>();
+    assert(m_livesScoreComponent != nullptr);
+}
+
+void game::AchievementsComponent::Notify(dae::GameObject&, uint32_t event)
 {
     if (event != dae::sdbm_hash("ScoreChanged")) return;
 
-    LivesScoreComponent* scoreComponent{gameObject.GetComponent<LivesScoreComponent>()};
-
-    if (scoreComponent == nullptr) return;
-
-    if (scoreComponent->GetScore() >= 500)
+    if (m_livesScoreComponent->GetScore() >= 500)
     {
 #if USE_STEAMWORKS
         dae::SteamAchievements::GetInstance().SetAchievement("ACH_WIN_ONE_GAME");
@@ -21,19 +23,7 @@ void game::AchievementsComponent::Notify(dae::GameObject& gameObject, uint32_t e
     }
 }
 
-game::AchievementsComponent::AchievementsComponent(dae::GameObject& owner, const std::vector<dae::GameObject *> &players)
-    : GameComponent(owner), m_players(players)
+game::AchievementsComponent::AchievementsComponent(dae::GameObject &owner, dae::GameObject &player)
+    : GameComponent(owner), m_observingPlayer(player)
 {
-    for (const auto player: m_players)
-    {
-        player->AddObserver(this);
-    }
-}
-
-game::AchievementsComponent::~AchievementsComponent()
-{
-    for (const auto player : m_players)
-    {
-        player->RemoveObserver(this);
-    }
 }

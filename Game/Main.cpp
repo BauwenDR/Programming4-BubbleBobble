@@ -144,8 +144,8 @@ static void load()
 
 	// Achievements listener
 	go = std::make_unique<dae::GameObject>();
-	std::vector players{playerOne, playerTwo};
-	go->AddComponent(std::make_unique<game::AchievementsComponent>(*go.get(), players));
+	go->AddComponent(std::make_unique<game::AchievementsComponent>(*go.get(), *playerOne));
+	go->AddComponent(std::make_unique<game::AchievementsComponent>(*go.get(), *playerTwo));
 	scene.Add(std::move(go));
 }
 

@@ -32,8 +32,3 @@ game::LivesUiComponent::LivesUiComponent(dae::GameObject &owner, dae::GameObject
 , m_observingPlayer(player)
 {
 }
-
-game::LivesUiComponent::~LivesUiComponent()
-{
-    m_observingPlayer.RemoveObserver(this);
-}

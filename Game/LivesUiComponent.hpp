@@ -28,12 +28,6 @@ namespace game
         // We should prob get player from some global object instead of param
         // But for now we use a param anyway
         explicit LivesUiComponent(dae::GameObject &owner, dae::GameObject &player);
-        ~LivesUiComponent() override;
-
-        LivesUiComponent(const LivesUiComponent &other) = delete;
-        LivesUiComponent(LivesUiComponent &&other) noexcept = delete;
-        LivesUiComponent & operator=(const LivesUiComponent &other) = delete;
-        LivesUiComponent & operator=(LivesUiComponent &&other) noexcept = delete;
 
     private:
         dae::GameObject &m_observingPlayer;
