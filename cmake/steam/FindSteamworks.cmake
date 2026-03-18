@@ -55,13 +55,23 @@ endif()
 # ------------------------------------------------------------
 
 if(STEAMWORKS_ROOT AND EXISTS "${STEAMWORKS_ROOT}")
-    set(_STEAMWORKS_INCLUDE_DIR
-        "${STEAMWORKS_ROOT}/public/steam"
-    )
+    if(UNIX)
+        set(_STEAMWORKS_INCLUDE_DIR
+            "${STEAMWORKS_ROOT}/public/steam"
+        )
 
-    set(_STEAMWORKS_LIB_DIR
-        "${STEAMWORKS_ROOT}/redistributable_bin"
-    )
+        set(_STEAMWORKS_LIB_DIR
+            "${STEAMWORKS_ROOT}/redistributable_bin"
+        )
+    else()
+        set(_STEAMWORKS_INCLUDE_DIR
+                "${STEAMWORKS_ROOT}/sdk/public/steam"
+        )
+
+        set(_STEAMWORKS_LIB_DIR
+                "${STEAMWORKS_ROOT}/sdk/redistributable_bin"
+        )
+    endif()
 
     if(WIN32)
         set(_STEAMWORKS_LIBRARY
