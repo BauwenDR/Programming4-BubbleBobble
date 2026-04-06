@@ -1,6 +1,5 @@
 #include <SDL3/SDL.h>
 
-#include "AchievementsComponent.hpp"
 #if (_WIN32 or _WIN64)
 #include <SDL3/SDL_main.h>
 #endif
@@ -140,12 +139,6 @@ static void load()
 	to->SetColor({200, 200, 200, 255});
 	go->AddComponent(std::make_unique<dae::TextureComponent>(*go.get()));
 	go->AddComponent(std::move(to));
-	scene.Add(std::move(go));
-
-	// Achievements listener
-	go = std::make_unique<dae::GameObject>();
-	go->AddComponent(std::make_unique<game::AchievementsComponent>(*go.get(), *playerOne));
-	go->AddComponent(std::make_unique<game::AchievementsComponent>(*go.get(), *playerTwo));
 	scene.Add(std::move(go));
 }
 
