@@ -1,0 +1,10 @@
+{
+    "scene-name": "stage1",
+    "next-scene": "stage2",
+    "prefabs": [
+        {
+            "name": "background",
+            "texture": "Stage3.png"
+        }
+    ]
+}

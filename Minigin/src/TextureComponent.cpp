@@ -11,7 +11,7 @@ namespace dae
         if (m_texture != nullptr)
         {
             const auto &pos = GetGameObject().GetWorldPosition();
-            Renderer::GetInstance().RenderTexture(*m_texture, pos.x, pos.y, &m_srcRect);
+            Renderer::GetInstance().RenderTexture(*m_texture, pos.x, pos.y, m_imageScale, &m_srcRect);
         }
     }
 
@@ -28,11 +28,9 @@ namespace dae
         SetSourceRect();
     }
 
-    TextureComponent::TextureComponent(GameObject &gameObject, std::shared_ptr<Texture2D> texture, const glm::vec2 &spriteSize, const glm::vec2 &spritePos)
-        : GameComponent(gameObject), m_texture(std::move(texture)), m_spriteSize(spriteSize)
+    TextureComponent::TextureComponent(GameObject &gameObject, std::shared_ptr<Texture2D> texture, float imageScale, const glm::vec2 &spriteSize, const glm::vec2 &spritePos)
+        : GameComponent(gameObject), m_texture(std::move(texture)), m_spritePosition(spritePos), m_spriteSize(spriteSize), m_imageScale(imageScale)
     {
-        m_spritePosition = spritePos;
-
         InitTextureDetails();
         SetSourceRect();
     }
@@ -41,6 +39,7 @@ namespace dae
         if (m_texture == nullptr) return;
 
         m_imageSize = m_texture->GetSize();
+        Renderer::GetInstance().SetTextureScaleMode(*m_texture, SDL_SCALEMODE_PIXELART);
     }
 
     void TextureComponent::SetSourceRect() {

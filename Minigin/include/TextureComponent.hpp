@@ -20,7 +20,7 @@ namespace dae
         void SetTexture(const std::shared_ptr<Texture2D> &newTexture);
         void SetSpriteOffset(const glm::vec2 &spritePos);
 
-        explicit TextureComponent(GameObject &gameObject, std::shared_ptr<Texture2D> texture = nullptr, const glm::vec2 &spriteSize = {-1, -1}, const glm::vec2 &spritePos = {0, 0});
+        explicit TextureComponent(GameObject &gameObject, std::shared_ptr<Texture2D> texture = nullptr, float imageScale = 1, const glm::vec2 &spriteSize = {-1, -1}, const glm::vec2 &spritePos = {0, 0});
         ~TextureComponent() override = default;
 
     private:
@@ -31,6 +31,8 @@ namespace dae
         glm::vec2 m_spritePosition{};
         glm::vec2 m_imageSize{};
         glm::vec2 m_spriteSize{};
+
+        float m_imageScale{};
 
         void InitTextureDetails();
         void SetSourceRect();

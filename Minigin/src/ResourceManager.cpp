@@ -1,6 +1,9 @@
 ﻿#include <stdexcept>
 #include <SDL3_ttf/SDL_ttf.h>
 #include "ResourceManager.hpp"
+
+#include <fstream>
+
 #include "Renderer.hpp"
 #include "Texture2D.hpp"
 #include "Font.hpp"
@@ -34,6 +37,13 @@ std::shared_ptr<dae::Font> dae::ResourceManager::LoadFont(const std::string& fil
 	if(!m_loadedFonts.contains(key))
 		m_loadedFonts.insert(std::pair(key,std::make_shared<Font>(fullPath.string(), size)));
 	return m_loadedFonts.at(key);
+}
+
+std::ifstream dae::ResourceManager::LoadFile(const std::string &file) const {
+	const auto fullPath = m_dataPath/file;
+	const auto filePath = fs::path(fullPath).string();
+
+	return std::ifstream{filePath};
 }
 
 void dae::ResourceManager::UnloadUnusedResources()

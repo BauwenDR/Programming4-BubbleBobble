@@ -1,6 +1,7 @@
 #pragma once
 #include <SDL3/SDL.h>
 #include "Singleton.hpp"
+#include "Texture2D.hpp"
 
 namespace dae
 {
@@ -18,9 +19,11 @@ namespace dae
 		void Render() const;
 		void Destroy();
 
-		void RenderTexture(const Texture2D &texture, float x, float y, const SDL_FRect *srcRect = nullptr) const;
+		void RenderTexture(const Texture2D &texture, float x, float y, float scale = 1.0f, const SDL_FRect *srcRect = nullptr) const;
 
 		[[nodiscard]] SDL_Renderer* GetSDLRenderer() const;
+
+		void SetTextureScaleMode(const Texture2D &texture, SDL_ScaleMode scaleMode) const;
 
 		[[nodiscard]] const SDL_Color& GetBackgroundColor() const { return m_clearColor; }
 		void SetBackgroundColor(const SDL_Color& color) { m_clearColor = color; }

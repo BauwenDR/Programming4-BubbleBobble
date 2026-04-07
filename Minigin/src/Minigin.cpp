@@ -68,9 +68,9 @@ dae::Minigin::Minigin(const std::filesystem::path& dataPath)
 #endif
 
 	m_pWindow = SDL_CreateWindow(
-		"Programming 4 assignment",
+		"Programming 4 assignment - Bubble Bobble",
 		1024,
-		576,
+		896,
 		SDL_WINDOW_OPENGL
 	);
 
@@ -113,7 +113,6 @@ void dae::Minigin::RunOneFrame()
 	EventManager::GetInstance().TriggerEvents();
 	SceneManager::GetInstance().Update();
 	Renderer::GetInstance().Render();
-
 
 	Time::postFrame();
 }

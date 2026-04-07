@@ -1,0 +1,54 @@
+{
+    "scene-name": "stage1",
+    "next-scene": "stage2",
+    "prefabs": [
+        {
+            "name": "background",
+            "texture": "Stage1.png"
+        },
+        {
+            "name": "player",
+            "position": {
+                "x": 100,
+                "y": 100
+            },
+            "texture": "PlayerSprites.png"
+        },
+        {
+            "name": "player",
+            "position": {
+                "x": 500,
+                "y": 100
+            },
+            "texture": "PlayerSprites.png"
+        },
+        {
+            "name": "player-score",
+            "position": {
+                "x": 300,
+                "y": 0
+            }
+        },
+        {
+            "name": "player-score",
+            "position": {
+                "x": 600,
+                "y": 0
+            }
+        },
+        {
+            "name": "player-lives",
+            "position": {
+                "x": 0,
+                "y": 896
+            }
+        },
+        {
+            "name": "player-lives",
+            "position": {
+                "x": 900,
+                "y": 896
+            }
+        }
+    ]
+}

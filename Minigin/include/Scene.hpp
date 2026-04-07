@@ -15,7 +15,6 @@ namespace dae
 		void RemoveAll();
 
 
-		//void AddGui(GuiWindow *pGui);
 		void AddGui(std::unique_ptr<GuiWindow> gui);
 		void RemoveGui(const GuiWindow &gui);
 		void RemoveAllGui();

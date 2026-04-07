@@ -155,6 +155,10 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(implot)
 
+# Nlohmann Json
+FetchContent_Declare(json URL https://github.com/nlohmann/json/releases/download/v3.12.0/json.tar.xz)
+FetchContent_MakeAvailable(json)
+
 add_library(imgui STATIC
         ${imgui_SOURCE_DIR}/imgui.cpp
         ${imgui_SOURCE_DIR}/imgui_draw.cpp
@@ -194,6 +198,7 @@ target_include_directories("${TARGET_NAME}" PUBLIC
         ${sdl3_ttf_SOURCE_DIR}/include
         ${imgui_SOURCE_DIR}
         ${implot_SOURCE_DIR}
+        ${json_SOURCE_DIR}/include
         ${VLD_INCLUDE_DIR}
 )
 
@@ -203,6 +208,7 @@ target_link_libraries("${TARGET_NAME}" PUBLIC
         glm::glm
         imgui
         implot
+        nlohmann_json::nlohmann_json
         ${VLD_LIBRARIES}
 )
 

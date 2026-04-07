@@ -25,121 +25,49 @@
 #include <filesystem>
 namespace fs = std::filesystem;
 
-// TODO some sort of scene descriptor or prefab generating is becoming quite needed
+std::unique_ptr<dae::GameObject> prefabLoader(nlohmann::json const & data) {
+	auto prefab = std::make_unique<dae::GameObject>();
+	const auto prefabName{data["name"].get<std::string>()};
+
+
+	if (prefabName == "background") {
+		prefab->AddComponent(std::make_unique<dae::TextureComponent>(
+			*prefab.get(),
+			dae::ResourceManager::GetInstance().LoadTexture(data["texture"].get<std::string>()),
+			4)
+		);
+	}
+
+	if (prefabName == "player") {
+		static int playerNumber{0};
+
+		prefab->SetLocalPosition({
+			data["position"]["x"].get<float>(),
+			data["position"]["y"].get<float>(),
+			0.0f
+		});
+
+		prefab->AddComponent(std::make_unique<dae::TextureComponent>(
+			*prefab,
+			dae::ResourceManager::GetInstance().LoadTexture("PlayerSprites.png"),
+			4,
+			glm::vec2{16.0f, 16.0f},
+			glm::vec2{static_cast<float>(playerNumber), 0.0f})
+		);
+
+		prefab->AddComponent(std::make_unique<game::LivesScoreComponent>(*prefab));
+
+		prefab->AddComponent(std::make_unique<game::PlayerInputComponent>(*prefab, 100.0f, playerNumber));
+
+		++playerNumber;
+	}
+
+	return prefab;
+}
+
 static void load()
 {
-	auto& scene = dae::SceneManager::GetInstance().CreateScene();
-
-	// Background object
-	auto go = std::make_unique<dae::GameObject>();
-	go->AddComponent(std::make_unique<dae::TextureComponent>(*go.get(), dae::ResourceManager::GetInstance().LoadTexture("background.png")));
-	scene.Add(std::move(go));
-
-	// Logo object
-	go = std::make_unique<dae::GameObject>();
-	go->SetLocalPosition({ 358.0f, 180.0f, 0.0f});
-	go->AddComponent(std::make_unique<dae::TextureComponent>(*go.get(), dae::ResourceManager::GetInstance().LoadTexture("logo.png")));
-	scene.Add(std::move(go));
-
-	// Programming 4 assignment text
-	go = std::make_unique<dae::GameObject>();
-	go->SetLocalPosition({ 292.0f, 20.0f, 0.0f});
-	auto bigFont = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
-	auto smallFont = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 16);
-	auto to = std::make_unique<dae::TextComponent>(*go.get(), "Programming 4 Assignment", bigFont);
-	to->SetColor({255, 255, 0, 255});
-	go->AddComponent(std::make_unique<dae::TextureComponent>(*go.get()));
-	go->AddComponent(std::move(to));
-	scene.Add(std::move(go));
-
-	// Fps component
-	go = std::make_unique<dae::GameObject>();
-	go->SetLocalPosition({ 10.0f, 10.0f, 0.0f });
-	to = std::make_unique<dae::TextComponent>(*go.get(), "FPS: 00.0", bigFont);
-	to->SetColor({255, 255, 255, 255});
-	go->AddComponent(std::make_unique<dae::TextureComponent>(*go.get()));
-	go->AddComponent(std::make_unique<game::FpsComponent>(*go.get()));
-	go->AddComponent(std::move(to));
-	scene.Add(std::move(go));
-
-	// Moving characters
-	go = std::make_unique<dae::GameObject>();
-	auto playerOne = go.get();
-	playerOne->SetLocalPosition({ 200.0f, 200.0f, 0.0f });
-	playerOne->AddComponent(std::make_unique<dae::TextureComponent>(*playerOne, dae::ResourceManager::GetInstance().LoadTexture("PlayerSprites.png"), glm::vec2{16.0f, 16.0f}, glm::vec2{0.0f, 0.0f}));
-	playerOne->AddComponent(std::make_unique<game::LivesScoreComponent>(*playerOne));
-	playerOne->AddComponent(std::make_unique<game::PlayerInputComponent>(*playerOne, 100.0f, 0));
-	scene.Add(std::move(go));
-
-	go = std::make_unique<dae::GameObject>();
-	auto playerTwo = go.get();
-	playerTwo->SetLocalPosition({ 250.0f, 250.0f, 0.0f });
-	playerTwo->AddComponent(std::make_unique<dae::TextureComponent>(*playerTwo, dae::ResourceManager::GetInstance().LoadTexture("PlayerSprites.png"), glm::vec2{16.0f, 16.0f}, glm::vec2{1.0f, 0.0f}));
-	playerTwo->AddComponent(std::make_unique<game::LivesScoreComponent>(*playerTwo));
-	playerTwo->AddComponent(std::make_unique<game::PlayerInputComponent>(*playerTwo, 200.0f, 1));
-	scene.Add(std::move(go));
-
-	// Lives and Score components
-	go = std::make_unique<dae::GameObject>();
-	go->SetLocalPosition({ 10.0f, 140.0f, 0.0f });
-	to = std::make_unique<dae::TextComponent>(*go.get(), "Score: 0", smallFont);
-	to->SetColor({200, 200, 200, 255});
-	go->AddComponent(std::make_unique<game::ScoreUiComponent>(*go.get(), *playerOne));
-	go->AddComponent(std::make_unique<dae::TextureComponent>(*go.get()));
-	go->AddComponent(std::move(to));
-	scene.Add(std::move(go));
-
-	go = std::make_unique<dae::GameObject>();
-	go->SetLocalPosition({ 10.0f, 160.0f, 0.0f });
-	to = std::make_unique<dae::TextComponent>(*go.get(), "# Lives: 3", smallFont);
-	to->SetColor({200, 200, 200, 255});
-	go->AddComponent(std::make_unique<game::LivesUiComponent>(*go.get(), *playerOne));
-	go->AddComponent(std::make_unique<dae::TextureComponent>(*go.get()));
-	go->AddComponent(std::move(to));
-	scene.Add(std::move(go));
-
-	go = std::make_unique<dae::GameObject>();
-	go->SetLocalPosition({ 10.0f, 180.0f, 0.0f });
-	to = std::make_unique<dae::TextComponent>(*go.get(), "Score: 0", smallFont);
-	to->SetColor({200, 200, 200, 255});
-	go->AddComponent(std::make_unique<game::ScoreUiComponent>(*go.get(), *playerTwo));
-	go->AddComponent(std::make_unique<dae::TextureComponent>(*go.get()));
-	go->AddComponent(std::move(to));
-	scene.Add(std::move(go));
-
-	go = std::make_unique<dae::GameObject>();
-	go->SetLocalPosition({ 10.0f, 200.0f, 0.0f });
-	to = std::make_unique<dae::TextComponent>(*go.get(), "# Lives: 3", smallFont);
-	to->SetColor({200, 200, 200, 255});
-	go->AddComponent(std::make_unique<game::LivesUiComponent>(*go.get(), *playerTwo));
-	go->AddComponent(std::make_unique<dae::TextureComponent>(*go.get()));
-	go->AddComponent(std::move(to));
-	scene.Add(std::move(go));
-
-	// Tutorial text
-	go = std::make_unique<dae::GameObject>();
-	go->SetLocalPosition({ 10.0f, 70.0f, 0.0f });
-	to = std::make_unique<dae::TextComponent>(*go.get(), "Controls: controllers: d-pad = move, X = Less lives, A = Small pickup, B = Big pickup (Both players)", smallFont);
-	to->SetColor({200, 200, 200, 255});
-	go->AddComponent(std::make_unique<dae::TextureComponent>(*go.get()));
-	go->AddComponent(std::move(to));
-	scene.Add(std::move(go));
-
-	go = std::make_unique<dae::GameObject>();
-	go->SetLocalPosition({ 10.0f, 90.0f, 0.0f });
-	to = std::make_unique<dae::TextComponent>(*go.get(), "Keyboard: controllers: WASD = move, C = Less lives, Z = Small pickup, X = Big pickup (Player 1)", smallFont);
-	to->SetColor({200, 200, 200, 255});
-	go->AddComponent(std::make_unique<dae::TextureComponent>(*go.get()));
-	go->AddComponent(std::move(to));
-	scene.Add(std::move(go));
-
-	go = std::make_unique<dae::GameObject>();
-	go->SetLocalPosition({ 10.0f, 110.0f, 0.0f });
-	to = std::make_unique<dae::TextComponent>(*go.get(), "Keyboard: controllers: WASD = move, N = Less lives, V = Small pickup, B = Big pickup (Player 1)", smallFont);
-	to->SetColor({200, 200, 200, 255});
-	go->AddComponent(std::make_unique<dae::TextureComponent>(*go.get()));
-	go->AddComponent(std::move(to));
-	scene.Add(std::move(go));
+	dae::SceneManager::GetInstance().CreateScene("Stage1", &prefabLoader);
 }
 
 int main(int, char*[]) {
