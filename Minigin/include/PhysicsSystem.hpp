@@ -5,6 +5,8 @@
 
 #include "Singleton.hpp"
 
+#include <glm/vec2.hpp>
+
 namespace dae {
     class ColliderComponent;
 
@@ -26,7 +28,14 @@ namespace dae {
                 return std::hash<const void*>()(p.first) ^ (std::hash<const void*>()(p.second) << 1);
             }
         };
-        std::unordered_set<std::pair<const ColliderComponent*, const ColliderComponent*>, PairHash> m_PreviousCollisions;
+        std::unordered_set<std::pair<const ColliderComponent*, const ColliderComponent*>, PairHash> m_PreviousCollisions{};
+
+        struct ColliderResult
+        {
+            bool const hasCollided;
+            glm::vec2 const normal;
+        };
+        static ColliderResult CollidersIntersecting(ColliderComponent const & lhs, ColliderComponent const & rhs);
     };
 }
 

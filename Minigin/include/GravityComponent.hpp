@@ -21,13 +21,16 @@ namespace dae
         explicit GravityComponent(GameObject &owner) : GameComponent(owner) {};
         ~GravityComponent() override = default;
     private:
-        constexpr static float GRAVITY_FORCE{12.0f * 4};
-        constexpr static float TerminalVelocity{20.0f * 4};
+        constexpr static float GRAVITY_FORCE{60.0f * 4};
+        constexpr static float TERMINAL_VELOCITY{50.0f * 4};
+        constexpr static float JUMP_FORCE{72.0f * 4};
 
         ColliderComponent *m_collider{};
 
         float m_velY{};
+        float m_velX{};
         bool m_isOnGround{};
+
     };
 }
 

@@ -15,7 +15,7 @@ void dae::GravityComponent::Start()
 void dae::GravityComponent::Update()
 {
     m_velY += GRAVITY_FORCE * Time::timeDelta();
-    m_velY = std::clamp(m_velY, -TerminalVelocity, TerminalVelocity);
+    m_velY = std::clamp(m_velY, -JUMP_FORCE, TERMINAL_VELOCITY);
 
     glm::vec3 currentPos{GetGameObject().GetLocalTransform().GetPosition()};
     currentPos.y += m_velY * Time::timeDelta();
@@ -46,11 +46,12 @@ void dae::GravityComponent::Notify(const GameObject &, uint32_t event, ObserverD
     }
 }
 
+
 void dae::GravityComponent::Jump()
 {
     if (m_isOnGround)
     {
-        m_velY = - 3.0f * TerminalVelocity;
+        m_velY = -JUMP_FORCE;
         m_isOnGround = false;
     }
 }

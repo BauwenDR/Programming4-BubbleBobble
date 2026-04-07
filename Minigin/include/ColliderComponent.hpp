@@ -10,9 +10,10 @@ namespace dae
     class ColliderData final : public ObserverData
     {
     public:
-        ColliderComponent const *const collider;
+        ColliderComponent const *const collider{};
+        glm::vec2 const collisionNormal{};
 
-        explicit ColliderData(ColliderComponent const *const collider) : ObserverData(), collider(collider)
+        explicit ColliderData(ColliderComponent const *const collider, glm::vec2 const & normal) : ObserverData(), collider(collider), collisionNormal(normal)
         {
         }
     };
@@ -20,13 +21,9 @@ namespace dae
     class ColliderComponent : public GameComponent
     {
     public:
-        void OnCollisionEnter(ColliderComponent const * collider) const;
-
-        void OnCollisionStay(ColliderComponent const * collider) const;
-
-        void OnCollisionExit(ColliderComponent const * collider) const;
-
-        bool Intersects(const ColliderComponent & colliderComponent) const;
+        void OnCollisionEnter(ColliderComponent const *collider, glm::vec2 const & normal) const;
+        void OnCollisionStay(ColliderComponent const *collider, glm::vec2 const & normal) const;
+        void OnCollisionExit(ColliderComponent const *collider) const;
 
         void Start() override;
         void Update() override;
@@ -35,6 +32,11 @@ namespace dae
         glm::vec4 const &GetColliderPosition() const
         {
             return m_collider;
+        }
+
+        glm::vec2 const &GetColliderCenter() const
+        {
+            return m_center;
         }
 
         ColliderComponent(GameObject &owner, const glm::vec2 colliderSize)
@@ -47,6 +49,7 @@ namespace dae
 
     private:
         glm::vec4 m_collider{};
+        glm::vec2 m_center{};
     };
 }
 
