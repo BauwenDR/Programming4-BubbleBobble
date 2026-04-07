@@ -28,13 +28,18 @@ namespace dae
 
         bool Intersects(const ColliderComponent & colliderComponent) const;
 
-        void Start() override {};
+        void Start() override;
         void Update() override;
         void Render() const override {};
 
-        ColliderComponent(GameObject &owner, const glm::vec4 collider)
+        glm::vec4 const &GetColliderPosition() const
+        {
+            return m_collider;
+        }
+
+        ColliderComponent(GameObject &owner, const glm::vec2 colliderSize)
             : GameComponent(owner)
-              , m_collider(collider)
+              , m_collider(glm::vec4{0.0f,0.0f,colliderSize.x,colliderSize.y})
         {
         }
 

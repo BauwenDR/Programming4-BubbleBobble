@@ -1,6 +1,7 @@
 #include <SDL3/SDL.h>
 
 #include "ColliderComponent.hpp"
+#include "GravityComponent.hpp"
 
 #if (_WIN32 or _WIN64)
 #include <SDL3/SDL_main.h>
@@ -61,11 +62,30 @@ std::unique_ptr<dae::GameObject> prefabLoader(nlohmann::json const & data) {
 
 		prefab->AddComponent(std::make_unique<game::PlayerInputComponent>(*prefab, 100.0f, playerNumber));
 
-		auto collider{std::make_unique<dae::ColliderComponent>(*prefab, glm::vec4{0,0,64,64})};
+		auto collider{std::make_unique<dae::ColliderComponent>(*prefab, glm::vec2{64.0f,64.0f})};
 		dae::PhysicsSystem::GetInstance().RegisterCollider(collider.get());
 		prefab->AddComponent(std::move(collider));
 
+		prefab->AddComponent(std::make_unique<dae::GravityComponent>(*prefab));
+
 		++playerNumber;
+	}
+
+	if (prefabName == "rect-collider")
+	{
+		prefab->SetLocalPosition({
+			data["rect"]["x"].get<float>() * 4.0f,
+			data["rect"]["y"].get<float>() * 4.0f,
+			0.0f
+		});
+
+		auto collider{std::make_unique<dae::ColliderComponent>(*prefab, glm::vec2{
+			data["rect"]["width"].get<float>() * 4.0f,
+			data["rect"]["height"].get<float>() * 4.0f
+		})};
+
+		dae::PhysicsSystem::GetInstance().RegisterCollider(collider.get());
+		prefab->AddComponent(std::move(collider));
 	}
 
 	return prefab;

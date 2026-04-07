@@ -26,6 +26,9 @@ void dae::PhysicsSystem::PhysicsUpdate()
     const size_t n = m_colliders.size();
     for (size_t i = 0; i < n; ++i) {
         for (size_t j = i + 1; j < n; ++j) {
+
+            if (i == j) continue;
+
             auto a = m_colliders[i];
             auto b = m_colliders[j];
 
@@ -58,7 +61,4 @@ void dae::PhysicsSystem::PhysicsUpdate()
     }
 
     m_PreviousCollisions.swap(currentCollisions);
-
-    // Note: Gravity handling is done by GravityComponent::Update which should be called elsewhere,
-    // but you can also call it here if you track gravity components inside PhysicsSystem.
 }

@@ -18,6 +18,7 @@ set(GAME_SOURCE_FILES
         Game/DecreaseLivesCommand.cpp
         Game/FpsComponent.cpp
         Game/IncreaseScoreCommand.cpp
+        Game/JumpCommand.cpp
         Game/LivesScoreComponent.cpp
         Game/LivesUiComponent.cpp
         Game/MoveCommand.cpp
@@ -34,6 +35,7 @@ set(MINIGIN_SOURCE_FILES
         Minigin/src/Font.cpp
         Minigin/src/GameComponent.cpp
         Minigin/src/GameObject.cpp
+        Minigin/src/GravityComponent.cpp
         Minigin/src/GuiWindow.cpp
         Minigin/src/InputManager.cpp
         Minigin/src/KeyboardInput.cpp

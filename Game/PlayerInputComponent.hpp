@@ -6,6 +6,8 @@
 #include "GameComponent.hpp"
 #include "IObserver.hpp"
 
+class JumpCommand;
+
 namespace game {
     class IncreaseScoreCommand;
     class DecreaseLivesCommand;
@@ -30,16 +32,19 @@ namespace game {
         PlayerInputComponent & operator=(PlayerInputComponent &&other) noexcept = delete;
 
     private:
+        int player{};
+        float movesSpeed{};
+
         LivesScoreComponent *m_livesScoreComponent{};
 
-        std::unique_ptr<MoveCommand> m_moveUpCommand{};
-        std::unique_ptr<MoveCommand> m_moveDownCommand{};
         std::unique_ptr<MoveCommand> m_moveLeftCommand{};
         std::unique_ptr<MoveCommand> m_moveRightCommand{};
 
         std::unique_ptr<DecreaseLivesCommand> m_decreaseLivesCommand{};
         std::unique_ptr<IncreaseScoreCommand> m_increaseScoreCommandSmall{};
         std::unique_ptr<IncreaseScoreCommand> m_increaseScoreCommandBig{};
+
+        std::unique_ptr<JumpCommand> m_jumpCommand{};
     };
 }
 

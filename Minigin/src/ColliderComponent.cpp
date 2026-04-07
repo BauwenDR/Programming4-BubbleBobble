@@ -38,6 +38,12 @@ bool dae::ColliderComponent::Intersects(const ColliderComponent &colliderCompone
     return true;
 }
 
+void dae::ColliderComponent::Start()
+{
+    m_collider.x = GetGameObject().GetWorldPosition().x;
+    m_collider.y = GetGameObject().GetWorldPosition().y;
+}
+
 void dae::ColliderComponent::Update()
 {
     m_collider.x = GetGameObject().GetWorldPosition().x;
