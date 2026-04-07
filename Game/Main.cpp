@@ -1,5 +1,7 @@
 #include <SDL3/SDL.h>
 
+#include "ColliderComponent.hpp"
+
 #if (_WIN32 or _WIN64)
 #include <SDL3/SDL_main.h>
 #endif
@@ -25,10 +27,10 @@
 #include <filesystem>
 namespace fs = std::filesystem;
 
+// TODO place in class so we can track number of players (and accept scale as param)
 std::unique_ptr<dae::GameObject> prefabLoader(nlohmann::json const & data) {
 	auto prefab = std::make_unique<dae::GameObject>();
 	const auto prefabName{data["name"].get<std::string>()};
-
 
 	if (prefabName == "background") {
 		prefab->AddComponent(std::make_unique<dae::TextureComponent>(
@@ -58,6 +60,10 @@ std::unique_ptr<dae::GameObject> prefabLoader(nlohmann::json const & data) {
 		prefab->AddComponent(std::make_unique<game::LivesScoreComponent>(*prefab));
 
 		prefab->AddComponent(std::make_unique<game::PlayerInputComponent>(*prefab, 100.0f, playerNumber));
+
+		auto collider{std::make_unique<dae::ColliderComponent>(*prefab, glm::vec4{0,0,64,64})};
+		dae::PhysicsSystem::GetInstance().RegisterCollider(collider.get());
+		prefab->AddComponent(std::move(collider));
 
 		++playerNumber;
 	}

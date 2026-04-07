@@ -4,6 +4,8 @@
 
 #include "GameComponent.hpp"
 #include "IObserver.hpp"
+#include "ObserverData.hpp"
+#include "PhysicsSystem.hpp"
 #include "Transform.hpp"
 
 template <typename T>
@@ -32,7 +34,7 @@ namespace dae
 
 		void AddObserver(IObserver* observer);
 		void RemoveObserver(IObserver* observer);
-		void NotifyObservers(uint32_t event);
+		void NotifyObservers(uint32_t event, ObserverData const * data = nullptr) const;
 
 		template <GameComponentChild T>
 		void AddComponent(std::unique_ptr<T> component)

@@ -28,6 +28,7 @@ set(GAME_SOURCE_FILES
 )
 
 set(MINIGIN_SOURCE_FILES
+        Minigin/src/ColliderComponent.cpp
         Minigin/src/EventManager.cpp
         Minigin/src/EventRingBuffer.cpp
         Minigin/src/Font.cpp
@@ -37,6 +38,7 @@ set(MINIGIN_SOURCE_FILES
         Minigin/src/InputManager.cpp
         Minigin/src/KeyboardInput.cpp
         Minigin/src/Minigin.cpp
+        Minigin/src/PhysicsSystem.cpp
         Minigin/src/Renderer.cpp
         Minigin/src/ResourceManager.cpp
         Minigin/src/Scene.cpp

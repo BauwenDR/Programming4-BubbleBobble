@@ -150,10 +150,9 @@ void dae::GameObject::RemoveObserver(IObserver *observer)
     std::erase(m_observers, observer);
 }
 
-void dae::GameObject::NotifyObservers(uint32_t event)
-{
+void dae::GameObject::NotifyObservers(uint32_t event, ObserverData const * const data) const {
     for (const auto observer: m_observers)
-        observer->Notify(*this, event);
+        observer->Notify(*this, event, data);
 }
 
 void dae::GameObject::AddChild(GameObject *child)

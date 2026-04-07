@@ -1,5 +1,6 @@
 #include "PlayerInputComponent.hpp"
 
+#include <iostream>
 #include <memory>
 
 #include "DecreaseLivesCommand.hpp"
@@ -8,12 +9,27 @@
 #include "GameObject.hpp"
 #include "InputManager.hpp"
 #include "MoveCommand.hpp"
+#include "Sdbm.hpp"
 
 void game::PlayerInputComponent::Start()
 {
     m_livesScoreComponent = GetGameObject().GetComponent<LivesScoreComponent>();
 
     assert(m_livesScoreComponent != nullptr && "There was no lives component attached!");
+}
+
+void game::PlayerInputComponent::Notify(const dae::GameObject &, uint32_t event, const dae::ObserverData *)
+{
+    switch (event)
+    {
+        case dae::sdbm_hash("on_collision_enter"):
+            std::cout << "Collision enter\n";
+            break;
+
+        case dae::sdbm_hash("on_collision_exit"):
+            std::cout << "Collision exit\n";
+            break;
+    }
 }
 
 game::PlayerInputComponent::PlayerInputComponent(dae::GameObject &owner, float movesSpeed, int player)
@@ -26,6 +42,8 @@ game::PlayerInputComponent::PlayerInputComponent(dae::GameObject &owner, float m
       , m_increaseScoreCommandSmall(std::make_unique<IncreaseScoreCommand>(owner, false))
       , m_increaseScoreCommandBig(std::make_unique<IncreaseScoreCommand>(owner, true))
 {
+    GetGameObject().AddObserver(this);
+
     const auto kbUp{player == 0 ? SDLK_W : SDLK_UP};
     const auto kbDown{player == 0 ? SDLK_S : SDLK_DOWN};
     const auto kbLeft{player == 0 ? SDLK_A : SDLK_LEFT};

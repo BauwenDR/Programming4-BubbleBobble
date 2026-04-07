@@ -111,6 +111,9 @@ void dae::Minigin::RunOneFrame()
 
 	m_quit = !InputManager::GetInstance().ProcessInput();
 	EventManager::GetInstance().TriggerEvents();
+
+	PhysicsSystem::GetInstance().PhysicsUpdate();
+
 	SceneManager::GetInstance().Update();
 	Renderer::GetInstance().Render();
 

@@ -1,6 +1,6 @@
 {
     "scene-name": "stage1",
-    "next-scene": "stage2",
+    "scalar": 4,
     "prefabs": [
         {
             "name": "background",
@@ -40,14 +40,41 @@
             "name": "player-lives",
             "position": {
                 "x": 0,
-                "y": 896
+                "y": 224
             }
         },
         {
             "name": "player-lives",
             "position": {
                 "x": 900,
-                "y": 896
+                "y": 224
+            }
+        },
+        {
+            "name": "rect-collider",
+            "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 32,
+                "height": 224
+            }
+        },
+        {
+            "name": "rect-collider",
+            "rect": {
+                "x": 240,
+                "y": 0,
+                "width": 32,
+                "height": 224
+            }
+        },
+        {
+            "name": "rect-collider",
+            "rect": {
+                "x": 0,
+                "y": 216,
+                "width": 256,
+                "height": 8
             }
         }
     ]

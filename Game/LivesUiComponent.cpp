@@ -18,7 +18,7 @@ void game::LivesUiComponent::Start()
     assert(m_playerLivesComponent != nullptr);
 }
 
-void game::LivesUiComponent::Notify(dae::GameObject&, uint32_t event)
+void game::LivesUiComponent::Notify(dae::GameObject const &, uint32_t event, dae::ObserverData const *)
 {
     if (event != dae::sdbm_hash("PlayerDied")) return;
     if (m_textComponent == nullptr) return;
