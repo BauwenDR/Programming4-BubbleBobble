@@ -1,17 +1,14 @@
 #include "MoveCommand.hpp"
 
-#include "GameObject.hpp"
-#include "Time.hpp"
+#include "PhysicsComponent.hpp"
 
-game::MoveCommand::MoveCommand(dae::GameObject &objectToMove, float speed, const glm::vec3 &direction)
-    : m_objectToMove(objectToMove)
-      , m_moveDirection(direction)
-      , m_moveSpeed(speed)
+game::MoveCommand::MoveCommand(dae::PhysicsComponent *physics, float direction)
+  : m_physicsComponent(physics)
+    , m_moveDirection(direction)
 {
 }
 
 void game::MoveCommand::Execute()
 {
-    const auto currentTransform{m_objectToMove.GetLocalTransform()};
-    m_objectToMove.SetLocalPosition(currentTransform.GetPosition() + m_moveDirection * m_moveSpeed * Time::timeDelta());
+  m_physicsComponent->MoveHorizontal(m_moveDirection);
 }

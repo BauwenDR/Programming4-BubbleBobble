@@ -1,9 +1,12 @@
 #ifndef MINIGIN_MOVECOMMAND_HPP
 #define MINIGIN_MOVECOMMAND_HPP
 
-#include <glm/vec3.hpp>
-
 #include "ICommand.hpp"
+
+namespace dae
+{
+    class PhysicsComponent;
+}
 
 namespace dae
 {
@@ -15,13 +18,12 @@ namespace game
     class MoveCommand final : public dae::ICommand
     {
     public:
-        MoveCommand(dae::GameObject &objectToMove, float speed, const glm::vec3 &direction);
+        MoveCommand(dae::PhysicsComponent *physics, float direction);
         void Execute() override;
 
     private:
-        dae::GameObject &m_objectToMove;
-        glm::vec3 m_moveDirection{};
-        float m_moveSpeed{};
+        dae::PhysicsComponent *m_physicsComponent{};
+        float m_moveDirection{};
     };
 }
 

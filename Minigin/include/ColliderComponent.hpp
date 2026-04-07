@@ -10,8 +10,9 @@ namespace dae
     class ColliderData final : public ObserverData
     {
     public:
-        ColliderComponent const *const collider{};
+        ColliderComponent const * collider{};
         glm::vec2 const collisionNormal{};
+        float const penetration{};
 
         explicit ColliderData(ColliderComponent const *const collider, glm::vec2 const & normal) : ObserverData(), collider(collider), collisionNormal(normal)
         {

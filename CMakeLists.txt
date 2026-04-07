@@ -35,7 +35,7 @@ set(MINIGIN_SOURCE_FILES
         Minigin/src/Font.cpp
         Minigin/src/GameComponent.cpp
         Minigin/src/GameObject.cpp
-        Minigin/src/GravityComponent.cpp
+        Minigin/src/PhysicsComponent.cpp
         Minigin/src/GuiWindow.cpp
         Minigin/src/InputManager.cpp
         Minigin/src/KeyboardInput.cpp

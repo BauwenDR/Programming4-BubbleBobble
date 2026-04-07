@@ -1,8 +1,8 @@
 #include "JumpCommand.hpp"
 
-#include "GravityComponent.hpp"
+#include "PhysicsComponent.hpp"
 
 void JumpCommand::Execute()
 {
-    m_gravityComponent.Jump();
+    m_physicsComponent->Jump();
 }

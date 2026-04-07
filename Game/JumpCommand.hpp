@@ -5,7 +5,7 @@
 
 namespace dae
 {
-        class GravityComponent;
+        class PhysicsComponent;
 }
 
 class JumpCommand final : public dae::ICommand
@@ -13,10 +13,10 @@ class JumpCommand final : public dae::ICommand
 public:
         void Execute() override;
 
-        JumpCommand(dae::GravityComponent &gravityComponent) : m_gravityComponent(gravityComponent) {}
+        JumpCommand(dae::PhysicsComponent *physics) : m_physicsComponent(physics) {}
         ~JumpCommand() override = default;
 private:
-        dae::GravityComponent &m_gravityComponent;
+        dae::PhysicsComponent *m_physicsComponent;
 };
 
 

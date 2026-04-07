@@ -4,6 +4,8 @@
 
 #include "ColliderComponent.hpp"
 
+#include <glm/glm.hpp>
+
 void dae::PhysicsSystem::RegisterCollider(ColliderComponent *collider)
 {
     m_colliders.push_back(collider);
@@ -68,20 +70,33 @@ dae::PhysicsSystem::ColliderResult dae::PhysicsSystem::CollidersIntersecting(
     ColliderComponent const &lhs,
     ColliderComponent const &rhs)
 {
-    const auto r1{lhs.GetColliderPosition()};
+    const auto r1{lhs.GetColliderPosition()}; // x,y = top-left; z = width; w = height
     const auto r2{rhs.GetColliderPosition()};
 
-    // If one rectangle is on left side of the other
     if (r1.x + r1.z < r2.x || r2.x + r2.z < r1.x)
     {
         return {false, {}};
     }
 
-    // If one rectangle is under the other
     if (r1.y > r2.y + r2.w || r2.y > r1.y + r1.w)
     {
         return {false, {}};
     }
 
-    return {true, lhs.GetColliderCenter() - rhs.GetColliderCenter()};
+    // Centers
+    const glm::vec2 c1{ r1.x + r1.z * 0.5f, r1.y + r1.w * 0.5f };
+    const glm::vec2 c2{ r2.x + r2.z * 0.5f, r2.y + r2.w * 0.5f };
+
+    const glm::vec2 distance = c1 - c2;
+    const glm::vec2 extents{ r1.z * 0.5f + r2.z * 0.5f, r1.w * 0.5f + r2.w * 0.5f };
+    const glm::vec2 penetration = extents - glm::abs(distance);
+
+    if (penetration.x < penetration.y)
+    {
+        const float sx = distance.x < 0.0f ? -1.0f : 1.0f;
+        return { true, glm::vec2(sx, 0.0f) };
+    }
+
+    const float sy = distance.y < 0.0f ? -1.0f : 1.0f;
+    return { true, glm::vec2(0.0f, sy) };
 }

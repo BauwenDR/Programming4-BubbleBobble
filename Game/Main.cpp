@@ -1,7 +1,7 @@
 #include <SDL3/SDL.h>
 
 #include "ColliderComponent.hpp"
-#include "GravityComponent.hpp"
+#include "PhysicsComponent.hpp"
 
 #if (_WIN32 or _WIN64)
 #include <SDL3/SDL_main.h>
@@ -66,7 +66,7 @@ std::unique_ptr<dae::GameObject> prefabLoader(nlohmann::json const & data) {
 		dae::PhysicsSystem::GetInstance().RegisterCollider(collider.get());
 		prefab->AddComponent(std::move(collider));
 
-		prefab->AddComponent(std::make_unique<dae::GravityComponent>(*prefab));
+		prefab->AddComponent(std::make_unique<dae::PhysicsComponent>(*prefab));
 
 		++playerNumber;
 	}
