@@ -19,7 +19,7 @@ void game::LivesUiComponent::Start()
     assert(m_playerLivesComponent != nullptr);
 }
 
-void game::LivesUiComponent::Notify(dae::GameObject const &, uint32_t event, dae::ObserverData const *)
+void game::LivesUiComponent::Notify(uint32_t event, dae::ObserverData const *)
 {
     if (event == dae::sdbm_hash("object_destroyed"))
     {

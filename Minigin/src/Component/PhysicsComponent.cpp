@@ -28,7 +28,7 @@ void dae::PhysicsComponent::Update()
     GetGameObject().SetLocalPosition(currentPos);
 }
 
-void dae::PhysicsComponent::Notify(const GameObject &, uint32_t event, ObserverData const *data)
+void dae::PhysicsComponent::Notify(uint32_t event, ObserverData const *data)
 {
     if (!(
         event == sdbm_hash("on_collision_enter") ||

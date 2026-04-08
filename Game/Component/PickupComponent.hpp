@@ -22,7 +22,7 @@ namespace game
         void Update() override {}
         void Render() const override {}
 
-        void Notify(const dae::GameObject &object, uint32_t event, const dae::ObserverData *data) override;
+        void Notify(uint32_t event, const dae::ObserverData *data) override;
 
         PickupComponent(dae::GameObject &owner, int worth);
         ~PickupComponent() override;

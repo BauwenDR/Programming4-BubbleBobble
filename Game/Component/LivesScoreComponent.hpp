@@ -16,7 +16,7 @@ namespace game
         [[nodiscard]] int GetLives() const;
         [[nodiscard]] int GetScore() const;
 
-        void Notify(const dae::GameObject &object, uint32_t event, const dae::ObserverData *data) override;
+        void Notify(uint32_t event, const dae::ObserverData *data) override;
 
         explicit LivesScoreComponent(dae::GameObject &owner);
 

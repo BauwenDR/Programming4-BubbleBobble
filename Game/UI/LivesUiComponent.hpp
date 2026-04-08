@@ -23,7 +23,7 @@ namespace game
         void Render() const override {}
 
         // Observer
-        void Notify(const dae::GameObject &object, uint32_t event, dae::ObserverData const *data) override;
+        void Notify(uint32_t event, dae::ObserverData const *data) override;
 
         // We should prob get player from some global object instead of param
         // But for now we use a param anyway

@@ -18,7 +18,7 @@ namespace dae
         void MoveHorizontal(float amount);
         void Jump();
 
-        void Notify(const GameObject &object, uint32_t event, const ObserverData *data) override;
+        void Notify(uint32_t event, const ObserverData *data) override;
 
         explicit PhysicsComponent(GameObject &owner) : GameComponent(owner) {}
         ~PhysicsComponent() override = default;

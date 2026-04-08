@@ -2,7 +2,6 @@
 #define MINIGIN_SCOREUICOMPONENT_HPP
 
 #include "Component/GameComponent.hpp"
-#include "Event/EventManager.hpp"
 #include "Event/IObserver.hpp"
 
 namespace dae
@@ -25,7 +24,7 @@ namespace game
         void Render() const override {}
 
         // Observer
-        void Notify(const dae::GameObject &object, uint32_t event, const dae::ObserverData *data) override;
+        void Notify(uint32_t event, const dae::ObserverData *data) override;
 
         // We should prob get player from some global object instead of param
         // But for now we use a param anyway

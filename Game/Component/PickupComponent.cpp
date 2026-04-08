@@ -9,7 +9,7 @@ void game::PickupComponent::Start()
     GetGameObject().AddObserver(this);
 }
 
-void game::PickupComponent::Notify(const dae::GameObject &, uint32_t event, dae::ObserverData const *data)
+void game::PickupComponent::Notify(uint32_t event, dae::ObserverData const *data)
 {
     if (event != dae::sdbm_hash("on_collision_enter")) return;
 
