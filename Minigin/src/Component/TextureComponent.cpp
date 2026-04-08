@@ -1,8 +1,8 @@
-#include "TextureComponent.hpp"
+#include "Component/TextureComponent.hpp"
 
+#include "Render/Renderer.hpp"
+#include "Render/Texture2D.hpp"
 #include "GameObject.hpp"
-#include "Renderer.hpp"
-#include "Texture2D.hpp"
 
 namespace dae
 {

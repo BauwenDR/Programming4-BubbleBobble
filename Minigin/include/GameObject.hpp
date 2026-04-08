@@ -2,9 +2,8 @@
 #include <algorithm>
 #include <memory>
 
-#include "GameComponent.hpp"
-#include "IObserver.hpp"
-#include "ObserverData.hpp"
+#include "Component/GameComponent.hpp"
+#include "Event/IObserver.hpp"
 #include "PhysicsSystem.hpp"
 #include "Transform.hpp"
 

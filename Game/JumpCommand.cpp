@@ -1,6 +1,6 @@
 #include "JumpCommand.hpp"
 
-#include "PhysicsComponent.hpp"
+#include "Component/PhysicsComponent.hpp"
 
 void JumpCommand::Execute()
 {

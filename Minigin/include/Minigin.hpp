@@ -2,6 +2,8 @@
 #include <functional>
 #include <filesystem>
 
+#include <SDL3/SDL.h>
+
 namespace dae
 {
 	class Minigin final

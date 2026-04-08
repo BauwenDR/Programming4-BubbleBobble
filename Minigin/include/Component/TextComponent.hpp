@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <memory>
+
 #include <SDL3/SDL_pixels.h>
 
 #include "GameComponent.hpp"

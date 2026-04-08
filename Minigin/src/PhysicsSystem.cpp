@@ -2,9 +2,9 @@
 
 #include <algorithm>
 
-#include "ColliderComponent.hpp"
-
 #include <glm/glm.hpp>
+
+#include "Component/ColliderComponent.hpp"
 
 void dae::PhysicsSystem::RegisterCollider(ColliderComponent *collider)
 {

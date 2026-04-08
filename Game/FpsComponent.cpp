@@ -2,8 +2,8 @@
 
 #include <format>
 
+#include "Component/TextComponent.hpp"
 #include "GameObject.hpp"
-#include "TextComponent.hpp"
 #include "Time.hpp"
 
 namespace game

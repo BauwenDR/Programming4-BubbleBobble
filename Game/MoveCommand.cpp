@@ -1,6 +1,6 @@
 #include "MoveCommand.hpp"
 
-#include "PhysicsComponent.hpp"
+#include "Component/PhysicsComponent.hpp"
 
 game::MoveCommand::MoveCommand(dae::PhysicsComponent *physics, float direction)
   : m_physicsComponent(physics)

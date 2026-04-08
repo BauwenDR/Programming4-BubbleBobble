@@ -1,7 +1,7 @@
 #include "GameObject.hpp"
 
-#include "GameComponent.hpp"
-#include "ResourceManager.hpp"
+#include "Component/GameComponent.hpp"
+#include "Render/ResourceManager.hpp"
 
 void dae::GameObject::MarkForDelete()
 {

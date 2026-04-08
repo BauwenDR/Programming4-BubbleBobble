@@ -1,16 +1,14 @@
 #include "ControllerInput.hpp"
+#include "InputManagerPrivate.hpp"
 
-#define WIN32_LEAN_AND_MEAN
 #include <array>
-#include <Windows.h>
-#include <Xinput.h>
-
 #include <iostream>
 #include <unordered_map>
 #include <vector>
 
-#include "InputManagerPrivate.hpp"
-#include "ICommand.hpp"
+#define WIN32_LEAN_AND_MEAN
+#include <Windows.h>
+#include <Xinput.h>
 
 // TODO: test with 2 controllers on Windows
 // When writing this implementation I only had one (XInput compatible) Controller laying around

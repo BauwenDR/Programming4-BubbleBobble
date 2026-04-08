@@ -1,12 +1,14 @@
-﻿#include "TextComponent.hpp"
+﻿#include "Component/TextComponent.hpp"
 
 #include <stdexcept>
+
 #include <SDL3_ttf/SDL_ttf.h>
-#include "Renderer.hpp"
-#include "Font.hpp"
+
+#include "Component/TextureComponent.hpp"
+#include "Render/Renderer.hpp"
+#include "Render/Font.hpp"
+#include "Render/Texture2D.hpp"
 #include "GameObject.hpp"
-#include "Texture2D.hpp"
-#include "TextureComponent.hpp"
 
 void dae::TextComponent::Start()
 {

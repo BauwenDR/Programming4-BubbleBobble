@@ -3,7 +3,8 @@
 
 #include "ColliderComponent.hpp"
 #include "GameComponent.hpp"
-#include "IObserver.hpp"
+
+#include "Event/IObserver.hpp"
 
 namespace dae
 {

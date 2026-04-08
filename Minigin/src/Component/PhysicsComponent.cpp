@@ -1,8 +1,8 @@
-#include "PhysicsComponent.hpp"
+#include "Component/PhysicsComponent.hpp"
 
-#include "ColliderComponent.hpp"
+#include "Component/ColliderComponent.hpp"
+#include "Event/Sdbm.hpp"
 #include "GameObject.hpp"
-#include "Sdbm.hpp"
 #include "Time.hpp"
 
 void dae::PhysicsComponent::Start()

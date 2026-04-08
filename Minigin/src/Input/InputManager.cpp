@@ -1,4 +1,4 @@
-#include "InputManager.hpp"
+#include "Input/InputManager.hpp"
 
 #include <SDL3/SDL.h>
 #include <backends/imgui_impl_sdl3.h>

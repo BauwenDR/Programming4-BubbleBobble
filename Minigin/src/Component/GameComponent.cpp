@@ -1,4 +1,4 @@
-#include "GameComponent.hpp"
+#include "Component/GameComponent.hpp"
 
 namespace dae
 {

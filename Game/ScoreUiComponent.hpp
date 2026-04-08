@@ -1,9 +1,9 @@
 #ifndef MINIGIN_SCOREUICOMPONENT_HPP
 #define MINIGIN_SCOREUICOMPONENT_HPP
 
-#include "EventManager.hpp"
-#include "GameComponent.hpp"
-#include "IObserver.hpp"
+#include "Component/GameComponent.hpp"
+#include "Event/EventManager.hpp"
+#include "Event/IObserver.hpp"
 
 namespace dae
 {

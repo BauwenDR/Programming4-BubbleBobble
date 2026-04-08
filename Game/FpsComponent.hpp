@@ -1,7 +1,7 @@
 #ifndef MINIGIN_FPSCOMPONENT_HPP
 #define MINIGIN_FPSCOMPONENT_HPP
 
-#include "GameComponent.hpp"
+#include "Component/GameComponent.hpp"
 
 namespace dae
 {
@@ -10,7 +10,7 @@ namespace dae
 
 namespace game
 {
-    class FpsComponent : public dae::GameComponent
+    class FpsComponent final : public dae::GameComponent
     {
     public:
         void Start() override;

@@ -1,7 +1,7 @@
 #ifndef MINIGIN_LIVESCOMPONENT_HPP
 #define MINIGIN_LIVESCOMPONENT_HPP
 
-#include "GameComponent.hpp"
+#include "Component/GameComponent.hpp"
 
 namespace game
 {
@@ -20,7 +20,7 @@ namespace game
         void IncreaseScore(int amount);
         [[nodiscard]] int GetScore() const;
 
-        LivesScoreComponent(dae::GameObject &owner);
+        explicit LivesScoreComponent(dae::GameObject &owner);
 
     private:
 

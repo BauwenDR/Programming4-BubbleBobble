@@ -3,8 +3,7 @@
 
 #include <memory>
 
-#include "GameComponent.hpp"
-#include "IObserver.hpp"
+#include "Component/GameComponent.hpp"
 
 class JumpCommand;
 

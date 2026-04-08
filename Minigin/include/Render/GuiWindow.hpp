@@ -1,7 +1,7 @@
 #ifndef MINIGIN_IMGUIWINDOW_HPP
 #define MINIGIN_IMGUIWINDOW_HPP
 
-#include <iostream>
+#include <string>
 
 namespace dae
 {

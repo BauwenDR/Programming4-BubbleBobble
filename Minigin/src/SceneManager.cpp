@@ -2,11 +2,10 @@
 
 #include <fstream>
 
-#include "Scene.hpp"
-
 #include <nlohmann/json.hpp>
 
-#include "ResourceManager.hpp"
+#include "Render/ResourceManager.hpp"
+#include "Scene.hpp"
 
 void dae::SceneManager::Update() const {
 	for(const auto& scene : m_scenes)

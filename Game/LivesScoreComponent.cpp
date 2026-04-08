@@ -2,9 +2,9 @@
 
 #include <format>
 
-#include "EventManager.hpp"
+#include "Event/EventManager.hpp"
+#include "Event/Sdbm.hpp"
 #include "GameObject.hpp"
-#include "Sdbm.hpp"
 
 void game::LivesScoreComponent::DecreaseLives()
 {

@@ -2,8 +2,8 @@
 #define MINIGIN_LIVESUICOMPONENT_HPP
 #include <cstdint>
 
-#include "GameComponent.hpp"
-#include "IObserver.hpp"
+#include "Component/GameComponent.hpp"
+#include "Event/IObserver.hpp"
 
 namespace dae
 {

@@ -29,34 +29,34 @@ set(GAME_SOURCE_FILES
 )
 
 set(MINIGIN_SOURCE_FILES
-        Minigin/src/ColliderComponent.cpp
-        Minigin/src/EventManager.cpp
-        Minigin/src/EventRingBuffer.cpp
-        Minigin/src/Font.cpp
-        Minigin/src/GameComponent.cpp
+        Minigin/src/Component/ColliderComponent.cpp
+        Minigin/src/Event/EventManager.cpp
+        Minigin/src/Event/EventRingBuffer.cpp
+        Minigin/src/Render/Font.cpp
+        Minigin/src/Component/GameComponent.cpp
         Minigin/src/GameObject.cpp
-        Minigin/src/PhysicsComponent.cpp
-        Minigin/src/GuiWindow.cpp
-        Minigin/src/InputManager.cpp
-        Minigin/src/KeyboardInput.cpp
+        Minigin/src/Component/PhysicsComponent.cpp
+        Minigin/src/Render/GuiWindow.cpp
+        Minigin/src/Input/InputManager.cpp
+        Minigin/src/Input/KeyboardInput.cpp
         Minigin/src/Minigin.cpp
         Minigin/src/PhysicsSystem.cpp
-        Minigin/src/Renderer.cpp
-        Minigin/src/ResourceManager.cpp
+        Minigin/src/Render/Renderer.cpp
+        Minigin/src/Render/ResourceManager.cpp
         Minigin/src/Scene.cpp
         Minigin/src/SceneManager.cpp
-        Minigin/src/TextComponent.cpp
-        Minigin/src/Texture2D.cpp
-        Minigin/src/TextureComponent.cpp
+        Minigin/src/Component/TextComponent.cpp
+        Minigin/src/Render/Texture2D.cpp
+        Minigin/src/Component/TextureComponent.cpp
         Minigin/src/Time.cpp
         Minigin/src/Transform.cpp
 )
 
 # Target specific source files
 if (WIN32)
-    set(MINIGIN_SOURCE_FILES ${MINIGIN_SOURCE_FILES} Minigin/src/ControllerInputXInput.cpp)
+    set(MINIGIN_SOURCE_FILES ${MINIGIN_SOURCE_FILES} Minigin/src/Input/ControllerInputXInput.cpp)
 else()
-    set(MINIGIN_SOURCE_FILES ${MINIGIN_SOURCE_FILES} Minigin/src/ControllerInputSdl.cpp)
+    set(MINIGIN_SOURCE_FILES ${MINIGIN_SOURCE_FILES} Minigin/src/Input/ControllerInputSdl.cpp)
 endif()
 
 

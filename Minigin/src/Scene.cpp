@@ -1,5 +1,6 @@
-#include <algorithm>
 #include "Scene.hpp"
+
+#include <algorithm>
 
 using namespace dae;
 

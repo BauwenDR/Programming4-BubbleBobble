@@ -1,6 +1,6 @@
-#include "ColliderComponent.hpp"
+#include "Component/ColliderComponent.hpp"
 
-#include "Sdbm.hpp"
+#include "Event/Sdbm.hpp"
 
 void dae::ColliderComponent::OnCollisionEnter(ColliderComponent const *collider, glm::vec2 const & normal) const
 {

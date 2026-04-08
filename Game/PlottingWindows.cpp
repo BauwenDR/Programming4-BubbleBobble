@@ -76,7 +76,6 @@ void game::ExerciseOneWindow::DrawWindowContent()
     if (ImGui::Button("Thrash the cache"))
     {
         TrashCache<int, BUFFER_SIZE>(m_samples, m_y_axis);
-        std::cout << m_samples << "\n";
     }
 
     if (!m_y_axis.empty())

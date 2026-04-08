@@ -1,8 +1,7 @@
 #ifndef MINIGIN_INCREASESCORECOMMAND_HPP
 #define MINIGIN_INCREASESCORECOMMAND_HPP
-#include <cstdint>
 
-#include "ICommand.hpp"
+#include "Event/ICommand.hpp"
 
 
 namespace dae

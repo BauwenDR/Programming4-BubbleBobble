@@ -2,7 +2,7 @@
 #define MINIGIN_CONTROLLERINPUTIMPL_HPP
 #include <memory>
 
-#include "Input.hpp"
+#include "Input/Input.hpp"
 
 namespace dae
 {

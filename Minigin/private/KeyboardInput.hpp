@@ -3,7 +3,7 @@
 #include <SDL3/SDL_events.h>
 #include <SDL3/SDL_keycode.h>
 
-#include "InputManager.hpp"
+#include "Input/InputManager.hpp"
 
 namespace dae::Input::Keyboard
 {

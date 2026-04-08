@@ -1,7 +1,7 @@
 #ifndef MINIGIN_MOVECOMMAND_HPP
 #define MINIGIN_MOVECOMMAND_HPP
 
-#include "ICommand.hpp"
+#include "Event/ICommand.hpp"
 
 namespace dae
 {

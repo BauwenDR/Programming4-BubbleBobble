@@ -4,7 +4,6 @@
 #include <set>
 #include <vector>
 
-#include "ICommand.hpp"
 #include "InputManagerPrivate.hpp"
 
 namespace dae::Input::Keyboard

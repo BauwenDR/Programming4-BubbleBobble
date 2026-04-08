@@ -4,8 +4,7 @@
 #include <SDL3/SDL_gamepad.h>
 
 #include "ControllerInput.hpp"
-#include "ICommand.hpp"
-#include "InputManager.hpp"
+#include "Input/InputManager.hpp"
 #include "InputManagerPrivate.hpp"
 
 namespace dae::Input::Controller

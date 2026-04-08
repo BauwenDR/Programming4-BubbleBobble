@@ -1,16 +1,15 @@
-﻿#include <imgui.h>
-#include <backends/imgui_impl_sdl3.h>
-#include <backends/imgui_impl_sdlrenderer3.h>
+﻿#include "Render/Renderer.hpp"
 
 #include <stdexcept>
 #include <iostream>
 
-#include "Renderer.hpp"
-
+#include <imgui.h>
 #include <implot.h>
+#include <backends/imgui_impl_sdl3.h>
+#include <backends/imgui_impl_sdlrenderer3.h>
 
+#include "Render/Texture2D.hpp"
 #include "SceneManager.hpp"
-#include "Texture2D.hpp"
 
 void dae::Renderer::Init(SDL_Window* window)
 {

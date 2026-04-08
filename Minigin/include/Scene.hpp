@@ -3,7 +3,7 @@
 #include <vector>
 
 #include "GameObject.hpp"
-#include "GuiWindow.hpp"
+#include "Render/GuiWindow.hpp"
 
 namespace dae
 {

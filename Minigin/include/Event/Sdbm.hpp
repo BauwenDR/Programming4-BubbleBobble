@@ -1,5 +1,7 @@
 #ifndef MINIGIN_CRYPTO_HPP
 #define MINIGIN_CRYPTO_HPP
+
+#include <cstdint>
 #include <cstddef>
 
 namespace dae {

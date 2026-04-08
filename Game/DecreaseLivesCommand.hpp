@@ -1,7 +1,7 @@
 #ifndef MINIGIN_DECREASELIVESCOMMAND_HPP
 #define MINIGIN_DECREASELIVESCOMMAND_HPP
 
-#include "ICommand.hpp"
+#include "Event/ICommand.hpp"
 #include "LivesScoreComponent.hpp"
 
 namespace dae

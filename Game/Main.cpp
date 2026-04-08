@@ -1,7 +1,8 @@
-#include <SDL3/SDL.h>
-
+#include <filesystem>
+namespace fs = std::filesystem;
 
 #if (_WIN32 or _WIN64)
+#include <SDL3/SDL.h>
 #include <SDL3/SDL_main.h>
 #endif
 
@@ -10,25 +11,17 @@
 #endif
 
 #include "LivesScoreComponent.hpp"
-#include "LivesUiComponent.hpp"
-#include "ScoreUiComponent.hpp"
-#include "FpsComponent.hpp"
 #include "PlayerInputComponent.hpp"
 
-#include "ColliderComponent.hpp"
-#include "PhysicsComponent.hpp"
-#include "Sdbm.hpp"
-#include "Minigin.hpp"
-#include "Texture2D.hpp"
-#include "TextureComponent.hpp"
+#include "Component/ColliderComponent.hpp"
+#include "Component/PhysicsComponent.hpp"
+#include "Component/TextComponent.hpp"
+#include "Component/TextureComponent.hpp"
+#include "Event/Sdbm.hpp"
 #include "SceneManager.hpp"
-#include "ResourceManager.hpp"
-#include "TextComponent.hpp"
+#include "Render/ResourceManager.hpp"
 #include "Scene.hpp"
-
-
-#include <filesystem>
-namespace fs = std::filesystem;
+#include "Minigin.hpp"
 
 // TODO place in class so we can track number of players (and accept scale as param)
 std::unique_ptr<dae::GameObject> prefabLoader(nlohmann::json const & data) {

@@ -4,8 +4,8 @@
 
 #include "GameObject.hpp"
 #include "LivesScoreComponent.hpp"
-#include "TextComponent.hpp"
-#include "Sdbm.hpp"
+#include "Component/TextComponent.hpp"
+#include "Event/Sdbm.hpp"
 
 void game::LivesUiComponent::Start()
 {

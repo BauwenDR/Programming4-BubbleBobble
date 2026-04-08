@@ -10,13 +10,13 @@
 #include <SDL3/SDL.h>
 #include <SDL3_ttf/SDL_ttf.h>
 
-#include "EventManager.hpp"
-#include "TimePrivate.hpp"
+#include "Event/EventManager.hpp"
+#include "Input/InputManager.hpp"
+#include "Render/Renderer.hpp"
+#include "Render/ResourceManager.hpp"
 #include "Minigin.hpp"
-#include "InputManager.hpp"
 #include "SceneManager.hpp"
-#include "Renderer.hpp"
-#include "ResourceManager.hpp"
+#include "TimePrivate.hpp"
 
 // TODO move to some sort of logger
 void LogSDLVersion(const std::string& message, int major, int minor, int patch)

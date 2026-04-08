@@ -1,6 +1,8 @@
+#include "Render/Font.hpp"
+
 #include <stdexcept>
+
 #include <SDL3_ttf/SDL_ttf.h>
-#include "Font.hpp"
 
 TTF_Font* dae::Font::GetFont() const {
 	return m_font;

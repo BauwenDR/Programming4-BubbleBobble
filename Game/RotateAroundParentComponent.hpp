@@ -1,7 +1,7 @@
 #ifndef MINIGIN_ROTATEAROUNDPARENTCOMPONENT_HPP
 #define MINIGIN_ROTATEAROUNDPARENTCOMPONENT_HPP
 
-#include "GameComponent.hpp"
+#include "Component/GameComponent.hpp"
 
 namespace game
 {

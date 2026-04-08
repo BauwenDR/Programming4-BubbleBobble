@@ -1,10 +1,11 @@
 #ifndef MINIGIN_TEXTURECOMPONENT_HPP
 #define MINIGIN_TEXTURECOMPONENT_HPP
 #include <memory>
+
 #include <SDL3/SDL_rect.h>
+#include <glm/vec2.hpp>
 
 #include "GameComponent.hpp"
-#include "glm/vec2.hpp"
 
 namespace dae
 {

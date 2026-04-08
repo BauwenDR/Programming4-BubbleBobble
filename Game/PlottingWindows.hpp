@@ -4,7 +4,7 @@
 #include <array>
 #include <vector>
 
-#include "GuiWindow.hpp"
+#include "Render/GuiWindow.hpp"
 
 namespace game
 {

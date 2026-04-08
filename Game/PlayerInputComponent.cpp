@@ -6,12 +6,13 @@
 #include "DecreaseLivesCommand.hpp"
 #include "IncreaseScoreCommand.hpp"
 #include "LivesScoreComponent.hpp"
-#include "GameObject.hpp"
-#include "PhysicsComponent.hpp"
-#include "InputManager.hpp"
 #include "JumpCommand.hpp"
 #include "MoveCommand.hpp"
-#include "Sdbm.hpp"
+
+#include "Component/PhysicsComponent.hpp"
+#include "Event/Sdbm.hpp"
+#include "Input/InputManager.hpp"
+#include "GameObject.hpp"
 
 void game::PlayerInputComponent::Start()
 {
