@@ -17,6 +17,12 @@ void dae::PhysicsSystem::UnregisterCollider(ColliderComponent *collider)
     {
         return colliderComp == collider;
     });
+
+    // Remove any previous-collision pairs that include this collider
+    std::erase_if(m_PreviousCollisions, [collider](const auto &p)
+    {
+        return p.first == collider || p.second == collider;
+    });
 }
 
 void dae::PhysicsSystem::PhysicsUpdate()

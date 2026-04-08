@@ -4,35 +4,39 @@
   "prefabs": [
     {
       "name": "background",
-      "texture": "Stage1.png"
+      "texture": "Stage1.png",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
     },
     {
       "name": "player",
       "position": {
-        "x": 100,
-        "y": 100
+        "x": 16,
+        "y": 200
       },
       "texture": "PlayerSprites.png"
     },
     {
       "name": "player",
       "position": {
-        "x": 500,
-        "y": 100
+        "x": 224,
+        "y": 200
       },
       "texture": "PlayerSprites.png"
     },
     {
       "name": "player-score",
       "position": {
-        "x": 300,
+        "x": 75,
         "y": 0
       }
     },
     {
       "name": "player-score",
       "position": {
-        "x": 600,
+        "x": 150,
         "y": 0
       }
     },
@@ -46,117 +50,157 @@
     {
       "name": "player-lives",
       "position": {
-        "x": 900,
+        "x": 225,
         "y": 224
       }
     },
     {
       "name": "rect-collider",
-      "rect": {
+      "position": {
         "x": 0,
-        "y": 0,
+        "y": 0
+      },
+      "rect": {
         "width": 16,
         "height": 224
       }
     },
     {
       "name": "rect-collider",
-      "rect": {
+      "position": {
         "x": 240,
-        "y": 0,
+        "y": 0
+      },
+      "rect": {
         "width": 16,
         "height": 224
       }
     },
     {
       "name": "rect-collider",
-      "rect": {
+      "position": {
         "x": 0,
-        "y": 216,
+        "y": 216
+      },
+      "rect": {
         "width": 256,
         "height": 8
       }
     },
     {
       "name": "rect-collider",
-      "rect": {
+      "position": {
         "x": 16,
-        "y": 96,
+        "y": 96
+      },
+      "rect": {
         "width": 16,
         "height": 8
       }
     },
     {
       "name": "rect-collider",
-      "rect": {
+      "position": {
         "x": 16,
-        "y": 136,
+        "y": 136
+      },
+      "rect": {
         "width": 16,
         "height": 8
       }
     },
     {
       "name": "rect-collider",
-      "rect": {
+      "position": {
         "x": 16,
-        "y": 176,
+        "y": 176
+      },
+      "rect": {
         "width": 16,
         "height": 8
       }
     },
     {
       "name": "rect-collider",
-      "rect": {
+      "position": {
         "x": 56,
-        "y": 96,
+        "y": 96
+      },
+      "rect": {
         "width": 144,
         "height": 8
       }
     },
     {
       "name": "rect-collider",
-      "rect": {
+      "position": {
         "x": 56,
-        "y": 136,
+        "y": 136
+      },
+      "rect": {
         "width": 144,
         "height": 8
       }
     },
     {
       "name": "rect-collider",
-      "rect": {
+      "position": {
         "x": 56,
-        "y": 176,
+        "y": 176
+      },
+      "rect": {
         "width": 144,
         "height": 8
       }
     },
     {
       "name": "rect-collider",
-      "rect": {
+      "position": {
         "x": 224,
-        "y": 96,
+        "y": 96
+      },
+      "rect": {
         "width": 16,
         "height": 8
       }
     },
     {
       "name": "rect-collider",
-      "rect": {
+      "position": {
         "x": 224,
-        "y": 136,
+        "y": 136
+      },
+      "rect": {
         "width": 16,
         "height": 8
       }
     },
     {
       "name": "rect-collider",
-      "rect": {
+      "position": {
         "x": 224,
-        "y": 176,
+        "y": 176
+      },
+      "rect": {
         "width": 16,
         "height": 8
       }
+    },
+    {
+      "name": "pickup",
+      "position": {
+        "x": 224,
+        "y": 64
+      },
+      "worth": 1000
+    },
+    {
+      "name": "pickup",
+      "position": {
+        "x": 16,
+        "y": 64
+      },
+      "worth": 500
     }
   ]
 }

@@ -1,4 +1,7 @@
 #include <filesystem>
+
+#include "Component/PickupComponent.hpp"
+#include "UI/ScoreUiComponent.hpp"
 namespace fs = std::filesystem;
 
 #if (_WIN32 or _WIN64)
@@ -25,8 +28,17 @@ namespace fs = std::filesystem;
 
 // TODO place in class so we can track number of players (and accept scale as param)
 std::unique_ptr<dae::GameObject> prefabLoader(nlohmann::json const & data) {
+	static std::vector<std::unique_ptr<dae::GameObject>> players{};
+	static auto uiFont{dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 24)};
+
 	auto prefab = std::make_unique<dae::GameObject>();
 	const auto prefabName{data["name"].get<std::string>()};
+
+	prefab->SetLocalPosition({
+		data["position"]["x"].get<float>() * 4.0f,
+		data["position"]["y"].get<float>() * 4.0f,
+		0.0f
+	});
 
 	if (prefabName == "background") {
 		prefab->AddComponent(std::make_unique<dae::TextureComponent>(
@@ -36,52 +48,57 @@ std::unique_ptr<dae::GameObject> prefabLoader(nlohmann::json const & data) {
 		);
 	}
 
-	if (prefabName == "player") {
-		static int playerNumber{0};
-
-		prefab->SetLocalPosition({
-			data["position"]["x"].get<float>(),
-			data["position"]["y"].get<float>(),
-			0.0f
-		});
-
+	else if (prefabName == "player") {
 		prefab->AddComponent(std::make_unique<dae::TextureComponent>(
 			*prefab,
 			dae::ResourceManager::GetInstance().LoadTexture("PlayerSprites.png"),
 			4.0f,
 			glm::vec2{16.0f, 16.0f},
-			glm::vec2{static_cast<float>(playerNumber), 0.0f})
+			glm::vec2{static_cast<float>(players.size()), 0.0f})
 		);
 
 		prefab->AddComponent(std::make_unique<game::LivesScoreComponent>(*prefab));
-
-		prefab->AddComponent(std::make_unique<game::PlayerInputComponent>(*prefab, playerNumber));
-
-		auto collider{std::make_unique<dae::ColliderComponent>(*prefab, glm::vec2{64.0f,64.0f}, dae::sdbm_hash("PLAYER"))};
-		dae::PhysicsSystem::GetInstance().RegisterCollider(collider.get());
-		prefab->AddComponent(std::move(collider));
-
+		prefab->AddComponent(std::make_unique<game::PlayerInputComponent>(*prefab, static_cast<int>(players.size())));
+		prefab->AddComponent(std::make_unique<dae::ColliderComponent>(*prefab, glm::vec2{64.0f,64.0f}, dae::sdbm_hash("PLAYER")));
 		prefab->AddComponent(std::make_unique<dae::PhysicsComponent>(*prefab));
+
+		players.emplace_back(prefab.get());
+	}
+
+	else if (prefabName == "rect-collider")
+	{
+		prefab->AddComponent(std::make_unique<dae::ColliderComponent>(*prefab, glm::vec2{
+			data["rect"]["width"].get<float>() * 4.0f,
+			data["rect"]["height"].get<float>() * 4.0f
+		},
+		dae::sdbm_hash("STAGE")));
+	}
+
+	else if (prefabName == "player-score")
+	{
+		static int playerNumber{0};
+
+		if (playerNumber >= static_cast<int>(players.size())) return prefab;
+
+		prefab->AddComponent(std::make_unique<dae::TextureComponent>(*prefab));
+		prefab->AddComponent(std::make_unique<dae::TextComponent>(*prefab, "000000000", uiFont));
+		prefab->AddComponent(std::make_unique<game::ScoreUiComponent>(*prefab, *players[playerNumber]));
 
 		++playerNumber;
 	}
 
-	if (prefabName == "rect-collider")
+	else if (prefabName == "pickup")
 	{
-		prefab->SetLocalPosition({
-			data["rect"]["x"].get<float>() * 4.0f,
-			data["rect"]["y"].get<float>() * 4.0f,
-			0.0f
-		});
+		prefab->AddComponent(std::make_unique<dae::TextureComponent>(
+			*prefab,
+			dae::ResourceManager::GetInstance().LoadTexture("PickupSprites.png"),
+			4.0f,
+			glm::vec2{16.0f, 16.0f},
+			glm::vec2{0.0f, 0.0f}
+		));
 
-		auto collider{std::make_unique<dae::ColliderComponent>(*prefab, glm::vec2{
-			data["rect"]["width"].get<float>() * 4.0f,
-			data["rect"]["height"].get<float>() * 4.0f
-		},
-		dae::sdbm_hash("STAGE"))};
-
-		dae::PhysicsSystem::GetInstance().RegisterCollider(collider.get());
-		prefab->AddComponent(std::move(collider));
+		prefab->AddComponent(std::make_unique<dae::ColliderComponent>(*prefab, glm::vec2{64.0f, 64.0f}, dae::sdbm_hash("PICKUP")));
+		prefab->AddComponent(std::make_unique<game::PickupComponent>(*prefab, data["worth"].get<int>()));
 	}
 
 	return prefab;

@@ -16,7 +16,7 @@ namespace game
 
     // Having this be an observer would probably be a better idea
     // I have chosen to go for an Event Handler as of Assignment requirements
-    class ScoreUiComponent final : public dae::GameComponent, public dae::IEventHandler
+    class ScoreUiComponent final : public dae::GameComponent, public dae::IObserver
     {
     public:
         // GameComponent functions
@@ -25,7 +25,7 @@ namespace game
         void Render() const override {}
 
         // Observer
-        void HandleEvent(uint32_t event) override;
+        void Notify(const dae::GameObject &object, uint32_t event, const dae::ObserverData *data) override;
 
         // We should prob get player from some global object instead of param
         // But for now we use a param anyway

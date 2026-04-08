@@ -1,38 +1,39 @@
 #include "LivesScoreComponent.hpp"
 
-#include <format>
-
-#include "Event/EventManager.hpp"
-#include "Event/Sdbm.hpp"
 #include "GameObject.hpp"
-
-void game::LivesScoreComponent::DecreaseLives()
-{
-    m_lives = std::max(m_lives - 1, 0);
-
-    GetGameObject().NotifyObservers(dae::sdbm_hash("PlayerDied"));
-}
-
-void game::LivesScoreComponent::IncreaseScore(int amount)
-{
-    m_score += amount;
-
-    dae::EventManager::GetInstance().SendEvent(dae::sdbm_hash("ScoreChanged"));
-    GetGameObject().NotifyObservers(dae::sdbm_hash("ScoreChanged"));
-}
+#include "PickupComponent.hpp"
+#include "Event/Sdbm.hpp"
 
 int game::LivesScoreComponent::GetScore() const
 {
     return m_score;
 }
 
-
-game::LivesScoreComponent::LivesScoreComponent(dae::GameObject &owner)
-    : GameComponent(owner)
+void game::LivesScoreComponent::Start()
 {
+    GetGameObject().AddObserver(this);
 }
 
 int game::LivesScoreComponent::GetLives() const
 {
     return m_lives;
 }
+
+game::LivesScoreComponent::LivesScoreComponent(dae::GameObject &owner)
+    : GameComponent(owner)
+{
+}
+
+void game::LivesScoreComponent::Notify(const dae::GameObject &, uint32_t event, const dae::ObserverData *data)
+{
+    if (event != dae::sdbm_hash("pickup")) return;
+
+    if (data == nullptr) return;
+    const auto pickupData{dynamic_cast<PickupData const *>(data)};
+    if (pickupData == nullptr) return;
+
+    m_score += pickupData->worth;
+
+    GetGameObject().NotifyObservers(dae::sdbm_hash("score_changed"), {});
+}
+

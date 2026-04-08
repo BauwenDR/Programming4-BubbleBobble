@@ -2,6 +2,7 @@
 
 #include <stdexcept>
 
+#include <SDL3/SDL.h>
 #include <SDL3_ttf/SDL_ttf.h>
 
 #include "Component/TextureComponent.hpp"
@@ -13,15 +14,13 @@
 void dae::TextComponent::Start()
 {
 	m_textureComponent = GetGameObject().GetComponent<TextureComponent>();
+
+	assert(m_textureComponent != nullptr && "No valid text component");
 }
 
 void dae::TextComponent::Update()
 {
-	if (!m_textureComponent)
-	{
-		assert(false && "No valid text component");
-		return;
-	}
+	if (!m_textureComponent) return;
 
 	if (m_needsUpdate)
 	{

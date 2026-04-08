@@ -30,6 +30,17 @@ void dae::PhysicsComponent::Update()
 
 void dae::PhysicsComponent::Notify(const GameObject &, uint32_t event, ObserverData const *data)
 {
+    if (!(
+        event == sdbm_hash("on_collision_enter") ||
+        event == sdbm_hash("on_collision_stay") ||
+        event == sdbm_hash("on_collision_exit")
+    ))
+    {
+        return;
+    }
+
+    if (data == nullptr) return;
+
     const auto colliderData{dynamic_cast<ColliderData const *>(data)};
     if (colliderData == nullptr) return;
 
@@ -48,7 +59,7 @@ void dae::PhysicsComponent::Notify(const GameObject &, uint32_t event, ObserverD
             m_ignoredCollider = colliderData->collider;
         };
     }
-    if (event == sdbm_hash("on_collision_stay") && data != nullptr)
+    if (event == sdbm_hash("on_collision_stay"))
     {
         // Ignore collision if we have entered it from the bottom
         if (m_ignoredCollider == colliderData->collider) return;
@@ -83,8 +94,7 @@ void dae::PhysicsComponent::Notify(const GameObject &, uint32_t event, ObserverD
             m_velY = 0.0f;
         }
     }
-
-    if (event == sdbm_hash("on_collision_exit") && data != nullptr)
+    if (event == sdbm_hash("on_collision_exit"))
     {
         if (m_ignoredCollider == colliderData->collider)
         {

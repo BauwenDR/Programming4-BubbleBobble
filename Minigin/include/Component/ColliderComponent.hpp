@@ -28,12 +28,8 @@ namespace dae
         void OnCollisionExit(ColliderComponent const *collider) const;
 
         void Start() override;
-
         void Update() override;
-
-        void Render() const override
-        {
-        };
+        void Render() const override{}
 
         [[nodiscard]] glm::vec4 const &GetColliderPosition() const
         {
@@ -50,14 +46,9 @@ namespace dae
             return m_tag;
         };
 
-        ColliderComponent(GameObject &owner, glm::vec2 const &colliderSize, uint32_t const tag)
-            : GameComponent(owner)
-              , m_collider(glm::vec4{0.0f, 0.0f, colliderSize.x, colliderSize.y})
-              , m_tag(tag)
-        {
-        }
+        ColliderComponent(GameObject &owner, glm::vec2 const &colliderSize, uint32_t tag);
 
-        ~ColliderComponent() override = default;
+        ~ColliderComponent() override;
 
     private:
         glm::vec4 m_collider{};
