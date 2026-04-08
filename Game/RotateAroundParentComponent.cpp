@@ -1,9 +1,9 @@
 #include "RotateAroundParentComponent.hpp"
 
+#include <numbers>
+
 #include "GameObject.hpp"
 #include "Time.hpp"
-
-#include <numbers>
 
 namespace game
 {

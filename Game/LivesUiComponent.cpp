@@ -2,10 +2,11 @@
 
 #include <format>
 
-#include "GameObject.hpp"
 #include "LivesScoreComponent.hpp"
+
 #include "Component/TextComponent.hpp"
 #include "Event/Sdbm.hpp"
+#include "GameObject.hpp"
 
 void game::LivesUiComponent::Start()
 {
