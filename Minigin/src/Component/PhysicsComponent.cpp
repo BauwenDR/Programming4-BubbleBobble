@@ -17,11 +17,10 @@ void dae::PhysicsComponent::Update()
     m_velY += GRAVITY_FORCE * Time::timeDelta();
     m_velY = std::clamp(m_velY, -JUMP_FORCE, TERMINAL_VELOCITY);
 
-    const float drag = m_isOnGround ? m_dragGround : m_dragAir;
+    const float drag = m_isOnGround ? DRAG_GROUND : m_velY >= 0.0f ? DRAG_AIR_FALLING : DRAG_AIR;
     m_velX /= 1.0f + drag * Time::timeDelta();
 
-    const float maxSpeed = m_isOnGround ? m_maxSpeedGround : m_maxSpeedAir;
-    m_velX = std::clamp(m_velX, -maxSpeed, maxSpeed);
+    m_velX = std::clamp(m_velX, -m_maxHorizontalSpeed, m_maxHorizontalSpeed);
 
     glm::vec3 currentPos{GetGameObject().GetLocalTransform().GetPosition()};
     currentPos.x += m_velX * Time::timeDelta();
@@ -87,16 +86,20 @@ void dae::PhysicsComponent::Notify(const GameObject &, uint32_t event, ObserverD
         {
             m_isOnGround = false;
             m_standingOn = nullptr;
+
+            if (m_velY >= 0)
+            {
+                m_velX /= WALKING_OFF_DEVISOR;
+            }
         }
     }
 }
 
 void dae::PhysicsComponent::MoveHorizontal(float amount)
 {
-    const float accel = m_isOnGround ? m_accelGround : m_accelAir;
-    const float maxSpeed = m_isOnGround ? m_maxSpeedGround : m_maxSpeedAir;
+    const float accel = m_isOnGround ? ACCELERATION_GROUND : ACCELERATION_AIR;
 
-    const float desiredVelX = amount * maxSpeed;
+    const float desiredVelX = amount * m_maxHorizontalSpeed;
     const float delta = desiredVelX - m_velX;
 
     const float maxChange = accel * Time::timeDelta();

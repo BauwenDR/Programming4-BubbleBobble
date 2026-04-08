@@ -28,19 +28,21 @@ namespace dae
         constexpr static float JUMP_FORCE{72.0f * 4};
         constexpr static float MAX_JUMP_THROUGH_HEIGHT{8.0f * 4.0f};
 
+        constexpr static float MAX_HORIZONTAL_SPEED{256.0f};
+        constexpr static float ACCELERATION_GROUND{512.0f * 4.0f};
+        constexpr static float ACCELERATION_AIR{128.0f};
+        constexpr static float DRAG_GROUND{12.0f};
+        constexpr static float DRAG_AIR{1.5f};
+        constexpr static float DRAG_AIR_FALLING{2.5f};
+        constexpr static float WALKING_OFF_DEVISOR{3.0f};
+
         ColliderComponent *m_collider{};
         ColliderComponent const *m_standingOn{};
         std::unordered_map<ColliderComponent const *, bool> *m_collidingWith{new std::unordered_map<ColliderComponent const *, bool>()};
 
+        float m_maxHorizontalSpeed{MAX_HORIZONTAL_SPEED};   // The max speed can increase
         float m_velY{};
         float m_velX{};
-
-        float m_maxSpeedGround{300.0f};   // tweak: max speed on ground (units/sec)
-        float m_maxSpeedAir{160.0f};      // tweak: max speed in air
-        float m_accelGround{1500.0f};     // acceleration when on ground
-        float m_accelAir{600.0f};         // acceleration when in air
-        float m_dragGround{12.0f};        // ground braking / friction
-        float m_dragAir{2.0f};
 
         bool m_isOnGround{};
     };
