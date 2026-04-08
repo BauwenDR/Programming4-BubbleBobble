@@ -64,6 +64,8 @@ namespace dae
         glm::vec2 m_center{};
 
         uint32_t m_tag{};
+
+        void RecalculateCollider();
     };
 }
 
