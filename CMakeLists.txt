@@ -30,24 +30,24 @@ set(GAME_SOURCE_FILES
 
 set(MINIGIN_SOURCE_FILES
         Minigin/src/Component/ColliderComponent.cpp
+        Minigin/src/Component/GameComponent.cpp
+        Minigin/src/Component/PhysicsComponent.cpp
+        Minigin/src/Component/TextComponent.cpp
+        Minigin/src/Component/TextureComponent.cpp
         Minigin/src/Event/EventManager.cpp
         Minigin/src/Event/EventRingBuffer.cpp
-        Minigin/src/Render/Font.cpp
-        Minigin/src/Component/GameComponent.cpp
-        Minigin/src/GameObject.cpp
-        Minigin/src/Component/PhysicsComponent.cpp
-        Minigin/src/Render/GuiWindow.cpp
         Minigin/src/Input/InputManager.cpp
         Minigin/src/Input/KeyboardInput.cpp
-        Minigin/src/Minigin.cpp
-        Minigin/src/PhysicsSystem.cpp
+        Minigin/src/Render/Font.cpp
+        Minigin/src/Render/GuiWindow.cpp
         Minigin/src/Render/Renderer.cpp
         Minigin/src/Render/ResourceManager.cpp
+        Minigin/src/Render/Texture2D.cpp
+        Minigin/src/GameObject.cpp
+        Minigin/src/Minigin.cpp
+        Minigin/src/PhysicsSystem.cpp
         Minigin/src/Scene.cpp
         Minigin/src/SceneManager.cpp
-        Minigin/src/Component/TextComponent.cpp
-        Minigin/src/Render/Texture2D.cpp
-        Minigin/src/Component/TextureComponent.cpp
         Minigin/src/Time.cpp
         Minigin/src/Transform.cpp
 )
