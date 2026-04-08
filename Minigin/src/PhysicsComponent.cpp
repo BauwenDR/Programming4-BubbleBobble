@@ -37,9 +37,11 @@ void dae::PhysicsComponent::Notify(const GameObject &, uint32_t event, ObserverD
     constexpr float epsilon{0.001};
     if (event == sdbm_hash("on_collision_enter"))
     {
+        const glm::vec4 &ownCollider{m_collider->GetColliderPosition()};
+        const glm::vec4 &otherCollider{colliderData->collider->GetColliderPosition()};
+
         (*m_collidingWith)[colliderData->collider] =
-                colliderData->collisionNormal.y == 1.0f &&
-                colliderData->collider->GetColliderPosition().w <= MAX_JUMP_THROUGH_HEIGHT;
+                colliderData->collisionNormal.y == 1.0f || ownCollider.y + ownCollider.w > otherCollider.y + otherCollider.w;
     }
     if (event == sdbm_hash("on_collision_stay") && data != nullptr)
     {
