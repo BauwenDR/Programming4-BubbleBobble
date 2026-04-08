@@ -34,6 +34,8 @@ void dae::PhysicsComponent::Notify(const GameObject &, uint32_t event, ObserverD
     const auto colliderData{dynamic_cast<ColliderData const *>(data)};
     if (colliderData == nullptr) return;
 
+    if (colliderData->collider->GetTag() != sdbm_hash("STAGE")) return;
+
     constexpr float epsilon{0.001};
     if (event == sdbm_hash("on_collision_enter"))
     {
@@ -94,12 +96,12 @@ void dae::PhysicsComponent::MoveHorizontal(float amount)
     const float accel = m_isOnGround ? m_accelGround : m_accelAir;
     const float maxSpeed = m_isOnGround ? m_maxSpeedGround : m_maxSpeedAir;
 
-    // accelerate towards desired velocity
     const float desiredVelX = amount * maxSpeed;
     const float delta = desiredVelX - m_velX;
-    // Apply acceleration (clamp change by accel * dt)
+
     const float maxChange = accel * Time::timeDelta();
     const float change = std::clamp(delta, -maxChange, maxChange);
+
     m_velX += change;
 }
 

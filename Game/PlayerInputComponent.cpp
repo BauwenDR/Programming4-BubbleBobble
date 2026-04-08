@@ -55,24 +55,9 @@ void game::PlayerInputComponent::Start()
     dae::InputManager::GetInstance().Bind(dae::Input::ControllerKey::DpadUp, player, dae::Input::CommandTrigger::KeyHeld, m_jumpCommand.get());
 }
 
-void game::PlayerInputComponent::Notify(const dae::GameObject &, uint32_t event, const dae::ObserverData *)
-{
-    switch (event)
-    {
-        case dae::sdbm_hash("on_collision_enter"):
-            std::cout << "Collision enter\n";
-            break;
-
-        case dae::sdbm_hash("on_collision_exit"):
-            std::cout << "Collision exit\n";
-            break;
-    }
-}
-
 game::PlayerInputComponent::PlayerInputComponent(dae::GameObject &owner, float movesSpeed, int player)
     : GameComponent(owner), player(player), movesSpeed(movesSpeed)
 {
-    GetGameObject().AddObserver(this);
 }
 
 game::PlayerInputComponent::~PlayerInputComponent()

@@ -14,14 +14,12 @@ namespace game {
     class LivesScoreComponent;
     class MoveCommand;
 
-    class PlayerInputComponent final : public dae::GameComponent, public dae::IObserver
+    class PlayerInputComponent final : public dae::GameComponent
     {
     public:
         void Start() override;
         void Update() override {}
         void Render() const override {}
-
-        void Notify(const dae::GameObject &object, uint32_t event, const dae::ObserverData *data) override;
 
         PlayerInputComponent(dae::GameObject& owner, float movesSpeed, int player);
         ~PlayerInputComponent() override;

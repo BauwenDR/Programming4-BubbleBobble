@@ -21,7 +21,6 @@ void dae::PhysicsSystem::UnregisterCollider(ColliderComponent *collider)
 
 void dae::PhysicsSystem::PhysicsUpdate()
 {
-    // Sweep pairwise to determine collisions this frame
     std::unordered_set<std::pair<const ColliderComponent*, const ColliderComponent*>, PairHash> currentCollisions{};
     currentCollisions.reserve(m_colliders.size() * 2);
 
@@ -39,15 +38,12 @@ void dae::PhysicsSystem::PhysicsUpdate()
                 std::pair<const ColliderComponent*, const ColliderComponent*> key{a, b};
                 currentCollisions.insert(key);
 
-                // Determine previous state
                 bool wasColliding = m_PreviousCollisions.contains(key);
 
                 if (!wasColliding) {
-                    // Enter
                     a->OnCollisionEnter(b, normal);
                     b->OnCollisionEnter(a, normal);
                 } else {
-                    // Stay
                     a->OnCollisionStay(b, normal);
                     b->OnCollisionStay(a, normal);
                 }
@@ -83,10 +79,10 @@ dae::PhysicsSystem::ColliderResult dae::PhysicsSystem::CollidersIntersecting(
         return {false, {}};
     }
 
-    // Centers
     const glm::vec2 c1{ r1.x + r1.z * 0.5f, r1.y + r1.w * 0.5f };
     const glm::vec2 c2{ r2.x + r2.z * 0.5f, r2.y + r2.w * 0.5f };
 
+    // Calculate what axis we overlap with the most, point the normal towards that axis
     const glm::vec2 distance = c1 - c2;
     const glm::vec2 extents{ r1.z * 0.5f + r2.z * 0.5f, r1.w * 0.5f + r2.w * 0.5f };
     const glm::vec2 penetration = extents - glm::abs(distance);

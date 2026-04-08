@@ -1,7 +1,5 @@
 #include <SDL3/SDL.h>
 
-#include "ColliderComponent.hpp"
-#include "PhysicsComponent.hpp"
 
 #if (_WIN32 or _WIN64)
 #include <SDL3/SDL_main.h>
@@ -17,6 +15,9 @@
 #include "FpsComponent.hpp"
 #include "PlayerInputComponent.hpp"
 
+#include "ColliderComponent.hpp"
+#include "PhysicsComponent.hpp"
+#include "Sdbm.hpp"
 #include "Minigin.hpp"
 #include "Texture2D.hpp"
 #include "TextureComponent.hpp"
@@ -24,6 +25,7 @@
 #include "ResourceManager.hpp"
 #include "TextComponent.hpp"
 #include "Scene.hpp"
+
 
 #include <filesystem>
 namespace fs = std::filesystem;
@@ -62,7 +64,7 @@ std::unique_ptr<dae::GameObject> prefabLoader(nlohmann::json const & data) {
 
 		prefab->AddComponent(std::make_unique<game::PlayerInputComponent>(*prefab, 100.0f, playerNumber));
 
-		auto collider{std::make_unique<dae::ColliderComponent>(*prefab, glm::vec2{64.0f,64.0f})};
+		auto collider{std::make_unique<dae::ColliderComponent>(*prefab, glm::vec2{64.0f,64.0f}, dae::sdbm_hash("PLAYER"))};
 		dae::PhysicsSystem::GetInstance().RegisterCollider(collider.get());
 		prefab->AddComponent(std::move(collider));
 
@@ -82,7 +84,8 @@ std::unique_ptr<dae::GameObject> prefabLoader(nlohmann::json const & data) {
 		auto collider{std::make_unique<dae::ColliderComponent>(*prefab, glm::vec2{
 			data["rect"]["width"].get<float>() * 4.0f,
 			data["rect"]["height"].get<float>() * 4.0f
-		})};
+		},
+		dae::sdbm_hash("STAGE"))};
 
 		dae::PhysicsSystem::GetInstance().RegisterCollider(collider.get());
 		prefab->AddComponent(std::move(collider));
