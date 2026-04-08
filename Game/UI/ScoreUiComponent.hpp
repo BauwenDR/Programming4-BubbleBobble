@@ -35,6 +35,7 @@ namespace game
         ScoreUiComponent(ScoreUiComponent &&other) noexcept = delete;
         ScoreUiComponent & operator=(const ScoreUiComponent &other) = delete;
         ScoreUiComponent & operator=(ScoreUiComponent &&other) noexcept = delete;
+
     private:
         dae::GameObject *m_observingPlayer;
         dae::TextComponent *m_textComponent{nullptr};

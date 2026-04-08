@@ -16,6 +16,7 @@ namespace dae
             collider(collider), collisionNormal(normal)
         {
         }
+        ~ColliderData() override = default;
     };
 
     class ColliderComponent : public GameComponent

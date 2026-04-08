@@ -27,6 +27,11 @@ namespace game
         PickupComponent(dae::GameObject &owner, int worth);
         ~PickupComponent() override;
 
+        PickupComponent(const PickupComponent &other) = delete;
+        PickupComponent(PickupComponent &&other) noexcept = delete;
+        PickupComponent &operator=(const PickupComponent &other) = delete;
+        PickupComponent &operator=(PickupComponent &&other) noexcept = delete;
+
     private:
         int m_worth{};
     };

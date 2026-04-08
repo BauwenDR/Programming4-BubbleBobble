@@ -23,7 +23,8 @@ dae::GameObject::GameObject()
 
 dae::GameObject::~GameObject()
 {
-    NotifyObservers(sdbm_hash("object_destroyed"), {});
+    const ObjectDestroyedData data(this);
+    NotifyObservers(sdbm_hash("object_destroyed"), &data);
 }
 
 void dae::GameObject::Start() const
