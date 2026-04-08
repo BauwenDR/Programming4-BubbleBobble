@@ -39,7 +39,7 @@ std::unique_ptr<dae::GameObject> prefabLoader(nlohmann::json const & data) {
 		prefab->AddComponent(std::make_unique<dae::TextureComponent>(
 			*prefab.get(),
 			dae::ResourceManager::GetInstance().LoadTexture(data["texture"].get<std::string>()),
-			4)
+			4.0f)
 		);
 	}
 
@@ -55,14 +55,14 @@ std::unique_ptr<dae::GameObject> prefabLoader(nlohmann::json const & data) {
 		prefab->AddComponent(std::make_unique<dae::TextureComponent>(
 			*prefab,
 			dae::ResourceManager::GetInstance().LoadTexture("PlayerSprites.png"),
-			4,
+			4.0f,
 			glm::vec2{16.0f, 16.0f},
 			glm::vec2{static_cast<float>(playerNumber), 0.0f})
 		);
 
 		prefab->AddComponent(std::make_unique<game::LivesScoreComponent>(*prefab));
 
-		prefab->AddComponent(std::make_unique<game::PlayerInputComponent>(*prefab, 100.0f, playerNumber));
+		prefab->AddComponent(std::make_unique<game::PlayerInputComponent>(*prefab, playerNumber));
 
 		auto collider{std::make_unique<dae::ColliderComponent>(*prefab, glm::vec2{64.0f,64.0f}, dae::sdbm_hash("PLAYER"))};
 		dae::PhysicsSystem::GetInstance().RegisterCollider(collider.get());

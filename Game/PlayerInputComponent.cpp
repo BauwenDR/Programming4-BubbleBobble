@@ -55,8 +55,8 @@ void game::PlayerInputComponent::Start()
     dae::InputManager::GetInstance().Bind(dae::Input::ControllerKey::DpadUp, player, dae::Input::CommandTrigger::KeyHeld, m_jumpCommand.get());
 }
 
-game::PlayerInputComponent::PlayerInputComponent(dae::GameObject &owner, float movesSpeed, int player)
-    : GameComponent(owner), player(player), movesSpeed(movesSpeed)
+game::PlayerInputComponent::PlayerInputComponent(dae::GameObject &owner, int player)
+    : GameComponent(owner), player(player)
 {
 }
 

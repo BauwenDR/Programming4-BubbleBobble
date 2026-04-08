@@ -21,7 +21,7 @@ namespace game {
         void Update() override {}
         void Render() const override {}
 
-        PlayerInputComponent(dae::GameObject& owner, float movesSpeed, int player);
+        PlayerInputComponent(dae::GameObject& owner, int player);
         ~PlayerInputComponent() override;
 
         PlayerInputComponent(const PlayerInputComponent &other) = delete;
@@ -31,7 +31,6 @@ namespace game {
 
     private:
         int player{};
-        float movesSpeed{};
 
         LivesScoreComponent *m_livesScoreComponent{};
 

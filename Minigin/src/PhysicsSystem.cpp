@@ -13,7 +13,7 @@ void dae::PhysicsSystem::RegisterCollider(ColliderComponent *collider)
 
 void dae::PhysicsSystem::UnregisterCollider(ColliderComponent *collider)
 {
-    std::ranges::remove_if(m_colliders, [collider](ColliderComponent const * colliderComp)
+    std::erase_if(m_colliders, [collider](ColliderComponent const * colliderComp)
     {
         return colliderComp == collider;
     });
