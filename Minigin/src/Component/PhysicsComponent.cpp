@@ -56,13 +56,15 @@ void dae::PhysicsComponent::Notify(uint32_t event, ObserverData const *data)
             ownCollider.y + ownCollider.w > otherCollider.y + otherCollider.w
         )
         {
-            m_ignoredCollider = colliderData->collider;
-        };
+            m_ignoredColliders.emplace(colliderData->collider);
+        }
+
+        ++m_collidingWithCount;
     }
     if (event == sdbm_hash("on_collision_stay"))
     {
         // Ignore collision if we have entered it from the bottom
-        if (m_ignoredCollider == colliderData->collider) return;
+        if (m_ignoredColliders.contains(colliderData->collider)) return;
 
         if (colliderData->collisionNormal.y == 0.0f)
         {
@@ -96,9 +98,12 @@ void dae::PhysicsComponent::Notify(uint32_t event, ObserverData const *data)
     }
     if (event == sdbm_hash("on_collision_exit"))
     {
-        if (m_ignoredCollider == colliderData->collider)
+        --m_collidingWithCount;
+
+        if (m_collidingWithCount <= 0)
         {
-            m_ignoredCollider = nullptr;
+            m_collidingWithCount = 0;
+            m_ignoredColliders.clear();
         }
 
         if (colliderData->collider == m_standingOn)

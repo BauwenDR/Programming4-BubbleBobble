@@ -1,6 +1,8 @@
 #ifndef MINIGIN_GRAVITYCOMPONENT_HPP
 #define MINIGIN_GRAVITYCOMPONENT_HPP
 
+#include <unordered_set>
+
 #include "ColliderComponent.hpp"
 #include "GameComponent.hpp"
 
@@ -38,11 +40,13 @@ namespace dae
 
         ColliderComponent *m_collider{};
         ColliderComponent const *m_standingOn{};
-        ColliderComponent const *m_ignoredCollider{};
+        std::unordered_set<ColliderComponent const *> m_ignoredColliders{};
 
         float m_maxHorizontalSpeed{MAX_HORIZONTAL_SPEED};   // The max speed can increase
         float m_velY{};
         float m_velX{};
+
+        int m_collidingWithCount{0};
 
         bool m_isOnGround{};
     };
