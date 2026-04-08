@@ -1,6 +1,7 @@
 #include "GameObject.hpp"
 
 #include "Component/GameComponent.hpp"
+#include "Event/Sdbm.hpp"
 #include "Render/ResourceManager.hpp"
 
 void dae::GameObject::MarkForDelete()
@@ -18,6 +19,11 @@ dae::GameObject::GameObject()
       , m_worldTransform(std::make_unique<Transform>())
       , m_positionIsDirty(true)
 {
+}
+
+dae::GameObject::~GameObject()
+{
+    NotifyObservers(sdbm_hash("object_destroyed"), {});
 }
 
 void dae::GameObject::Start() const

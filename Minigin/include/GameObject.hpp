@@ -71,7 +71,7 @@ namespace dae
 		[[nodiscard]] bool IsMarkedForDelete() const;
 
 		GameObject();
-		~GameObject() = default;
+		~GameObject();
 
 		GameObject(const GameObject& other) = delete;
 		GameObject(GameObject&& other) = delete;

@@ -36,4 +36,3 @@ void game::LivesScoreComponent::Notify(const dae::GameObject &, uint32_t event, 
 
     GetGameObject().NotifyObservers(dae::sdbm_hash("score_changed"), {});
 }
-

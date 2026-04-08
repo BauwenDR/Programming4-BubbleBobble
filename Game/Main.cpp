@@ -28,7 +28,7 @@ namespace fs = std::filesystem;
 
 // TODO place in class so we can track number of players (and accept scale as param)
 std::unique_ptr<dae::GameObject> prefabLoader(nlohmann::json const & data) {
-	static std::vector<std::unique_ptr<dae::GameObject>> players{};
+	static std::vector<dae::GameObject*> players{};
 	static auto uiFont{dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 24)};
 
 	auto prefab = std::make_unique<dae::GameObject>();
@@ -82,7 +82,7 @@ std::unique_ptr<dae::GameObject> prefabLoader(nlohmann::json const & data) {
 
 		prefab->AddComponent(std::make_unique<dae::TextureComponent>(*prefab));
 		prefab->AddComponent(std::make_unique<dae::TextComponent>(*prefab, "000000000", uiFont));
-		prefab->AddComponent(std::make_unique<game::ScoreUiComponent>(*prefab, *players[playerNumber]));
+		prefab->AddComponent(std::make_unique<game::ScoreUiComponent>(*prefab, players[playerNumber]));
 
 		++playerNumber;
 	}

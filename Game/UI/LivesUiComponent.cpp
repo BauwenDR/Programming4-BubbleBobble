@@ -10,17 +10,23 @@
 
 void game::LivesUiComponent::Start()
 {
-    m_observingPlayer.AddObserver(this);
+    m_observingPlayer->AddObserver(this);
 
     m_textComponent = GetGameObject().GetComponent<dae::TextComponent>();
     assert(m_textComponent != nullptr);
 
-    m_playerLivesComponent = m_observingPlayer.GetComponent<LivesScoreComponent>();
+    m_playerLivesComponent = m_observingPlayer->GetComponent<LivesScoreComponent>();
     assert(m_playerLivesComponent != nullptr);
 }
 
 void game::LivesUiComponent::Notify(dae::GameObject const &, uint32_t event, dae::ObserverData const *)
 {
+    if (event == dae::sdbm_hash("object_destroyed"))
+    {
+        m_observingPlayer = nullptr;
+        return;
+    }
+
     if (event != dae::sdbm_hash("PlayerDied")) return;
     if (m_textComponent == nullptr) return;
     if (m_playerLivesComponent == nullptr) return;
@@ -28,8 +34,13 @@ void game::LivesUiComponent::Notify(dae::GameObject const &, uint32_t event, dae
     m_textComponent->SetText(std::format("# Lives: {}", m_playerLivesComponent->GetLives()));
 }
 
-game::LivesUiComponent::LivesUiComponent(dae::GameObject &owner, dae::GameObject &player)
+game::LivesUiComponent::LivesUiComponent(dae::GameObject &owner, dae::GameObject *player)
 : GameComponent(owner)
 , m_observingPlayer(player)
 {
+}
+
+game::LivesUiComponent::~LivesUiComponent()
+{
+    if (m_observingPlayer != nullptr) m_observingPlayer->RemoveObserver(this);
 }
