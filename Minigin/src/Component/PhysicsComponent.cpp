@@ -35,22 +35,28 @@ void dae::PhysicsComponent::Notify(const GameObject &, uint32_t event, ObserverD
 
     if (colliderData->collider->GetTag() != sdbm_hash("STAGE")) return;
 
-    constexpr float epsilon{0.001f};
     if (event == sdbm_hash("on_collision_enter"))
     {
         const glm::vec4 &ownCollider{m_collider->GetColliderPosition()};
         const glm::vec4 &otherCollider{colliderData->collider->GetColliderPosition()};
 
-        (*m_collidingWith)[colliderData->collider] =
-                colliderData->collisionNormal.y == 1.0f || ownCollider.y + ownCollider.w > otherCollider.y + otherCollider.w;
+        if (
+            colliderData->collisionNormal.y == 1.0f ||
+            ownCollider.y + ownCollider.w > otherCollider.y + otherCollider.w
+        )
+        {
+            m_ignoredCollider = colliderData->collider;
+        };
     }
     if (event == sdbm_hash("on_collision_stay") && data != nullptr)
     {
-        // Ignore collision if we entered it from the bottom
-        if (!m_collidingWith->contains(colliderData->collider) || (*m_collidingWith)[colliderData->collider]) return;
+        // Ignore collision if we have entered it from the bottom
+        if (m_ignoredCollider == colliderData->collider) return;
 
         if (colliderData->collisionNormal.y == 0.0f)
         {
+            constexpr float epsilon{0.001f};
+
             const float colliderXPos{colliderData->collider->GetColliderPosition().x};
             glm::vec3 currentPos{GetGameObject().GetLocalTransform().GetPosition()};
 
@@ -65,7 +71,7 @@ void dae::PhysicsComponent::Notify(const GameObject &, uint32_t event, ObserverD
             }
 
             GetGameObject().SetLocalPosition(currentPos);
-        }else if (m_velY > 0.0f && colliderData->collisionNormal.x == 0.0f)
+        } else if (m_velY > 0.0f && colliderData->collisionNormal.x == 0.0f)
         {
             const float colliderYPos{colliderData->collider->GetColliderPosition().y};
             glm::vec3 currentPos{GetGameObject().GetLocalTransform().GetPosition()};
@@ -80,7 +86,10 @@ void dae::PhysicsComponent::Notify(const GameObject &, uint32_t event, ObserverD
 
     if (event == sdbm_hash("on_collision_exit") && data != nullptr)
     {
-        m_collidingWith->erase(colliderData->collider);
+        if (m_ignoredCollider == colliderData->collider)
+        {
+            m_ignoredCollider = nullptr;
+        }
 
         if (colliderData->collider == m_standingOn)
         {

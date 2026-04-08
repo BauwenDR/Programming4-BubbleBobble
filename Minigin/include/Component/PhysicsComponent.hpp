@@ -34,11 +34,11 @@ namespace dae
         constexpr static float DRAG_GROUND{12.0f};
         constexpr static float DRAG_AIR{1.5f};
         constexpr static float DRAG_AIR_FALLING{2.5f};
-        constexpr static float WALKING_OFF_DEVISOR{3.0f};
+        constexpr static float WALKING_OFF_DEVISOR{3.6f};
 
         ColliderComponent *m_collider{};
         ColliderComponent const *m_standingOn{};
-        std::unordered_map<ColliderComponent const *, bool> *m_collidingWith{new std::unordered_map<ColliderComponent const *, bool>()};
+        ColliderComponent const *m_ignoredCollider{};
 
         float m_maxHorizontalSpeed{MAX_HORIZONTAL_SPEED};   // The max speed can increase
         float m_velY{};
