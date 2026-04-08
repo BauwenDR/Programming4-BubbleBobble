@@ -15,17 +15,13 @@ endif()
 
 set(GAME_SOURCE_FILES
         Game/Main.cpp
-        Game/DecreaseLivesCommand.cpp
-        Game/FpsComponent.cpp
-        Game/IncreaseScoreCommand.cpp
-        Game/JumpCommand.cpp
-        Game/LivesScoreComponent.cpp
-        Game/LivesUiComponent.cpp
-        Game/MoveCommand.cpp
-        Game/PlayerInputComponent.cpp
+        Game/Command/JumpCommand.cpp
+        Game/Component/LivesScoreComponent.cpp
+        Game/Component/PlayerInputComponent.cpp
+        Game/Command/MoveCommand.cpp
+        Game/UI/LivesUiComponent.cpp
+        Game/UI/ScoreUiComponent.cpp
         Game/PlottingWindows.cpp
-        Game/RotateAroundParentComponent.cpp
-        Game/ScoreUiComponent.cpp
 )
 
 set(MINIGIN_SOURCE_FILES
@@ -196,6 +192,7 @@ find_package(Steamworks QUIET)
 
 target_include_directories("${TARGET_NAME}" PUBLIC
         ${CMAKE_SOURCE_DIR}/Minigin/include
+        ${CMAKE_SOURCE_DIR}/Game
         ${glm_SOURCE_DIR}
         ${sdl3_SOURCE_DIR}/include
         ${sdl3_image_SOURCE_DIR}/include

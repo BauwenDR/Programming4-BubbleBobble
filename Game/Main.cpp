@@ -10,8 +10,8 @@ namespace fs = std::filesystem;
 #include <vld.h>
 #endif
 
-#include "LivesScoreComponent.hpp"
-#include "PlayerInputComponent.hpp"
+#include "Component/LivesScoreComponent.hpp"
+#include "Component/PlayerInputComponent.hpp"
 
 #include "Component/ColliderComponent.hpp"
 #include "Component/PhysicsComponent.hpp"

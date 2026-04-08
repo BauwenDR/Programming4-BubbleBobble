@@ -2,7 +2,7 @@
 
 #include <format>
 
-#include "LivesScoreComponent.hpp"
+#include "Component/LivesScoreComponent.hpp"
 
 #include "Component/TextComponent.hpp"
 #include "Event/Sdbm.hpp"

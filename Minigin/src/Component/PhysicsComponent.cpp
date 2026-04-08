@@ -96,6 +96,7 @@ void dae::PhysicsComponent::Notify(const GameObject &, uint32_t event, ObserverD
             m_isOnGround = false;
             m_standingOn = nullptr;
 
+            // When walking of an edge (not jumping) we want to slow the object down
             if (m_velY >= 0)
             {
                 m_velX /= WALKING_OFF_DEVISOR;

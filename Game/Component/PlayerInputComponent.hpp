@@ -36,10 +36,6 @@ namespace game {
         std::unique_ptr<MoveCommand> m_moveLeftCommand{};
         std::unique_ptr<MoveCommand> m_moveRightCommand{};
 
-        std::unique_ptr<DecreaseLivesCommand> m_decreaseLivesCommand{};
-        std::unique_ptr<IncreaseScoreCommand> m_increaseScoreCommandSmall{};
-        std::unique_ptr<IncreaseScoreCommand> m_increaseScoreCommandBig{};
-
         std::unique_ptr<JumpCommand> m_jumpCommand{};
     };
 }
