@@ -2,7 +2,7 @@
 #define MINIGIN_INPUTMANAGER_HPP
 #include <SDL3/SDL_keycode.h>
 
-#include "ControllerInput.hpp"
+#include "../../private/Input/ControllerInput.hpp"
 #include "Input.hpp"
 #include "Singleton.hpp"
 

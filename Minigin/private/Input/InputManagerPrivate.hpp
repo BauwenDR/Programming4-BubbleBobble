@@ -1,8 +1,8 @@
 #ifndef MINIGIN_INPUTMANAGERPRIVATE_HPP
 #define MINIGIN_INPUTMANAGERPRIVATE_HPP
-#include "Input/Input.hpp"
 
 #include "Event/ICommand.hpp"
+#include "Input/Input.hpp"
 
 namespace dae::Input
 {

@@ -1,4 +1,4 @@
-#include "ControllerInput.hpp"
+#include "../../private/Event/ControllerInput.hpp"
 #include "InputManagerPrivate.hpp"
 
 #include <array>

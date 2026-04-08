@@ -4,7 +4,7 @@
 #include <cstdint>
 #include <unordered_map>
 
-#include "EventRingBuffer.hpp"
+#include "../../private/Event/EventRingBuffer.hpp"
 #include "Singleton.hpp"
 
 namespace dae {

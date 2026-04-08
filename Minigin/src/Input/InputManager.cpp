@@ -3,8 +3,8 @@
 #include <SDL3/SDL.h>
 #include <backends/imgui_impl_sdl3.h>
 
-#include "ControllerInput.hpp"
-#include "KeyboardInput.hpp"
+#include "../../private/Input/ControllerInput.hpp"
+#include "../../private/Input/KeyboardInput.hpp"
 
 void dae::InputManager::Bind(SDL_Keycode key, Input::CommandTrigger tiggerType, ICommand *command) const {
 	Input::Keyboard::Bind(key, tiggerType, command);
