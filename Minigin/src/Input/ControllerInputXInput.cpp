@@ -1,5 +1,5 @@
-#include "../../private/Event/ControllerInput.hpp"
-#include "InputManagerPrivate.hpp"
+#include "Input/ControllerInput.hpp"
+#include "Input/InputManagerPrivate.hpp"
 
 #include <array>
 #include <iostream>
