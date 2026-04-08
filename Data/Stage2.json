@@ -1,10 +1,154 @@
 {
-    "scene-name": "stage1",
-    "next-scene": "stage2",
-    "prefabs": [
-        {
-            "name": "background",
-            "texture": "Stage2.png"
-        }
-    ]
+  "scene-name": "stage2",
+  "scalar": 4,
+  "prefabs": [
+    {
+      "name": "background",
+      "texture": "Stage1.png",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "name": "player",
+      "position": {
+        "x": 16,
+        "y": 200
+      },
+      "texture": "PlayerSprites.png"
+    },
+    {
+      "name": "player",
+      "position": {
+        "x": 224,
+        "y": 200
+      },
+      "texture": "PlayerSprites.png"
+    },
+    {
+      "name": "player-score",
+      "position": {
+        "x": 75,
+        "y": 0
+      }
+    },
+    {
+      "name": "player-score",
+      "position": {
+        "x": 150,
+        "y": 0
+      }
+    },
+    {
+      "name": "rect-collider",
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "rect": {
+        "width": 16,
+        "height": 224
+      }
+    },
+    {
+      "name": "rect-collider",
+      "position": {
+        "x": 240,
+        "y": 0
+      },
+      "rect": {
+        "width": 16,
+        "height": 224
+      }
+    },
+    {
+      "name": "rect-collider",
+      "position": {
+        "x": 0,
+        "y": 216
+      },
+      "rect": {
+        "width": 256,
+        "height": 8
+      }
+    },
+    {
+      "name": "rect-collider",
+      "position": {
+        "x": 104,
+        "y": 56
+      },
+      "rect": {
+        "width": 48,
+        "height": 8
+      }
+    },
+    {
+      "name": "rect-collider",
+      "position": {
+        "x": 80,
+        "y": 96
+      },
+      "rect": {
+        "width": 40,
+        "height": 8
+      }
+    },
+    {
+      "name": "rect-collider",
+      "position": {
+        "x": 136,
+        "y": 96
+      },
+      "rect": {
+        "width": 40,
+        "height": 8
+      }
+    },
+    {
+      "name": "rect-collider",
+      "position": {
+        "x": 56,
+        "y": 136
+      },
+      "rect": {
+        "width": 144,
+        "height": 8
+      }
+    },
+    {
+      "name": "rect-collider",
+      "position": {
+        "x": 32,
+        "y": 176
+      },
+      "rect": {
+        "width": 56,
+        "height": 8
+      }
+    },
+    {
+      "name": "rect-collider",
+      "position": {
+        "x": 104,
+        "y": 176
+      },
+      "rect": {
+        "width": 48,
+        "height": 8
+      }
+    },
+    {
+      "name": "rect-collider",
+      "position": {
+        "x": 168,
+        "y": 176
+      },
+      "rect": {
+        "width": 56,
+        "height": 8
+      }
+    }
+  ]
 }
