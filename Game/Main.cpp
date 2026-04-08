@@ -106,7 +106,7 @@ std::unique_ptr<dae::GameObject> prefabLoader(nlohmann::json const & data) {
 
 static void load()
 {
-	dae::SceneManager::GetInstance().CreateScene("Stage1", &prefabLoader);
+	dae::SceneManager::GetInstance().CreateScene("Stage3", &prefabLoader);
 }
 
 int main(int, char*[]) {
