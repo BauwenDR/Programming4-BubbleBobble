@@ -36,7 +36,7 @@ void dae::PhysicsComponent::Notify(const GameObject &, uint32_t event, ObserverD
 
     if (colliderData->collider->GetTag() != sdbm_hash("STAGE")) return;
 
-    constexpr float epsilon{0.001};
+    constexpr float epsilon{0.001f};
     if (event == sdbm_hash("on_collision_enter"))
     {
         const glm::vec4 &ownCollider{m_collider->GetColliderPosition()};
@@ -66,7 +66,7 @@ void dae::PhysicsComponent::Notify(const GameObject &, uint32_t event, ObserverD
             }
 
             GetGameObject().SetLocalPosition(currentPos);
-        }else if (m_velY > 0 && colliderData->collisionNormal.x == 0)
+        }else if (m_velY > 0.0f && colliderData->collisionNormal.x == 0.0f)
         {
             const float colliderYPos{colliderData->collider->GetColliderPosition().y};
             glm::vec3 currentPos{GetGameObject().GetLocalTransform().GetPosition()};
