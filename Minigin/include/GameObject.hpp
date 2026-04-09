@@ -18,6 +18,7 @@ namespace dae
 	public:
 		void Start() const;
 		void Update() const;
+		void LateUpdate() const;
 		void PostUpdate();
 		void Render() const;
 

@@ -18,6 +18,7 @@ set(GAME_SOURCE_FILES
         Game/Command/JumpCommand.cpp
         Game/Component/LivesScoreComponent.cpp
         Game/Component/PickupComponent.cpp
+        Game/Component/PlayerAnimationComponent.cpp
         Game/Component/PlayerInputComponent.cpp
         Game/Component/WrapAroundScreenComponent.cpp
         Game/Command/MoveCommand.cpp

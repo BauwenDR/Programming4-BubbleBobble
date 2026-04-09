@@ -53,6 +53,19 @@ void dae::GameObject::Update() const
     }
 }
 
+void dae::GameObject::LateUpdate() const
+{
+    for (const auto &component: m_components)
+    {
+        component->LateUpdate();
+    }
+
+    for (const auto &child: m_children)
+    {
+        child->LateUpdate();
+    }
+}
+
 void dae::GameObject::PostUpdate()
 {
     std::erase_if(m_components, [](const auto &component)

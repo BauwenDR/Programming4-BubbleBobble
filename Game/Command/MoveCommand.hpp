@@ -8,11 +8,6 @@ namespace dae
     class PhysicsComponent;
 }
 
-namespace dae
-{
-    class GameObject;
-}
-
 namespace game
 {
     class MoveCommand final : public dae::ICommand

@@ -9,15 +9,17 @@ namespace dae
     {
     public:
 
-        virtual void Start() = 0;
-        virtual void Update() = 0;
-        virtual void Render() const = 0;
+        virtual void Start() {}
+        virtual void Update() {}
+        virtual void LateUpdate() {}
+        virtual void Render() const {}
 
         void MarkForDelete();
 
         [[nodiscard]] GameObject &GetGameObject() const;
         [[nodiscard]] bool IsMarkedForDelete() const;
 
+        GameComponent() = delete;
         virtual ~GameComponent() = default;
 
         GameComponent(const GameComponent &other) = delete;

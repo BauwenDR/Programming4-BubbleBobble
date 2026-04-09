@@ -1,5 +1,6 @@
 #include <filesystem>
 
+#include "Component/PlayerAnimationComponent.hpp"
 #include "Component/WrapAroundScreenComponent.hpp"
 namespace fs = std::filesystem;
 
@@ -63,6 +64,7 @@ std::unique_ptr<dae::GameObject> prefabLoader(nlohmann::json const & data) {
 		prefab->AddComponent(std::make_unique<dae::ColliderComponent>(*prefab, glm::vec2{64.0f,64.0f}, dae::sdbm_hash("PLAYER")));
 		prefab->AddComponent(std::make_unique<dae::PhysicsComponent>(*prefab));
 		prefab->AddComponent(std::make_unique<game::WrapAroundScreenComponent>(*prefab));
+		prefab->AddComponent(std::make_unique<game::PlayerAnimationComponent>(*prefab, players.size()));
 
 		players.emplace_back(prefab.get());
 	}

@@ -15,10 +15,15 @@ namespace dae
     public:
         void Start() override;
         void Update() override;
-        void Render() const override {}
+        void LateUpdate() override;
 
         void MoveHorizontal(float amount);
         void Jump();
+
+        [[nodiscard]] float GetXInput() const;
+        [[nodiscard]] float GetVelX() const;
+        [[nodiscard]] float GetVelY() const;
+        [[nodiscard]] bool GetIsOnGround() const;
 
         void Notify(uint32_t event, const ObserverData *data) override;
 
@@ -49,6 +54,8 @@ namespace dae
         int m_collidingWithCount{0};
 
         bool m_isOnGround{};
+
+        float m_horizontalInput{};
     };
 }
 

@@ -28,6 +28,11 @@ void dae::PhysicsComponent::Update()
     GetGameObject().SetLocalPosition(currentPos);
 }
 
+void dae::PhysicsComponent::LateUpdate()
+{
+    m_horizontalInput = 0.0f;
+}
+
 void dae::PhysicsComponent::Notify(uint32_t event, ObserverData const *data)
 {
     if (!(
@@ -131,6 +136,7 @@ void dae::PhysicsComponent::MoveHorizontal(float amount)
     const float change = std::clamp(delta, -maxChange, maxChange);
 
     m_velX += change;
+    m_horizontalInput += amount;
 }
 
 void dae::PhysicsComponent::Jump()
@@ -140,4 +146,24 @@ void dae::PhysicsComponent::Jump()
         m_velY = -JUMP_FORCE;
         m_isOnGround = false;
     }
+}
+
+float dae::PhysicsComponent::GetXInput() const
+{
+    return m_horizontalInput;
+}
+
+float dae::PhysicsComponent::GetVelX() const
+{
+    return m_velX;
+}
+
+float dae::PhysicsComponent::GetVelY() const
+{
+    return m_velY;
+}
+
+bool dae::PhysicsComponent::GetIsOnGround() const
+{
+    return m_isOnGround;
 }

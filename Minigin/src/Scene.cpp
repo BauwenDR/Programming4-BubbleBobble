@@ -51,6 +51,11 @@ void Scene::Update()
 	{
 		object->Update();
 	}
+
+	for (auto const &object: m_objects)
+	{
+		object->LateUpdate();
+	}
 }
 
 void Scene::PostUpdate()
