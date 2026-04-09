@@ -1,4 +1,6 @@
 #include <filesystem>
+
+#include "Component/WrapAroundScreenComponent.hpp"
 namespace fs = std::filesystem;
 
 #if (_WIN32 or _WIN64)
@@ -60,6 +62,7 @@ std::unique_ptr<dae::GameObject> prefabLoader(nlohmann::json const & data) {
 		prefab->AddComponent(std::make_unique<game::PlayerInputComponent>(*prefab, static_cast<int>(players.size())));
 		prefab->AddComponent(std::make_unique<dae::ColliderComponent>(*prefab, glm::vec2{64.0f,64.0f}, dae::sdbm_hash("PLAYER")));
 		prefab->AddComponent(std::make_unique<dae::PhysicsComponent>(*prefab));
+		prefab->AddComponent(std::make_unique<game::WrapAroundScreenComponent>(*prefab));
 
 		players.emplace_back(prefab.get());
 	}

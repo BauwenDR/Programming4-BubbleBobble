@@ -19,6 +19,7 @@ set(GAME_SOURCE_FILES
         Game/Component/LivesScoreComponent.cpp
         Game/Component/PickupComponent.cpp
         Game/Component/PlayerInputComponent.cpp
+        Game/Component/WrapAroundScreenComponent.cpp
         Game/Command/MoveCommand.cpp
         Game/UI/LivesUiComponent.cpp
         Game/UI/ScoreUiComponent.cpp
