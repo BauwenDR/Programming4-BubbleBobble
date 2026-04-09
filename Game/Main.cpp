@@ -1,7 +1,4 @@
 #include <filesystem>
-
-#include "Component/PickupComponent.hpp"
-#include "UI/ScoreUiComponent.hpp"
 namespace fs = std::filesystem;
 
 #if (_WIN32 or _WIN64)
@@ -15,6 +12,8 @@ namespace fs = std::filesystem;
 
 #include "Component/LivesScoreComponent.hpp"
 #include "Component/PlayerInputComponent.hpp"
+#include "Component/PickupComponent.hpp"
+#include "UI/ScoreUiComponent.hpp"
 
 #include "Component/ColliderComponent.hpp"
 #include "Component/PhysicsComponent.hpp"

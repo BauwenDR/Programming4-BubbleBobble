@@ -90,7 +90,7 @@ dae::PhysicsSystem::ColliderResult dae::PhysicsSystem::CollidersIntersecting(
 
     // Calculate what axis we overlap with the most, point the normal towards that axis
     const glm::vec2 distance = c1 - c2;
-    const glm::vec2 extents{ r1.z * 0.5f + r2.z * 0.5f, r1.w * 0.5f + r2.w * 0.5f };
+    const glm::vec2 extents{ r1.z * 0.49f + r2.z * 0.49f, r1.w * 0.5f + r2.w * 0.5f };
     const glm::vec2 penetration = extents - glm::abs(distance);
 
     if (penetration.x < penetration.y)
