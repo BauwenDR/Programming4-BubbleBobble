@@ -43,18 +43,21 @@ namespace dae
     }
 
     void TextureComponent::SetSourceRect() {
+        constexpr float epsilon{0.05f};
+        constexpr float epsilon2{epsilon + epsilon};
+
         m_srcRect = {0.0f, 0.0f, m_imageSize.x, m_imageSize.y};
 
         if (m_spriteSize.x < 0.0f || m_spriteSize.y < 0.0f) return;
 
-        m_srcRect.w = m_spriteSize.x;
-        m_srcRect.h = m_spriteSize.y;
+        m_srcRect.x = m_spritePosition.x * m_spriteSize.x + epsilon;
+        m_srcRect.y = m_spritePosition.y * m_spriteSize.y + epsilon;
 
-        m_srcRect.x = m_spritePosition.x * m_spriteSize.x;
-        m_srcRect.y = m_spritePosition.y * m_spriteSize.y;
+        m_srcRect.w = m_spriteSize.x - epsilon2;
+        m_srcRect.h = m_spriteSize.y - epsilon2;
 
         assert(m_srcRect.w > 0.0f && m_srcRect.h > 0.0f && "Image sprite bounds cannot be negative.");
-        assert(m_srcRect.x + m_spriteSize.x <= m_imageSize.x && "New source rect width was out of bounds.");
-        assert(m_srcRect.y + m_spriteSize.y <= m_imageSize.y && "New source rect height was out of bounds.");
+        assert(m_srcRect.x + m_spriteSize.x <= m_imageSize.x + epsilon2 && "New source rect width was out of bounds.");
+        assert(m_srcRect.y + m_spriteSize.y <= m_imageSize.y + epsilon2 && "New source rect height was out of bounds.");
     }
 }
