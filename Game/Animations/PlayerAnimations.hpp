@@ -2,6 +2,8 @@
 #define MINIGIN_PLAYERANIMATIONS_HPP
 #include <unordered_map>
 
+#include "AnimationData.hpp"
+
 namespace game
 {
     enum class PlayerAnimationState
@@ -14,13 +16,6 @@ namespace game
         JumpingRight,
         FallingLeft,
         FallingRight,
-    };
-
-    struct AnimationData
-    {
-        float row;
-        float col;
-        int frames;
     };
 
     const std::unordered_map<PlayerAnimationState, AnimationData> PLAYER_ANIMATIONS{

@@ -1,7 +1,11 @@
 #include <filesystem>
 
+#include "Animations/PlayerAnimations.hpp"
+#include "Animations/ZenChanAnimation.hpp"
+#include "Component/AnimationComponent.hpp"
 #include "Component/PlayerAnimationComponent.hpp"
 #include "Component/WrapAroundScreenComponent.hpp"
+#include "Component/ZenChanAnimationComponent.hpp"
 namespace fs = std::filesystem;
 
 #if (_WIN32 or _WIN64)
@@ -64,7 +68,8 @@ std::unique_ptr<dae::GameObject> prefabLoader(nlohmann::json const & data) {
 		prefab->AddComponent(std::make_unique<dae::ColliderComponent>(*prefab, glm::vec2{64.0f,64.0f}, dae::sdbm_hash("PLAYER")));
 		prefab->AddComponent(std::make_unique<dae::PhysicsComponent>(*prefab));
 		prefab->AddComponent(std::make_unique<game::WrapAroundScreenComponent>(*prefab));
-		prefab->AddComponent(std::make_unique<game::PlayerAnimationComponent>(*prefab, static_cast<int>(players.size())));
+		prefab->AddComponent(std::make_unique<game::AnimationComponent>(*prefab, &game::PLAYER_ANIMATIONS.at(!players.empty() ? game::PlayerAnimationState::IdleLeft : game::PlayerAnimationState::IdleRight), glm::vec2{static_cast<float>(players.size()) * 4.0f, 0.0f} ));
+		prefab->AddComponent(std::make_unique<game::PlayerAnimationComponent>(*prefab, !players.empty()));
 
 		players.emplace_back(prefab.get());
 	}
@@ -103,6 +108,25 @@ std::unique_ptr<dae::GameObject> prefabLoader(nlohmann::json const & data) {
 
 		prefab->AddComponent(std::make_unique<dae::ColliderComponent>(*prefab, glm::vec2{64.0f, 64.0f}, dae::sdbm_hash("PICKUP")));
 		prefab->AddComponent(std::make_unique<game::PickupComponent>(*prefab, data["worth"].get<int>()));
+	}
+
+	else if (prefabName == "zen-chan-enemy")
+	{
+		bool facingLeft{data["facingLeft"].get<bool>()};
+
+		prefab->AddComponent(std::make_unique<dae::TextureComponent>(
+			*prefab,
+			dae::ResourceManager::GetInstance().LoadTexture("ZenChan.png"),
+			4.0f,
+			glm::vec2{16.0f, 16.0f},
+			glm::vec2{static_cast<float>(players.size()), 0.0f})
+		);
+
+		prefab->AddComponent(std::make_unique<dae::ColliderComponent>(*prefab, glm::vec2{64.0f,64.0f}, dae::sdbm_hash("ENEMY")));
+		prefab->AddComponent(std::make_unique<dae::PhysicsComponent>(*prefab));
+		prefab->AddComponent(std::make_unique<game::WrapAroundScreenComponent>(*prefab));
+		prefab->AddComponent(std::make_unique<game::AnimationComponent>(*prefab, &game::ZENCHAN_ANIMATIONS.at(facingLeft ? game::ZenChanAnimationState::WalkingLeft : game::ZenChanAnimationState::WalkingRight)));
+		prefab->AddComponent(std::make_unique<game::ZenChanAnimationComponent>(*prefab, facingLeft));
 	}
 
 	return prefab;

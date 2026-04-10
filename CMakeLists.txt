@@ -16,11 +16,13 @@ endif()
 set(GAME_SOURCE_FILES
         Game/Main.cpp
         Game/Command/JumpCommand.cpp
+        Game/Component/AnimationComponent.cpp
         Game/Component/LivesScoreComponent.cpp
         Game/Component/PickupComponent.cpp
         Game/Component/PlayerAnimationComponent.cpp
         Game/Component/PlayerInputComponent.cpp
         Game/Component/WrapAroundScreenComponent.cpp
+        Game/Component/ZenChanAnimationComponent.cpp
         Game/Command/MoveCommand.cpp
         Game/UI/LivesUiComponent.cpp
         Game/UI/ScoreUiComponent.cpp
