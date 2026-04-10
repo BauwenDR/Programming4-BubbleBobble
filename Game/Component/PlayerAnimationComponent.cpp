@@ -89,7 +89,7 @@ void game::PlayerAnimationComponent::SetAnimationState(PlayerAnimationState newS
 {
     m_currentAnimation = newState;
     m_currentAnimationData = &PLAYER_ANIMATIONS.at(newState);
-    m_currentFrame = 0.0f;
+    m_currentFrame = 0;
 
     UpdateTexture();
 }
