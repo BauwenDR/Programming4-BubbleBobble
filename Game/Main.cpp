@@ -64,7 +64,7 @@ std::unique_ptr<dae::GameObject> prefabLoader(nlohmann::json const & data) {
 		prefab->AddComponent(std::make_unique<dae::ColliderComponent>(*prefab, glm::vec2{64.0f,64.0f}, dae::sdbm_hash("PLAYER")));
 		prefab->AddComponent(std::make_unique<dae::PhysicsComponent>(*prefab));
 		prefab->AddComponent(std::make_unique<game::WrapAroundScreenComponent>(*prefab));
-		prefab->AddComponent(std::make_unique<game::PlayerAnimationComponent>(*prefab, players.size()));
+		prefab->AddComponent(std::make_unique<game::PlayerAnimationComponent>(*prefab, static_cast<int>(players.size())));
 
 		players.emplace_back(prefab.get());
 	}
