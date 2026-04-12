@@ -48,10 +48,10 @@ void dae::PhysicsSystem::PhysicsUpdate()
 
                 if (!wasColliding) {
                     a->OnCollisionEnter(b, normal);
-                    b->OnCollisionEnter(a, normal);
+                    b->OnCollisionEnter(a, -normal);
                 } else {
                     a->OnCollisionStay(b, normal);
-                    b->OnCollisionStay(a, normal);
+                    b->OnCollisionStay(a, -normal);
                 }
             }
         }

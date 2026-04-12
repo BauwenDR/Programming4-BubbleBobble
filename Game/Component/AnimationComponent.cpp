@@ -17,9 +17,9 @@ void game::AnimationComponent::LateUpdate()
 {
     m_frameElapsedTime += Time::timeDelta();
 
-    if (m_frameElapsedTime > FRAME_TIME)
+    if (m_frameElapsedTime > m_frameTime)
     {
-        m_frameElapsedTime = std::fmod(m_frameElapsedTime, FRAME_TIME);
+        m_frameElapsedTime = std::fmod(m_frameElapsedTime, m_frameTime);
 
         ++m_currentFrame;
         m_currentFrame %= m_currentAnimation->frames;
@@ -56,11 +56,13 @@ void game::AnimationComponent::SetAnimationState(AnimationData const *newState)
 game::AnimationComponent::AnimationComponent(
     dae::GameObject &owner,
     AnimationData const *initialAnimation,
+    float frameTime,
     glm::vec2 const &offset
 )
     : GameComponent(owner)
       , m_spriteOffset(offset)
       , m_currentAnimation(initialAnimation)
+      , m_frameTime(frameTime)
 {
 }
 

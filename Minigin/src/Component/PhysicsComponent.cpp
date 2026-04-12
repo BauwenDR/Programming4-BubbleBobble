@@ -1,5 +1,7 @@
 #include "Component/PhysicsComponent.hpp"
 
+#include <iostream>
+
 #include "Component/ColliderComponent.hpp"
 #include "Event/Sdbm.hpp"
 #include "GameObject.hpp"

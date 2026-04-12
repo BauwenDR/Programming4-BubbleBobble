@@ -53,6 +53,30 @@
       }
     },
     {
+      "name": "zen-chan-enemy",
+      "position": {
+        "x": 120,
+        "y": -20
+      },
+      "facingLeft": true
+    },
+    {
+      "name": "zen-chan-enemy",
+      "position": {
+        "x": 120,
+        "y": -40
+      },
+      "facingLeft": true
+    },
+    {
+      "name": "zen-chan-enemy",
+      "position": {
+        "x": 120,
+        "y": -60
+      },
+      "facingLeft": true
+    },
+    {
       "name": "rect-collider",
       "position": {
         "x": 0,

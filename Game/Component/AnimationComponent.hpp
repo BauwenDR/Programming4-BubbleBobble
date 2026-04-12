@@ -24,12 +24,12 @@ namespace game
         AnimationComponent(
             dae::GameObject &owner,
             AnimationData const *initialAnimation,
+            float frameTime,
             glm::vec2 const &offset = {0.0f, 0.0f}
         );
         ~AnimationComponent() override = default;
     private:
         constexpr static int ANIMATION_COOLDOWN_FRAMES{2};
-        constexpr static float FRAME_TIME{1.0f/2.0f};
 
         glm::vec2 m_spriteOffset{};
 
@@ -38,6 +38,7 @@ namespace game
         AnimationData const *m_currentAnimation{nullptr};
         AnimationData const *m_requestedAnimation{nullptr};
 
+        const float m_frameTime{};
         float m_frameElapsedTime{};
 
         int m_currentFrame{};

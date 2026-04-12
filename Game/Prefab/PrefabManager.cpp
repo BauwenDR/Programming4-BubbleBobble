@@ -106,12 +106,12 @@ std::unique_ptr<dae::GameObject> game::PrefabManager::PrefabLoader(nlohmann::jso
 			glm::vec2{static_cast<float>(m_players.size()), 0.0f})
 		);
 
-		prefab->AddComponent(std::make_unique<LivesScoreComponent>(*prefab));
-		prefab->AddComponent(std::make_unique<PlayerInputComponent>(*prefab, static_cast<int>(m_players.size())));
 		prefab->AddComponent(std::make_unique<dae::ColliderComponent>(*prefab, glm::vec2{64.0f,64.0f}, dae::sdbm_hash("PLAYER")));
 		prefab->AddComponent(std::make_unique<dae::PhysicsComponent>(*prefab));
+		prefab->AddComponent(std::make_unique<LivesScoreComponent>(*prefab));
+		prefab->AddComponent(std::make_unique<PlayerInputComponent>(*prefab, static_cast<int>(m_players.size())));
 		prefab->AddComponent(std::make_unique<WrapAroundScreenComponent>(*prefab));
-		prefab->AddComponent(std::make_unique<AnimationComponent>(*prefab, &PLAYER_ANIMATIONS.at(!m_players.empty() ? PlayerAnimationState::IdleLeft : PlayerAnimationState::IdleRight), glm::vec2{static_cast<float>(m_players.size()) * 4.0f, 0.0f} ));
+		prefab->AddComponent(std::make_unique<AnimationComponent>(*prefab, &PLAYER_ANIMATIONS.at(!m_players.empty() ? PlayerAnimationState::IdleLeft : PlayerAnimationState::IdleRight), 1.0f/3.0f, glm::vec2{static_cast<float>(m_players.size()) * 4.0f, 0.0f} ));
 		prefab->AddComponent(std::make_unique<PlayerAnimationComponent>(*prefab, !m_players.empty()));
 
 		m_players.emplace_back(prefab.get(), prefab->GetComponent<LivesScoreComponent>());
@@ -132,7 +132,7 @@ std::unique_ptr<dae::GameObject> game::PrefabManager::PrefabLoader(nlohmann::jso
 		prefab->AddComponent(std::make_unique<dae::ColliderComponent>(*prefab, glm::vec2{64.0f,64.0f}, dae::sdbm_hash("ENEMY")));
 		prefab->AddComponent(std::make_unique<dae::PhysicsComponent>(*prefab, 320.0f));
 		prefab->AddComponent(std::make_unique<WrapAroundScreenComponent>(*prefab));
-		prefab->AddComponent(std::make_unique<AnimationComponent>(*prefab, &ZEN_CHAN_ANIMATIONS.at(facingLeft ? ZenChanAnimationState::WalkingLeft : ZenChanAnimationState::WalkingRight)));
+		prefab->AddComponent(std::make_unique<AnimationComponent>(*prefab, &ZEN_CHAN_ANIMATIONS.at(facingLeft ? ZenChanAnimationState::WalkingLeft : ZenChanAnimationState::WalkingRight), 1.0f / 6.0f));
 		prefab->AddComponent(std::make_unique<PlatformAiMovement>(*prefab, facingLeft ? PlatformAiAction::WalkingLeft : PlatformAiAction::WalkingRight));
 		prefab->AddComponent(std::make_unique<ZenChanAnimationComponent>(*prefab, facingLeft));
 	}

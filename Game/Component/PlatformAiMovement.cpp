@@ -1,10 +1,11 @@
 #include "PlatformAiMovement.hpp"
 
-#include "Time.hpp"
+#include "Prefab/PrefabManager.hpp"
+
 #include "Component/ColliderComponent.hpp"
 #include "Component/PhysicsComponent.hpp"
 #include "Event/Sdbm.hpp"
-#include "Prefab/PrefabManager.hpp"
+#include "Time.hpp"
 
 void game::PlatformAiMovement::Start()
 {
@@ -122,7 +123,7 @@ game::PlatformAiMovement::PlatformAiMovement(dae::GameObject &owner, PlatformAiA
 
 void game::PlatformAiMovement::TakeNextMovementDecision()
 {
-    constexpr float WALKING_DECISION_DIFFERENCE{32.0f};
+    constexpr float WALKING_DECISION_DIFFERENCE{16.0f};
 
     auto const [playerObject, _]{PrefabManager::GetInstance().GetClosestActivePlayer(GetGameObject().GetWorldPosition())};
 
