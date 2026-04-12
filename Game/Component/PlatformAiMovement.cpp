@@ -47,6 +47,31 @@ void game::PlatformAiMovement::Update()
     }
 }
 
+void game::PlatformAiMovement::EdgeJump()
+{
+    if (std::abs(m_physics->GetVelX()) < MIN_EDGE_JUMP_SPEED) return;
+    if (!m_physics->GetIsOnGround()) return;
+
+    auto const [playerObject, _]{PrefabManager::GetInstance().GetClosestActivePlayer(GetGameObject().GetWorldPosition())};
+
+    if (playerObject == nullptr)
+    {
+        return;
+    }
+
+    if (const auto &playerPos{playerObject->GetWorldPosition()}; playerPos.y <= GetGameObject().GetWorldPosition().y + 1.0f)
+    {
+        if (playerPos.y + JUMPING_DIFFERENCE <= GetGameObject().GetWorldPosition().y)
+        {
+            m_physics->Jump();
+        } else
+        {
+            m_physics->SmallJump();
+        }
+        m_decisionCooldown -= DECISION_TIMEOUT;
+    }
+}
+
 void game::PlatformAiMovement::Notify(uint32_t event, dae::ObserverData const *data)
 {
     if (event != dae::sdbm_hash("on_collision_enter") && event != dae::sdbm_hash("on_collision_exit")) return;
@@ -55,7 +80,7 @@ void game::PlatformAiMovement::Notify(uint32_t event, dae::ObserverData const *d
     const auto colliderData{dynamic_cast<dae::ColliderData const *>(data)};
     if (colliderData == nullptr) return;
 
-    if (colliderData->collider->GetTag() == dae::sdbm_hash("STAGE") && colliderData->collisionNormal.x != 0)
+    if (colliderData->collider->GetTag() == dae::sdbm_hash("STAGE") && m_physics->GetVelY() > 0.0f && colliderData->collisionNormal.x != 0)
     {
         if (m_currentAction == PlatformAiAction::WalkingLeft)
         {
@@ -68,30 +93,11 @@ void game::PlatformAiMovement::Notify(uint32_t event, dae::ObserverData const *d
         }
     }
 
-    if (colliderData->collider->GetTag() == dae::sdbm_hash("STAGE") && colliderData->collisionNormal.y != 0)
-    {
-        TakeNextMovementDecision();
-    }
-
     if (event == dae::sdbm_hash("on_collision_enter"))
     {
-        if (std::abs(m_physics->GetVelX()) > MIN_EDGE_JUMP_SPEED && colliderData->collider->GetTag() == dae::sdbm_hash("PLATFORM_EDGE"))
+        if (colliderData->collider->GetTag() == dae::sdbm_hash("PLATFORM_EDGE"))
         {
-            auto const [playerObject, _]{PrefabManager::GetInstance().GetClosestActivePlayer(GetGameObject().GetWorldPosition())};
-
-            if (playerObject == nullptr) return;
-
-            if (const auto &playerPos{playerObject->GetWorldPosition()}; playerPos.y <= GetGameObject().GetWorldPosition().y + 1.0f)
-            {
-                if (playerPos.y - JUMPING_DIFFERENCE <= GetGameObject().GetWorldPosition().y)
-                {
-                    m_physics->Jump();
-                } else
-                {
-                    m_physics->SmallJump();
-                }
-                m_decisionCooldown -= DECISION_TIMEOUT;
-            }
+            EdgeJump();
         }
         else if (colliderData->collider->GetTag() == dae::sdbm_hash("AI_JUMPABLE"))
         {
@@ -124,12 +130,12 @@ void game::PlatformAiMovement::TakeNextMovementDecision()
     const auto &playerPos{playerObject->GetWorldPosition()};
     const auto &selfPos{GetGameObject().GetWorldPosition()};
 
-    if (m_currentAction == PlatformAiAction::Jumping || std::abs(playerPos.y - selfPos.y) <= WALKING_DECISION_DIFFERENCE)
-    {
-        m_currentAction = playerPos.x < selfPos.x ? PlatformAiAction::WalkingLeft : PlatformAiAction::WalkingRight;
-    }
-    else if (m_overlappingPotentialJumpZone && playerPos.y - JUMPING_DIFFERENCE <= selfPos.y)
+    if (m_physics->GetIsOnGround() && m_overlappingPotentialJumpZone && playerPos.y + JUMPING_DIFFERENCE <= selfPos.y)
     {
         m_currentAction = PlatformAiAction::Jumping;
+    }
+    else if (std::abs(playerPos.y - selfPos.y) <= WALKING_DECISION_DIFFERENCE)
+    {
+        m_currentAction = playerPos.x < selfPos.x ? PlatformAiAction::WalkingLeft : PlatformAiAction::WalkingRight;
     }
 }

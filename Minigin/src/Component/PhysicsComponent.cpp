@@ -127,7 +127,7 @@ void dae::PhysicsComponent::Notify(uint32_t event, ObserverData const *data)
 
 void dae::PhysicsComponent::MoveHorizontal(float amount)
 {
-    const float accel = m_isOnGround ? ACCELERATION_GROUND : ACCELERATION_AIR;
+    const float accel = m_isOnGround ? m_groundAcceleration : m_airAcceleration;
 
     const float desiredVelX = amount * m_maxHorizontalSpeed;
     const float delta = desiredVelX - m_velX;

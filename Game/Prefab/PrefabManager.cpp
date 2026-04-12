@@ -130,7 +130,7 @@ std::unique_ptr<dae::GameObject> game::PrefabManager::PrefabLoader(nlohmann::jso
 		);
 
 		prefab->AddComponent(std::make_unique<dae::ColliderComponent>(*prefab, glm::vec2{64.0f,64.0f}, dae::sdbm_hash("ENEMY")));
-		prefab->AddComponent(std::make_unique<dae::PhysicsComponent>(*prefab));
+		prefab->AddComponent(std::make_unique<dae::PhysicsComponent>(*prefab, 320.0f));
 		prefab->AddComponent(std::make_unique<WrapAroundScreenComponent>(*prefab));
 		prefab->AddComponent(std::make_unique<AnimationComponent>(*prefab, &ZEN_CHAN_ANIMATIONS.at(facingLeft ? ZenChanAnimationState::WalkingLeft : ZenChanAnimationState::WalkingRight)));
 		prefab->AddComponent(std::make_unique<PlatformAiMovement>(*prefab, facingLeft ? PlatformAiAction::WalkingLeft : PlatformAiAction::WalkingRight));
