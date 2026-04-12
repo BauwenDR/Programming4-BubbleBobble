@@ -24,7 +24,7 @@ namespace fs = std::filesystem;
 
 static void load()
 {
-	game::PrefabManager::GetInstance().LoadSceneFromJson("Stage1");
+	game::PrefabManager::GetInstance().LoadSceneFromJson("Stage3");
 }
 
 int main(int, char*[]) {

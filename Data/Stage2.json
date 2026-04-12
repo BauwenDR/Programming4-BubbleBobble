@@ -39,6 +39,38 @@
       }
     },
     {
+      "name": "zen-chan-enemy",
+      "position": {
+        "x": 112,
+        "y": 40
+      },
+      "facingLeft": true
+    },
+    {
+      "name": "zen-chan-enemy",
+      "position": {
+        "x": 96,
+        "y": 80
+      },
+      "facingLeft": true
+    },
+    {
+      "name": "zen-chan-enemy",
+      "position": {
+        "x": 128,
+        "y": 40
+      },
+      "facingLeft": false
+    },
+    {
+      "name": "zen-chan-enemy",
+      "position": {
+        "x": 144,
+        "y": 80
+      },
+      "facingLeft": false
+    },
+    {
       "name": "rect-collider",
       "position": {
         "x": 0,
