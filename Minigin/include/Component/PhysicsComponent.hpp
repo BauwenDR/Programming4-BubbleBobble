@@ -19,6 +19,7 @@ namespace dae
 
         void MoveHorizontal(float amount);
         void Jump();
+        void SmallJump();
 
         [[nodiscard]] float GetXInput() const;
         [[nodiscard]] float GetVelX() const;

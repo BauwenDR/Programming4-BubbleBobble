@@ -80,7 +80,7 @@ void game::PlatformAiMovement::Notify(uint32_t event, dae::ObserverData const *d
 
             if (const auto &playerPos{playerObject->GetWorldPosition()}; playerPos.y >= GetGameObject().GetWorldPosition().y - 1.0f)
             {
-                m_physics->Jump();
+                m_physics->SmallJump();
                 m_decisionCooldown -= DECISION_TIMEOUT;
             }
         }

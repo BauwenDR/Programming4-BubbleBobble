@@ -148,6 +148,15 @@ void dae::PhysicsComponent::Jump()
     }
 }
 
+void dae::PhysicsComponent::SmallJump()
+{
+    if (m_isOnGround)
+    {
+        m_velY = -JUMP_FORCE / 2.0f;
+        m_isOnGround = false;
+    }
+}
+
 float dae::PhysicsComponent::GetXInput() const
 {
     return m_horizontalInput;
