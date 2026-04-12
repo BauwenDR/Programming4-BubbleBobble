@@ -14,7 +14,7 @@ namespace game
         WalkingRightAngered,
     };
 
-    const std::unordered_map<ZenChanAnimationState, AnimationData> ZENCHAN_ANIMATIONS {
+    const std::unordered_map<ZenChanAnimationState, AnimationData> ZEN_CHAN_ANIMATIONS {
         {ZenChanAnimationState::WalkingLeft, {0.0f, 0.0f, 4}},
         {ZenChanAnimationState::WalkingRight, {1.0f, 0.0f, 4}},
         {ZenChanAnimationState::WalkingLeftAngered, {2.0f, 0.0f, 4}},

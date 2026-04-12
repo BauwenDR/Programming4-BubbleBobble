@@ -3,6 +3,7 @@
 #include <memory>
 
 #include <nlohmann/json.hpp>
+#include <glm/vec3.hpp>
 
 #include "Prefabs.hpp"
 #include "Singleton.hpp"
@@ -25,8 +26,8 @@ namespace game
 
     struct PlayerData
     {
-        dae::GameObject* object;
-        LivesScoreComponent *m_livesScore;
+        dae::GameObject* object{};
+        LivesScoreComponent *m_livesScore{};
     };
 
     class PrefabManager final : public dae::Singleton<PrefabManager>
@@ -37,7 +38,7 @@ namespace game
         void SpawnPickup(PickupPrefabData const &data) const;
         // void SpawnBarronEnemy() const;
 
-        [[nodiscard]] std::vector<PlayerData> const &GetPlayers() const;
+        [[nodiscard]] PlayerData GetClosestActivePlayer(glm::vec3 const &searchPos) const;
     private:
         friend class Singleton;
 

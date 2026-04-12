@@ -13,12 +13,14 @@
 
 #include "Component/ColliderComponent.hpp"
 #include "Component/PhysicsComponent.hpp"
+#include "Component/PlatformAiMovement.hpp"
 #include "Component/PlayerAnimationComponent.hpp"
 #include "Component/TextComponent.hpp"
 #include "Component/TextureComponent.hpp"
 #include "Component/WrapAroundScreenComponent.hpp"
 #include "Component/ZenChanAnimationComponent.hpp"
 #include "Event/Sdbm.hpp"
+#include "glm/gtx/norm.inl"
 #include "Render/ResourceManager.hpp"
 
 void game::PrefabManager::LoadSceneFromJson(std::string const &sceneName)
@@ -60,9 +62,20 @@ void game::PrefabManager::SpawnPickup(PickupPrefabData const &data) const
 	m_scene->Add(std::move(pickupPrefab));
 }
 
-std::vector<game::PlayerData> const & game::PrefabManager::GetPlayers() const
+game::PlayerData game::PrefabManager::GetClosestActivePlayer(glm::vec3 const &searchPos) const
 {
-	return m_players;
+	auto GetDistanceScore = [&searchPos](PlayerData const &data)
+	{
+		return glm::distance2(searchPos, data.object->GetWorldPosition());
+	};
+
+	if (auto const it = std::ranges::min_element(m_players, {}, GetDistanceScore); it != m_players.end())
+	{
+		return *it;
+	}
+
+	// contains only nullptr's
+	return {};
 }
 
 std::unique_ptr<dae::GameObject> game::PrefabManager::PrefabLoader(nlohmann::json const &data)
@@ -104,6 +117,26 @@ std::unique_ptr<dae::GameObject> game::PrefabManager::PrefabLoader(nlohmann::jso
 		m_players.emplace_back(prefab.get(), prefab->GetComponent<LivesScoreComponent>());
 	}
 
+	else if (prefabName == "zen-chan-enemy")
+	{
+		bool facingLeft{data["facingLeft"].get<bool>()};
+
+		prefab->AddComponent(std::make_unique<dae::TextureComponent>(
+			*prefab,
+			dae::ResourceManager::GetInstance().LoadTexture("ZenChan.png"),
+			4.0f,
+			glm::vec2{16.0f, 16.0f},
+			glm::vec2{static_cast<float>(m_players.size()), 0.0f})
+		);
+
+		prefab->AddComponent(std::make_unique<dae::ColliderComponent>(*prefab, glm::vec2{64.0f,64.0f}, dae::sdbm_hash("ENEMY")));
+		prefab->AddComponent(std::make_unique<dae::PhysicsComponent>(*prefab));
+		prefab->AddComponent(std::make_unique<WrapAroundScreenComponent>(*prefab));
+		prefab->AddComponent(std::make_unique<AnimationComponent>(*prefab, &ZEN_CHAN_ANIMATIONS.at(facingLeft ? ZenChanAnimationState::WalkingLeft : ZenChanAnimationState::WalkingRight)));
+		prefab->AddComponent(std::make_unique<PlatformAiMovement>(*prefab, facingLeft ? PlatformAiAction::WalkingLeft : PlatformAiAction::WalkingRight));
+		prefab->AddComponent(std::make_unique<ZenChanAnimationComponent>(*prefab, facingLeft));
+	}
+
 	else if (prefabName == "rect-collider")
 	{
 		prefab->AddComponent(std::make_unique<dae::ColliderComponent>(*prefab, glm::vec2{
@@ -124,25 +157,6 @@ std::unique_ptr<dae::GameObject> game::PrefabManager::PrefabLoader(nlohmann::jso
 		prefab->AddComponent(std::make_unique<ScoreUiComponent>(*prefab, m_players[playerNumber].object));
 
 		++playerNumber;
-	}
-
-	else if (prefabName == "zen-chan-enemy")
-	{
-		bool facingLeft{data["facingLeft"].get<bool>()};
-
-		prefab->AddComponent(std::make_unique<dae::TextureComponent>(
-			*prefab,
-			dae::ResourceManager::GetInstance().LoadTexture("ZenChan.png"),
-			4.0f,
-			glm::vec2{16.0f, 16.0f},
-			glm::vec2{static_cast<float>(m_players.size()), 0.0f})
-		);
-
-		prefab->AddComponent(std::make_unique<dae::ColliderComponent>(*prefab, glm::vec2{64.0f,64.0f}, dae::sdbm_hash("ENEMY")));
-		prefab->AddComponent(std::make_unique<dae::PhysicsComponent>(*prefab));
-		prefab->AddComponent(std::make_unique<WrapAroundScreenComponent>(*prefab));
-		prefab->AddComponent(std::make_unique<AnimationComponent>(*prefab, &ZENCHAN_ANIMATIONS.at(facingLeft ? ZenChanAnimationState::WalkingLeft : ZenChanAnimationState::WalkingRight)));
-		prefab->AddComponent(std::make_unique<ZenChanAnimationComponent>(*prefab, facingLeft));
 	}
 
 	return prefab;

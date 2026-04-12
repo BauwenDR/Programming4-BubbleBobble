@@ -29,18 +29,17 @@ namespace game
 
         void Notify(uint32_t event, dae::ObserverData const *data) override;
 
-        explicit PlatformAiMovement(dae::GameObject &owner);
+        explicit PlatformAiMovement(dae::GameObject &owner, PlatformAiAction initialAction);
         ~PlatformAiMovement() override = default;
 
     private:
-        constexpr static float DECISION_TIMEOUT{2.0f};
+        constexpr static float DECISION_TIMEOUT{1.0f};
 
         dae::PhysicsComponent *m_physics{};
         PlatformAiAction m_currentAction{};
 
         float m_decisionCooldown{};
 
-        bool m_overlappingJumpZone{false};
         bool m_overlappingPotentialJumpZone{false};
 
         void TakeNextMovementDecision();

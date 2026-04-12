@@ -21,7 +21,7 @@ void game::ZenChanAnimationComponent::Update()
 
     m_animationComponent->RequestAnimationState(&
         (m_wasMovingLeft
-             ? ZENCHAN_ANIMATIONS.at(ZenChanAnimationState::WalkingLeft)
-             : ZENCHAN_ANIMATIONS.at(ZenChanAnimationState::WalkingRight))
+             ? ZEN_CHAN_ANIMATIONS.at(ZenChanAnimationState::WalkingLeft)
+             : ZEN_CHAN_ANIMATIONS.at(ZenChanAnimationState::WalkingRight))
     );
 }
