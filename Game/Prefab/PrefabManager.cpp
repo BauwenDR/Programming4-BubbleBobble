@@ -137,15 +137,6 @@ std::unique_ptr<dae::GameObject> game::PrefabManager::PrefabLoader(nlohmann::jso
 		prefab->AddComponent(std::make_unique<ZenChanAnimationComponent>(*prefab, facingLeft));
 	}
 
-	else if (prefabName == "rect-collider")
-	{
-		prefab->AddComponent(std::make_unique<dae::ColliderComponent>(*prefab, glm::vec2{
-			data["rect"]["width"].get<float>() * 4.0f,
-			data["rect"]["height"].get<float>() * 4.0f
-		},
-		dae::sdbm_hash("STAGE")));
-	}
-
 	else if (prefabName == "player-score")
 	{
 		static int playerNumber{0};
@@ -157,6 +148,33 @@ std::unique_ptr<dae::GameObject> game::PrefabManager::PrefabLoader(nlohmann::jso
 		prefab->AddComponent(std::make_unique<ScoreUiComponent>(*prefab, m_players[playerNumber].object));
 
 		++playerNumber;
+	}
+
+	else if (prefabName == "rect-collider")
+	{
+		prefab->AddComponent(std::make_unique<dae::ColliderComponent>(*prefab, glm::vec2{
+			data["rect"]["width"].get<float>() * 4.0f,
+			data["rect"]["height"].get<float>() * 4.0f
+		},
+		dae::sdbm_hash("STAGE")));
+	}
+
+	else if (prefabName == "ai-jumpable-zone")
+	{
+		prefab->AddComponent(std::make_unique<dae::ColliderComponent>(*prefab, glm::vec2{
+			data["rect"]["width"].get<float>() * 4.0f,
+			data["rect"]["height"].get<float>() * 4.0f
+		},
+		dae::sdbm_hash("AI_JUMPABLE")));
+	}
+
+	else if (prefabName == "ai-jump-zone")
+	{
+		prefab->AddComponent(std::make_unique<dae::ColliderComponent>(*prefab, glm::vec2{
+			4.0f * 4.0f,
+			4.0f * 4.0f
+		},
+		dae::sdbm_hash("PLATFORM_EDGE")));
 	}
 
 	return prefab;

@@ -152,7 +152,7 @@ void dae::PhysicsComponent::SmallJump()
 {
     if (m_isOnGround)
     {
-        m_velY = -JUMP_FORCE / 2.0f;
+        m_velY = -JUMP_FORCE / SMALL_JUMP_DEVISOR;
         m_isOnGround = false;
     }
 }

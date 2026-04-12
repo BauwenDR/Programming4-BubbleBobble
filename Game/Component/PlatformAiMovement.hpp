@@ -33,7 +33,11 @@ namespace game
         ~PlatformAiMovement() override = default;
 
     private:
-        constexpr static float DECISION_TIMEOUT{1.0f};
+        constexpr static float DECISION_TIMEOUT{1.6f};
+
+        constexpr static float MAX_WALKING_FALLING_VELOCITY{10.0f};
+        constexpr static float MIN_EDGE_JUMP_SPEED{12.0f};
+        constexpr static float JUMPING_DIFFERENCE{128.0f};
 
         dae::PhysicsComponent *m_physics{};
         PlatformAiAction m_currentAction{};

@@ -34,6 +34,7 @@ namespace dae
         constexpr static float GRAVITY_FORCE{60.0f * 4};
         constexpr static float TERMINAL_VELOCITY{50.0f * 4};
         constexpr static float JUMP_FORCE{72.0f * 4};
+        constexpr static float SMALL_JUMP_DEVISOR{1.5f};
         constexpr static float MAX_JUMP_THROUGH_HEIGHT{8.0f * 4.0f};
 
         constexpr static float MAX_HORIZONTAL_SPEED{256.0f};
