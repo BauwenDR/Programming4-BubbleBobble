@@ -29,6 +29,8 @@ namespace game
 
         void EdgeJump();
 
+        void InvertWalkDirection();
+
         void Notify(uint32_t event, dae::ObserverData const *data) override;
 
         explicit PlatformAiMovement(dae::GameObject &owner, PlatformAiAction initialAction);

@@ -37,7 +37,7 @@ void game::PlatformAiMovement::Update()
                 m_physics->MoveHorizontal(1.0f);
             break;
         case PlatformAiAction::Jumping:
-            if (std::abs(m_physics->GetVelX()) <= 1.0f)
+            if (std::abs(m_physics->GetVelX()) <= 1.0f && m_physics->GetIsOnGround())
                 m_physics->Jump();
             break;
         case PlatformAiAction::None:
@@ -73,6 +73,19 @@ void game::PlatformAiMovement::EdgeJump()
     }
 }
 
+void game::PlatformAiMovement::InvertWalkDirection()
+{
+    if (m_currentAction == PlatformAiAction::WalkingLeft)
+    {
+        m_currentAction = PlatformAiAction::WalkingRight;
+    }
+
+    else if (m_currentAction == PlatformAiAction::WalkingRight)
+    {
+        m_currentAction = PlatformAiAction::WalkingLeft;
+    }
+}
+
 void game::PlatformAiMovement::Notify(uint32_t event, dae::ObserverData const *data)
 {
     if (event != dae::sdbm_hash("on_collision_enter") && event != dae::sdbm_hash("on_collision_exit")) return;
@@ -81,16 +94,16 @@ void game::PlatformAiMovement::Notify(uint32_t event, dae::ObserverData const *d
     const auto colliderData{dynamic_cast<dae::ColliderData const *>(data)};
     if (colliderData == nullptr) return;
 
-    if (colliderData->collider->GetTag() == dae::sdbm_hash("STAGE") && m_physics->GetVelY() > -1.0f && colliderData->collisionNormal.x != 0)
+    if (colliderData->collider->GetTag() == dae::sdbm_hash("STAGE"))
     {
-        if (m_currentAction == PlatformAiAction::WalkingLeft)
+        if (m_physics->GetVelY() > -1.0f && colliderData->collisionNormal.x != 0)
         {
-            m_currentAction = PlatformAiAction::WalkingRight;
+            InvertWalkDirection();
         }
 
-        else if (m_currentAction == PlatformAiAction::WalkingRight)
+        if (colliderData->collisionNormal.y == -1.0f && m_currentAction == PlatformAiAction::Jumping)
         {
-            m_currentAction = PlatformAiAction::WalkingLeft;
+            TakeNextMovementDecision();
         }
     }
 
@@ -127,15 +140,15 @@ void game::PlatformAiMovement::TakeNextMovementDecision()
 
     auto const [playerObject, _]{PrefabManager::GetInstance().GetClosestActivePlayer(GetGameObject().GetWorldPosition())};
 
-    if (playerObject == nullptr) return;
+    if (playerObject == nullptr) return;    // TODO if both players are invulnerable, take random decisions
     const auto &playerPos{playerObject->GetWorldPosition()};
     const auto &selfPos{GetGameObject().GetWorldPosition()};
 
-    if (m_physics->GetIsOnGround() && m_overlappingPotentialJumpZone && playerPos.y + JUMPING_DIFFERENCE <= selfPos.y)
+    if (m_overlappingPotentialJumpZone && playerPos.y + JUMPING_DIFFERENCE <= selfPos.y)
     {
         m_currentAction = PlatformAiAction::Jumping;
     }
-    else if (std::abs(playerPos.y - selfPos.y) <= WALKING_DECISION_DIFFERENCE)
+    else if (m_currentAction == PlatformAiAction::Jumping || std::abs(playerPos.y - selfPos.y) <= WALKING_DECISION_DIFFERENCE)
     {
         m_currentAction = playerPos.x < selfPos.x ? PlatformAiAction::WalkingLeft : PlatformAiAction::WalkingRight;
     }
