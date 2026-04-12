@@ -183,22 +183,6 @@
         "width": 16,
         "height": 8
       }
-    },
-    {
-      "name": "pickup",
-      "position": {
-        "x": 224,
-        "y": 64
-      },
-      "worth": 1000
-    },
-    {
-      "name": "pickup",
-      "position": {
-        "x": 16,
-        "y": 64
-      },
-      "worth": 500
     }
   ]
 }

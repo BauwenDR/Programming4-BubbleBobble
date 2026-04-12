@@ -15,16 +15,14 @@
       "position": {
         "x": 16,
         "y": 200
-      },
-      "texture": "PlayerSprites.png"
+      }
     },
     {
       "name": "player",
       "position": {
         "x": 224,
         "y": 200
-      },
-      "texture": "PlayerSprites.png"
+      }
     },
     {
       "name": "player-score",
