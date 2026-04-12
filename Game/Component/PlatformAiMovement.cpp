@@ -25,7 +25,7 @@ void game::PlatformAiMovement::Update()
 
     if (m_overlappingJumpZone)
     {
-        
+
     }
 
     switch (m_currentAction)

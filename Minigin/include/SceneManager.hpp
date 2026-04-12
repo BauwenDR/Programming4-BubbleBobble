@@ -1,9 +1,9 @@
 #pragma once
 #include <vector>
 #include <memory>
+
 #include "Scene.hpp"
 #include "Singleton.hpp"
-#include "nlohmann/json.hpp"
 
 namespace dae
 {
@@ -12,7 +12,6 @@ namespace dae
 	{
 	public:
 		Scene& CreateScene();
-		Scene& CreateScene(const std::string &stageName, const std::function<std::unique_ptr<GameObject>(nlohmann::json const &)> &prefabGenerator);
 
 		void Update() const;
 		void Render() const;

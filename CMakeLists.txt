@@ -16,6 +16,7 @@ endif()
 set(GAME_SOURCE_FILES
         Game/Main.cpp
         Game/Command/JumpCommand.cpp
+        Game/Command/MoveCommand.cpp
         Game/Component/AnimationComponent.cpp
         Game/Component/LivesScoreComponent.cpp
         Game/Component/PickupComponent.cpp
@@ -24,7 +25,7 @@ set(GAME_SOURCE_FILES
         Game/Component/PlayerInputComponent.cpp
         Game/Component/WrapAroundScreenComponent.cpp
         Game/Component/ZenChanAnimationComponent.cpp
-        Game/Command/MoveCommand.cpp
+        Game/Prefab/PrefabManager.cpp
         Game/UI/LivesUiComponent.cpp
         Game/UI/ScoreUiComponent.cpp
         Game/PlottingWindows.cpp
