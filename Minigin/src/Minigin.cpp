@@ -113,8 +113,8 @@ void dae::Minigin::RunOneFrame()
 	EventManager::GetInstance().TriggerEvents();
 
 	PhysicsSystem::GetInstance().PhysicsUpdate();
-
 	SceneManager::GetInstance().Update();
+
 	Renderer::GetInstance().Render();
 
 	Time::postFrame();

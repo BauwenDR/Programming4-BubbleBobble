@@ -13,14 +13,14 @@
     {
       "name": "player",
       "position": {
-        "x": 16,
+        "x": 24,
         "y": 200
       }
     },
     {
       "name": "player",
       "position": {
-        "x": 224,
+        "x": 216,
         "y": 200
       }
     },

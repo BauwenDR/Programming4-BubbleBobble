@@ -80,7 +80,7 @@ void game::PlatformAiMovement::Notify(uint32_t event, dae::ObserverData const *d
     const auto colliderData{dynamic_cast<dae::ColliderData const *>(data)};
     if (colliderData == nullptr) return;
 
-    if (colliderData->collider->GetTag() == dae::sdbm_hash("STAGE") && m_physics->GetVelY() > 0.0f && colliderData->collisionNormal.x != 0)
+    if (colliderData->collider->GetTag() == dae::sdbm_hash("STAGE") && m_physics->GetVelY() > -1.0f && colliderData->collisionNormal.x != 0)
     {
         if (m_currentAction == PlatformAiAction::WalkingLeft)
         {

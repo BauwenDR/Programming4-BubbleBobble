@@ -73,18 +73,28 @@ void dae::PhysicsComponent::Notify(uint32_t event, ObserverData const *data)
 
         if (colliderData->collisionNormal.y == 0.0f)
         {
-            constexpr float epsilon{0.001f};
+            constexpr float epsilon{0.0001f};
 
             const float colliderXPos{colliderData->collider->GetColliderPosition().x};
             glm::vec3 currentPos{GetGameObject().GetLocalTransform().GetPosition()};
 
             if (colliderData->collisionNormal.x > 0.0f)
             {
-                currentPos.x = colliderXPos + colliderData->collider->GetColliderPosition().z + epsilon;
+                currentPos.x = colliderXPos + colliderData->collider->GetColliderPosition().z;
+                if (m_horizontalInput >= 0.0f)
+                {
+                    currentPos.x += epsilon;
+                }
+
                 m_velX = 0.0f;
-            } else
+            } else if (colliderData->collisionNormal.x < 0.0f)
             {
-                currentPos.x = colliderXPos - m_collider->GetColliderPosition().z - epsilon;
+                currentPos.x = colliderXPos - m_collider->GetColliderPosition().z;
+                if (m_horizontalInput <= 0.0f)
+                {
+                    currentPos.x -= epsilon;
+                }
+
                 m_velX = 0.0f;
             }
 

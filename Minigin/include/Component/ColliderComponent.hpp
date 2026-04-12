@@ -30,7 +30,6 @@ namespace dae
 
         void Start() override;
         void Update() override;
-        void Render() const override{}
 
         [[nodiscard]] glm::vec4 const &GetColliderPosition() const
         {
