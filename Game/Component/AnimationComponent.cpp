@@ -5,6 +5,7 @@
 #include "GameObject.hpp"
 #include "Time.hpp"
 #include "Component/TextureComponent.hpp"
+#include "Animations/AnimationData.hpp"
 
 void game::AnimationComponent::Start()
 {

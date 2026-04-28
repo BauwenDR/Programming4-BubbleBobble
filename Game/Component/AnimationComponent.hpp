@@ -2,7 +2,6 @@
 #define MINIGIN_ANIMATIONCOMPONENT_HPP
 #include <glm/vec2.hpp>
 
-#include "Animations/AnimationData.hpp"
 #include "Component/GameComponent.hpp"
 
 namespace dae
@@ -12,6 +11,8 @@ namespace dae
 
 namespace game
 {
+    struct AnimationData;
+
     class AnimationComponent final : public dae::GameComponent
     {
     public:
