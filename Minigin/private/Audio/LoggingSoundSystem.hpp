@@ -22,7 +22,7 @@ namespace dae
         }
 
     private:
-        std::unique_ptr<ISoundSystem> m_soundSystem;
+        std::unique_ptr<ISoundSystem> m_soundSystem{};
     };
 }
 

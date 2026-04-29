@@ -9,7 +9,7 @@ namespace fs = std::filesystem;
 #include <SDL3/SDL_main.h>
 #endif
 
-#if _DEBUG and __has_include(<vld.h>)
+#if (not NDEBUG) and __has_include(<vld.h>)
 #include <vld.h>
 #endif
 

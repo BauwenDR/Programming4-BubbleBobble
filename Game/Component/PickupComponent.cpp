@@ -30,7 +30,3 @@ game::PickupComponent::PickupComponent(dae::GameObject &owner, int worth)
 {
 }
 
-game::PickupComponent::~PickupComponent()
-{
-    GetGameObject().RemoveObserver(this);
-}

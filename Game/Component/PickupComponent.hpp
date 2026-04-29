@@ -25,7 +25,7 @@ namespace game
         void Notify(uint32_t event, const dae::ObserverData *data) override;
 
         PickupComponent(dae::GameObject &owner, int worth);
-        ~PickupComponent() override;
+        ~PickupComponent() override = default;
 
         PickupComponent(const PickupComponent &other) = delete;
         PickupComponent(PickupComponent &&other) noexcept = delete;

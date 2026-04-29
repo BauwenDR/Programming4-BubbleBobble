@@ -49,7 +49,7 @@ std::ifstream dae::ResourceManager::LoadFile(const std::string &file) const {
 
 std::string dae::ResourceManager::GetFilePath(const std::string &file) const
 {
-	return m_dataPath / file;
+	return (m_dataPath / file).string();
 }
 
 void dae::ResourceManager::UnloadUnusedResources()
