@@ -22,9 +22,11 @@ namespace dae
 
         void PlaySound(uint32_t soundId, float volume) override
         {
+
+            // TODO this kind of logging is not maintainable at all (same TODO as in Minigin.cpp)
 #if _WIN32
             std::stringstream ss;
-            ss << << "Playing sound " << soundId << " at volume " << volume << '\n';
+            ss << "Playing sound " << soundId << " at volume " << volume << '\n';
             OutputDebugString(ss.str().c_str());
 #else
             std::cout << "Playing sound " << soundId << " at volume " << volume << '\n';

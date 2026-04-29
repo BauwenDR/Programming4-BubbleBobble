@@ -11,7 +11,7 @@
 
 namespace
 {
-    std::thread m_soundThread{};
+    std::jthread m_soundThread{};
 
     std::condition_variable m_wakeCondition{};
     dae::ConcurrentAudioQueue m_requests{};
@@ -37,7 +37,7 @@ void dae::AudioQueue::PlaySound(uint32_t sound_id_hash, float volume)
 // Private functions
 void dae::AudioQueue::Launch()
 {
-    m_soundThread = std::thread(&RunSoundThread);
+    m_soundThread = std::jthread(&RunSoundThread);
 }
 
 void dae::AudioQueue::SendShutdownSignal()
