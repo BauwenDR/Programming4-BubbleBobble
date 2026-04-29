@@ -3,6 +3,11 @@
 #include <iostream>
 #include <memory>
 
+#if _WIN32
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
+#endif
+
 #include "ISoundSystem.hpp"
 
 namespace dae
@@ -17,7 +22,14 @@ namespace dae
 
         void PlaySound(uint32_t soundId, float volume) override
         {
-            std::cout << "Playing sound " << soundId << "at volume " << volume << '\n';
+#if _WIN32
+            std::stringstream ss;
+            ss << << "Playing sound " << soundId << " at volume " << volume << '\n';
+            OutputDebugString(ss.str().c_str());
+#else
+            std::cout << "Playing sound " << soundId << " at volume " << volume << '\n';
+#endif
+
             m_soundSystem->PlaySound(soundId, volume);
         }
 

@@ -76,7 +76,7 @@ dae::Minigin::Minigin(const std::filesystem::path& dataPath)
 
 	std::unique_ptr<ISoundSystem> m_soundSystem{};
 
-#if not NDEBUG
+#if _DEBUG or not NDEBUG
 	m_soundSystem = std::make_unique<LoggingSoundSystem>(std::make_unique<SdlSoundSystem>());
 #else
 	m_soundSystem = std::make_unique<SdlSoundSystem>();
