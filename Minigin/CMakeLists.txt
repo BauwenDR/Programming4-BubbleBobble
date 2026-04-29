@@ -1,6 +1,8 @@
 set(ENGINE_NAME minigin)
 
 set(MINIGIN_SOURCE_FILES
+        Minigin/src/Audio/AudioQueue.cpp
+        Minigin/src/Audio/ConcurrentAudioQueue.cpp
         Minigin/src/Component/ColliderComponent.cpp
         Minigin/src/Component/GameComponent.cpp
         Minigin/src/Component/PhysicsComponent.cpp
@@ -20,6 +22,7 @@ set(MINIGIN_SOURCE_FILES
         Minigin/src/PhysicsSystem.cpp
         Minigin/src/Scene.cpp
         Minigin/src/SceneManager.cpp
+        Minigin/src/ServiceLocator.cpp
         Minigin/src/Time.cpp
         Minigin/src/Transform.cpp
 )
@@ -35,7 +38,8 @@ add_library(${ENGINE_NAME}
         ${MINIGIN_SOURCE_FILES}
 )
 
-target_include_directories(${ENGINE_NAME} PUBLIC Minigin/include PRIVATE Minigin/private)
+# Add both public includes and private ones (but dont directly include private so we still have to prefix it with "private/")
+target_include_directories(${ENGINE_NAME} PUBLIC Minigin/include Minigin)
 target_compile_features(${ENGINE_NAME} PUBLIC cxx_std_20)
 
 target_include_directories("${ENGINE_NAME}" PUBLIC

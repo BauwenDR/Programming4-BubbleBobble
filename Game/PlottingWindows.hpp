@@ -6,6 +6,8 @@
 
 #include "Render/GuiWindow.hpp"
 
+// keeping around as an example of an ImGui window
+// TODO remove this and add controls + other explanation in ImGui window
 namespace game
 {
     class ExerciseOneWindow final : public dae::GuiWindow

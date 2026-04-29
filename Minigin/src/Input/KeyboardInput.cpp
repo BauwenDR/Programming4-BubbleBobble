@@ -1,10 +1,10 @@
-#include "Input/KeyboardInput.hpp"
+#include "private/Input/KeyboardInput.hpp"
 
 #include <algorithm>
 #include <set>
 #include <vector>
 
-#include "Input/InputManagerPrivate.hpp"
+#include "private/Input/InputManagerPrivate.hpp"
 
 namespace dae::Input::Keyboard
 {

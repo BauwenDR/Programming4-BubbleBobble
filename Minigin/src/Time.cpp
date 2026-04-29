@@ -1,5 +1,5 @@
 #include "Time.hpp"
-#include "TimePrivate.hpp"
+#include "private/TimePrivate.hpp"
 
 #include <chrono>
 #include <thread>

@@ -3,9 +3,9 @@
 #include <vector>
 #include <SDL3/SDL_gamepad.h>
 
-#include "../../private/Input/ControllerInput.hpp"
 #include "Input/InputManager.hpp"
-#include "../../private/Input/InputManagerPrivate.hpp"
+#include "private/Input/ControllerInput.hpp"
+#include "private/Input/InputManagerPrivate.hpp"
 
 namespace dae::Input::Controller
 {

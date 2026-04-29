@@ -2,6 +2,13 @@
 #include <sstream>
 #include <iostream>
 
+#include "ServiceLocator.hpp"
+#include "Audio/AudioQueue.hpp"
+#include "private/Audio/ISoundSystem.hpp"
+#include "private/Audio/LoggingSoundSystem.hpp"
+#include "private/Audio/NullSoundSystem.hpp"
+#include "private/Audio/SdlSoundSystem.hpp"
+
 # if (_WIN32 or _WIN64)
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
@@ -16,7 +23,8 @@
 #include "Render/ResourceManager.hpp"
 #include "Minigin.hpp"
 #include "SceneManager.hpp"
-#include "TimePrivate.hpp"
+#include "private/TimePrivate.hpp"
+#include "private/Audio/AudioQueue.hpp"
 
 // TODO move to some sort of logger
 void LogSDLVersion(const std::string& message, int major, int minor, int patch)
@@ -67,6 +75,17 @@ dae::Minigin::Minigin(const std::filesystem::path& dataPath)
 	SDL_InitSubSystem(SDL_INIT_GAMEPAD | SDL_INIT_JOYSTICK);
 #endif
 
+	std::unique_ptr<ISoundSystem> m_soundSystem{};
+
+#if DEBUG
+	m_soundSystem = std::make_unique<LoggingSoundSystem>(std::make_unique<NullSoundSystem>());
+#else
+	m_soundSystem = std::make_unique<NullSoundSystem>();
+#endif
+	ServiceLocator::RegisterSoundSystem(std::move(m_soundSystem));
+
+	AudioQueue::Launch();
+
 	m_pWindow = SDL_CreateWindow(
 		"Programming 4 assignment - Bubble Bobble",
 		1024,
@@ -85,6 +104,7 @@ dae::Minigin::Minigin(const std::filesystem::path& dataPath)
 
 dae::Minigin::~Minigin()
 {
+	AudioQueue::Shutdown();
 	SceneManager::GetInstance().Destroy();
 	Renderer::GetInstance().Destroy();
 	SDL_DestroyWindow(m_pWindow);

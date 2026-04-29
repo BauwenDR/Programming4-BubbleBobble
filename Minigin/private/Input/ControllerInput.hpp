@@ -31,7 +31,7 @@ namespace dae::Input::Controller
         ~ControllerInput();
     private:
         class Impl;
-        std::unique_ptr<Impl> m_impl;
+        std::unique_ptr<Impl> m_impl{};
     };
 }
 

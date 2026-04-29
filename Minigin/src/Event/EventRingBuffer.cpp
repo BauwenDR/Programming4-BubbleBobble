@@ -1,4 +1,4 @@
-#include "../../private/Event/EventRingBuffer.hpp"
+#include "private/Event/EventRingBuffer.hpp"
 
 #include <iostream>
 #include <stdexcept>
