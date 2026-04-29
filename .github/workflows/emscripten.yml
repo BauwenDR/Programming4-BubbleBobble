@@ -58,6 +58,7 @@ jobs:
           mkdir -p dist
           cp build-web/bubble-bobble_web.* dist/
           cp web/*.html dist/
+          cp web/*.js dist/
 
       - name: Upload Pages Artifact
         uses: actions/upload-pages-artifact@v3
