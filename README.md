@@ -32,12 +32,20 @@ In a terminal, navigate to the root folder. Run this:
 mkdir build_web
 cd build_web
 emcmake cmake ..
-emmake ninja
+make
 ```
 
-To be able to see the webpage you can start a python webserver in the build_web folder
+In order to run the application simply use the following command.
+Because threading required SharedArrayBuffer, and browsers have locked those behind security policies just running any http server will not suffice.
 ```shell
-python -m http.server
+emrun index.html
+```
+
+To be more specific. These headers need to be added to the requests. (Using nginx config as an example)
+GitHub pages do not allow these headers to be set (or any headers to be modified for any matter). So the GitHub page is currently broken.
+```nginx
+add_header Cross-Origin-Opener-Policy "same-origin" always;
+add_header Cross-Origin-Embedder-Policy "require-corp" always;
 ```
 
 Then browse to http://localhost:8000 and you're good to go.
