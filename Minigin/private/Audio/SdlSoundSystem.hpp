@@ -9,14 +9,14 @@ namespace dae
     class SdlSoundSystem final : public ISoundSystem
     {
     public:
-        void PreLoadSound(uint32_t uint32) override;
         void PlaySound(uint32_t soundId, float volume) override;
 
-        ~SdlSoundSystem() override = default;
+        SdlSoundSystem();
+        ~SdlSoundSystem() override;
 
     private:
         class Impl;
-        std::unique_ptr<Impl> m_impl{};
+        std::unique_ptr<Impl> const m_impl{};
     };
 }
 

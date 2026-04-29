@@ -3,7 +3,7 @@
 void dae::ConcurrentAudioQueue::Push(AudioRequest &&request)
 {
     std::unique_lock lock(m_mutex);
-    m_queue.push(std::move(request));
+    m_queue.push(request);
 }
 
 dae::AudioRequest dae::ConcurrentAudioQueue::Pop()

@@ -3,6 +3,7 @@ set(ENGINE_NAME minigin)
 set(MINIGIN_SOURCE_FILES
         Minigin/src/Audio/AudioQueue.cpp
         Minigin/src/Audio/ConcurrentAudioQueue.cpp
+        Minigin/src/Audio/SdlSoundSystem.cpp
         Minigin/src/Component/ColliderComponent.cpp
         Minigin/src/Component/GameComponent.cpp
         Minigin/src/Component/PhysicsComponent.cpp

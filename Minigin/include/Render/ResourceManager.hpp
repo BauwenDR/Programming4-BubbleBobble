@@ -13,9 +13,10 @@ namespace dae
 	{
 	public:
 		void Init(const std::filesystem::path& data);
-		std::shared_ptr<Texture2D> LoadTexture(const std::string& file);
-		std::shared_ptr<Font> LoadFont(const std::string& file, uint8_t size);
+		[[nodiscard]] std::shared_ptr<Texture2D> LoadTexture(const std::string& file);
+		[[nodiscard]] std::shared_ptr<Font> LoadFont(const std::string& file, uint8_t size);
 		[[nodiscard]] std::ifstream LoadFile(const std::string& file) const;
+		[[nodiscard]] std::string GetFilePath(const std::string& file) const;
 
 	private:
 		friend class Singleton;

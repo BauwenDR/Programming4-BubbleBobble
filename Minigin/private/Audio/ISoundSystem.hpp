@@ -7,7 +7,6 @@ namespace  dae
     class ISoundSystem
     {
     public:
-        virtual void PreLoadSound(uint32_t uint32) = 0;
         virtual void PlaySound(uint32_t soundId, float volume) = 0;
 
         virtual ~ISoundSystem() = default;

@@ -8,6 +8,8 @@ namespace dae::AudioQueue
 
     void SendShutdownSignal();
     void RunSoundThread();
+
+    std::string GetPathForId(uint32_t sound_id);
 }
 
 #endif //MINIGIN_AUDIOTHREAD_HPP

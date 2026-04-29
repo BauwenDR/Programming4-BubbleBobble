@@ -47,6 +47,11 @@ std::ifstream dae::ResourceManager::LoadFile(const std::string &file) const {
 	return std::ifstream{filePath};
 }
 
+std::string dae::ResourceManager::GetFilePath(const std::string &file) const
+{
+	return m_dataPath / file;
+}
+
 void dae::ResourceManager::UnloadUnusedResources()
 {
 	for (auto it = m_loadedTextures.begin(); it != m_loadedTextures.end();)

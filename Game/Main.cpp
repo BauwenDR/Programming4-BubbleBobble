@@ -1,11 +1,5 @@
 #include <filesystem>
 
-#include "Animations/PlayerAnimations.hpp"
-#include "Animations/ZenChanAnimation.hpp"
-#include "Component/AnimationComponent.hpp"
-#include "Component/PlayerAnimationComponent.hpp"
-#include "Component/WrapAroundScreenComponent.hpp"
-#include "Component/ZenChanAnimationComponent.hpp"
 #include "Prefab/PrefabManager.hpp"
 namespace fs = std::filesystem;
 
@@ -18,12 +12,17 @@ namespace fs = std::filesystem;
 #include <vld.h>
 #endif
 
-#include "Component/TextComponent.hpp"
+#include "Audio/AudioQueue.hpp"
+#include "Event/Sdbm.hpp"
 #include "SceneManager.hpp"
 #include "Minigin.hpp"
 
 static void load()
 {
+	// TODO move these into JSON file
+	dae::AudioQueue::LoadSound(dae::sdbm_hash("PlayerJump"), "Audio/PlayerJump.wav");
+	dae::AudioQueue::LoadSound(dae::sdbm_hash("Pickup"), "Audio/Pickup.wav");
+
 	game::PrefabManager::GetInstance().LoadSceneFromJson("Stage3");
 }
 

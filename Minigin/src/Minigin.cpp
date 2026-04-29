@@ -6,7 +6,6 @@
 #include "Audio/AudioQueue.hpp"
 #include "private/Audio/ISoundSystem.hpp"
 #include "private/Audio/LoggingSoundSystem.hpp"
-#include "private/Audio/NullSoundSystem.hpp"
 #include "private/Audio/SdlSoundSystem.hpp"
 
 # if (_WIN32 or _WIN64)
@@ -78,9 +77,9 @@ dae::Minigin::Minigin(const std::filesystem::path& dataPath)
 	std::unique_ptr<ISoundSystem> m_soundSystem{};
 
 #if DEBUG
-	m_soundSystem = std::make_unique<LoggingSoundSystem>(std::make_unique<NullSoundSystem>());
+	m_soundSystem = std::make_unique<LoggingSoundSystem>(std::make_unique<SdlSoundSystem>());
 #else
-	m_soundSystem = std::make_unique<NullSoundSystem>();
+	m_soundSystem = std::make_unique<SdlSoundSystem>();
 #endif
 	ServiceLocator::RegisterSoundSystem(std::move(m_soundSystem));
 

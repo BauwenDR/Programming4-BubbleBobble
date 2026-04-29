@@ -8,9 +8,10 @@ namespace dae
 {
     enum class AudioRequestType
     {
-        NONE,
-        LOAD,
-        PLAY
+        None,
+        PreLoad,       // TODO unimplemented
+        PlaySfx,
+        PlayStream     // TODO unimplemented
     };
 
     struct AudioRequest
