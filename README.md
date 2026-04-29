@@ -43,6 +43,7 @@ emrun index.html
 
 To be more specific. These headers need to be added to the requests. (Using nginx config as an example)
 GitHub pages do not allow these headers to be set (or any headers to be modified for any matter). So the GitHub page is currently broken.
+I currently use a hacky workaround, this is not guaranteed to work (tested with http-server js executable; and it worked there) no guarantees.
 ```nginx
 add_header Cross-Origin-Opener-Policy "same-origin" always;
 add_header Cross-Origin-Embedder-Policy "require-corp" always;
