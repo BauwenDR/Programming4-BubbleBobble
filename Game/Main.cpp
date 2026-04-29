@@ -24,6 +24,10 @@ static void load()
 	dae::AudioQueue::LoadSound(dae::sdbm_hash("Pickup"), "Audio/Pickup.wav");
 
 	game::PrefabManager::GetInstance().LoadSceneFromJson("Stage3");
+
+	// Todo, spawning these here is also not ideal
+	game::PrefabManager::GetInstance().SpawnPickup({glm::vec2{200.0f, 160.0f}, 1000});
+	game::PrefabManager::GetInstance().SpawnPickup({glm::vec2{700.0f, 160.0f}, 500});
 }
 
 int main(int, char*[]) {
