@@ -14,7 +14,7 @@ set(GAME_SOURCE_FILES
         Game/Prefab/PrefabManager.cpp
         Game/UI/LivesUiComponent.cpp
         Game/UI/ScoreUiComponent.cpp
-        Game/PlottingWindows.cpp
+        Game/InstructionWindow.cpp
 )
 
 add_executable(${TARGET_NAME} ${TARGET_PARAM}

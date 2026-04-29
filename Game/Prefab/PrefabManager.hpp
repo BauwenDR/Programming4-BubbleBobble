@@ -10,6 +10,7 @@
 
 namespace dae
 {
+    class GuiWindow;
     class Font;
     class Scene;
 }
@@ -36,9 +37,10 @@ namespace game
         void LoadSceneFromJson(std::string const & sceneName);
 
         void SpawnPickup(PickupPrefabData const &data) const;
-        // void SpawnBarronEnemy() const;
+        void AttachGui(std::unique_ptr<dae::GuiWindow> &&gui) const;
 
         [[nodiscard]] PlayerData GetClosestActivePlayer(glm::vec3 const &searchPos) const;
+
     private:
         friend class Singleton;
 

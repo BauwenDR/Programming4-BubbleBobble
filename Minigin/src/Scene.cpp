@@ -25,7 +25,7 @@ void Scene::RemoveAll()
 	m_objects.clear();
 }
 
-void Scene::AddGui(std::unique_ptr<GuiWindow> gui)
+void Scene::AddGui(std::unique_ptr<GuiWindow> &&gui)
 {
 	assert(gui != nullptr && "Cannot add a null gui to the scene.");
 

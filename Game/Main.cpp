@@ -1,5 +1,6 @@
 #include <filesystem>
 
+#include "InstructionWindow.hpp"
 #include "Prefab/PrefabManager.hpp"
 namespace fs = std::filesystem;
 
@@ -28,6 +29,8 @@ static void load()
 	// Todo, spawning these here is also not ideal
 	game::PrefabManager::GetInstance().SpawnPickup({glm::vec2{200.0f, 160.0f}, 1000});
 	game::PrefabManager::GetInstance().SpawnPickup({glm::vec2{700.0f, 160.0f}, 500});
+
+	game::PrefabManager::GetInstance().AttachGui(std::make_unique<game::InstructionWindow>());
 }
 
 int main(int, char*[]) {

@@ -63,6 +63,11 @@ void game::PrefabManager::SpawnPickup(PickupPrefabData const &data) const
 	m_scene->Add(std::move(pickupPrefab));
 }
 
+void game::PrefabManager::AttachGui(std::unique_ptr<dae::GuiWindow> &&gui) const
+{
+	m_scene->AddGui(std::move(gui));
+}
+
 game::PlayerData game::PrefabManager::GetClosestActivePlayer(glm::vec3 const &searchPos) const
 {
 	auto GetDistanceScore = [&searchPos](PlayerData const &data)
