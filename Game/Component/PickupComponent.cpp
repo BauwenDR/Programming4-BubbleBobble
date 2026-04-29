@@ -20,7 +20,7 @@ void game::PickupComponent::Notify(uint32_t event, dae::ObserverData const *data
     if (colliderData->collider->GetTag() != dae::sdbm_hash("PLAYER")) return;
 
     const PickupData pickupData{m_worth};
-    colliderData->collider->GetGameObject().NotifyObservers(dae::sdbm_hash("pickup"), &pickupData);
+    colliderData->collider->GetGameObject().NotifyObservers(dae::sdbm_hash("on_pickup"), &pickupData);
     GetGameObject().MarkForDelete();
 }
 

@@ -15,6 +15,7 @@
 #include "Component/PhysicsComponent.hpp"
 #include "Component/PlatformAiMovement.hpp"
 #include "Component/PlayerAnimationComponent.hpp"
+#include "Component/PlayerSoundProducer.hpp"
 #include "Component/TextComponent.hpp"
 #include "Component/TextureComponent.hpp"
 #include "Component/WrapAroundScreenComponent.hpp"
@@ -113,6 +114,7 @@ std::unique_ptr<dae::GameObject> game::PrefabManager::PrefabLoader(nlohmann::jso
 		prefab->AddComponent(std::make_unique<WrapAroundScreenComponent>(*prefab));
 		prefab->AddComponent(std::make_unique<AnimationComponent>(*prefab, &PLAYER_ANIMATIONS.at(!m_players.empty() ? PlayerAnimationState::IdleLeft : PlayerAnimationState::IdleRight), 1.0f/3.0f, glm::vec2{static_cast<float>(m_players.size()) * 4.0f, 0.0f} ));
 		prefab->AddComponent(std::make_unique<PlayerAnimationComponent>(*prefab, !m_players.empty()));
+		prefab->AddComponent(std::make_unique<PlayerSoundProducer>(*prefab));
 
 		m_players.emplace_back(prefab.get(), prefab->GetComponent<LivesScoreComponent>());
 	}

@@ -26,7 +26,7 @@ game::LivesScoreComponent::LivesScoreComponent(dae::GameObject &owner)
 
 void game::LivesScoreComponent::Notify(uint32_t event, const dae::ObserverData *data)
 {
-    if (event != dae::sdbm_hash("pickup")) return;
+    if (event != dae::sdbm_hash("on_pickup")) return;
 
     if (data == nullptr) return;
     const auto pickupData{dynamic_cast<PickupData const *>(data)};

@@ -155,6 +155,7 @@ void dae::PhysicsComponent::Jump()
     {
         m_velY = -JUMP_FORCE;
         m_isOnGround = false;
+        GetGameObject().NotifyObservers(sdbm_hash("on_jump"), {});
     }
 }
 
