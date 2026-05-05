@@ -4,7 +4,6 @@
 
 #include "Component/GameComponent.hpp"
 #include "Event/IObserver.hpp"
-#include "PhysicsSystem.hpp"
 #include "Transform.hpp"
 
 template <typename T>

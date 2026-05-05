@@ -13,7 +13,7 @@ namespace dae {
     class PhysicsSystem final : public Singleton<PhysicsSystem> {
     public:
         void RegisterCollider(ColliderComponent* collider);
-        void UnregisterCollider(ColliderComponent* collider);
+        void UnregisterCollider(ColliderComponent const *collider);
 
         void PhysicsUpdate();
     private:

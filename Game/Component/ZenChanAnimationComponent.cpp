@@ -2,7 +2,7 @@
 
 #include "Component/AnimationComponent.hpp"
 
-#include "Component/PhysicsComponent.hpp"
+#include "PhysicsComponent.hpp"
 #include "GameObject.hpp"
 #include "Animations/ZenChanAnimation.hpp"
 

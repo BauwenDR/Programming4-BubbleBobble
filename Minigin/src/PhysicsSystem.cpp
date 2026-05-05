@@ -11,7 +11,7 @@ void dae::PhysicsSystem::RegisterCollider(ColliderComponent *collider)
     m_colliders.push_back(collider);
 }
 
-void dae::PhysicsSystem::UnregisterCollider(ColliderComponent *collider)
+void dae::PhysicsSystem::UnregisterCollider(ColliderComponent const *collider)
 {
     std::erase_if(m_colliders, [collider](ColliderComponent const * colliderComp)
     {

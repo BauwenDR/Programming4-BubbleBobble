@@ -6,19 +6,6 @@
 
 namespace dae
 {
-    class ColliderData final : public ObserverData
-    {
-    public:
-        ColliderComponent const *collider{};
-        glm::vec2 const collisionNormal{};
-
-        explicit ColliderData(ColliderComponent const *const collider, glm::vec2 const &normal) : ObserverData(),
-            collider(collider), collisionNormal(normal)
-        {
-        }
-        ~ColliderData() override = default;
-    };
-
     class ColliderComponent : public GameComponent
     {
     public:
@@ -57,6 +44,19 @@ namespace dae
         uint32_t m_tag{};
 
         void RecalculateCollider();
+    };
+
+    class ColliderData final : public ObserverData
+    {
+    public:
+        ColliderComponent const *collider{};
+        glm::vec2 const collisionNormal{};
+
+        explicit ColliderData(ColliderComponent const *const collider, glm::vec2 const &normal) : ObserverData(),
+            collider(collider), collisionNormal(normal)
+        {
+        }
+        ~ColliderData() override = default;
     };
 }
 

@@ -6,7 +6,6 @@ set(MINIGIN_SOURCE_FILES
         Minigin/src/Audio/SdlSoundSystem.cpp
         Minigin/src/Component/ColliderComponent.cpp
         Minigin/src/Component/GameComponent.cpp
-        Minigin/src/Component/PhysicsComponent.cpp
         Minigin/src/Component/TextComponent.cpp
         Minigin/src/Component/TextureComponent.cpp
         Minigin/src/Event/EventManager.cpp

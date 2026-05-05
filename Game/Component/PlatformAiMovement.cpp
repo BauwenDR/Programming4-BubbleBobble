@@ -3,7 +3,7 @@
 #include "Prefab/PrefabManager.hpp"
 
 #include "Component/ColliderComponent.hpp"
-#include "Component/PhysicsComponent.hpp"
+#include "PhysicsComponent.hpp"
 #include "Event/Sdbm.hpp"
 #include "Time.hpp"
 

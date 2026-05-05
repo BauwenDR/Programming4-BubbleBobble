@@ -1,5 +1,6 @@
 #include "Component/ColliderComponent.hpp"
 
+#include "PhysicsSystem.hpp"
 #include "Event/Sdbm.hpp"
 
 void dae::ColliderComponent::OnCollisionEnter(ColliderComponent const *collider, glm::vec2 const &normal) const

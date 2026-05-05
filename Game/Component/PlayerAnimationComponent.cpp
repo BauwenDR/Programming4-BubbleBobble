@@ -3,7 +3,7 @@
 #include "Component/AnimationComponent.hpp"
 #include "Animations/PlayerAnimations.hpp"
 
-#include "Component/PhysicsComponent.hpp"
+#include "PhysicsComponent.hpp"
 #include "GameObject.hpp"
 
 void game::PlayerAnimationComponent::Start()

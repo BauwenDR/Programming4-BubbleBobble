@@ -7,7 +7,7 @@
 #include "Command/MoveCommand.hpp"
 #include "Component/LivesScoreComponent.hpp"
 
-#include "Component/PhysicsComponent.hpp"
+#include "PhysicsComponent.hpp"
 #include "Event/Sdbm.hpp"
 #include "Input/InputManager.hpp"
 #include "GameObject.hpp"

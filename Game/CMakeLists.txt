@@ -4,6 +4,7 @@ set(GAME_SOURCE_FILES
         Game/Command/MoveCommand.cpp
         Game/Component/AnimationComponent.cpp
         Game/Component/LivesScoreComponent.cpp
+        Game/Component/PhysicsComponent.cpp
         Game/Component/PickupComponent.cpp
         Game/Component/PlatformAiMovement.cpp
         Game/Component/PlayerAnimationComponent.cpp

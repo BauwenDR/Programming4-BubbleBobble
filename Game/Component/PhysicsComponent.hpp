@@ -3,8 +3,8 @@
 
 #include <unordered_set>
 
-#include "ColliderComponent.hpp"
-#include "GameComponent.hpp"
+#include "Component/ColliderComponent.hpp"
+#include "Component/GameComponent.hpp"
 
 #include "Event/IObserver.hpp"
 

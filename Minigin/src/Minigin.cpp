@@ -2,6 +2,7 @@
 #include <sstream>
 #include <iostream>
 
+#include "PhysicsSystem.hpp"
 #include "ServiceLocator.hpp"
 #include "Audio/AudioQueue.hpp"
 #include "private/Audio/ISoundSystem.hpp"
