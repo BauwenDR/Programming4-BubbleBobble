@@ -44,7 +44,7 @@ void dae::GameObject::Update() const
 {
     for (const auto &component: m_components)
     {
-        component->Update();
+        if (component->enabled) component->Update();
     }
 
     for (const auto &child: m_children)
@@ -57,7 +57,7 @@ void dae::GameObject::LateUpdate() const
 {
     for (const auto &component: m_components)
     {
-        component->LateUpdate();
+        if (component->enabled) component->LateUpdate();
     }
 
     for (const auto &child: m_children)

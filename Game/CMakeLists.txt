@@ -2,7 +2,13 @@ set(GAME_SOURCE_FILES
         Game/Main.cpp
         Game/Command/JumpCommand.cpp
         Game/Command/MoveCommand.cpp
+        Game/Component/BubbleState/AirCurrentState.cpp
+        Game/Component/BubbleState/BubbleState.cpp
+        Game/Component/BubbleState/FloatState.cpp
+        Game/Component/BubbleState/ShotState.cpp
+        Game/Component/BubbleState/StaticState.cpp
         Game/Component/AnimationComponent.cpp
+        Game/Component/BubbleComponent.cpp
         Game/Component/LivesScoreComponent.cpp
         Game/Component/PhysicsComponent.cpp
         Game/Component/PickupComponent.cpp

@@ -2,7 +2,7 @@
 
 #include "Component/PhysicsComponent.hpp"
 
-void JumpCommand::Execute()
+void game::JumpCommand::Execute()
 {
     m_physicsComponent->Jump();
 }

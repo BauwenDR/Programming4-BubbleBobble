@@ -5,9 +5,8 @@
 
 #include "Component/GameComponent.hpp"
 
-class JumpCommand;
-
 namespace game {
+    class JumpCommand;
     class IncreaseScoreCommand;
     class DecreaseLivesCommand;
     class LivesScoreComponent;

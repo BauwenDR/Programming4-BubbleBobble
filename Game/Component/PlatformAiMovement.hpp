@@ -6,14 +6,14 @@
 #include "Component/GameComponent.hpp"
 #include "Event/IObserver.hpp"
 
-namespace dae
+namespace game
 {
     class PhysicsComponent;
 }
 
 namespace game
 {
-    enum class PlatformAiAction : uint8_t
+    enum class PlatformAiActions : uint8_t
     {
         None,
         WalkingLeft,
@@ -33,7 +33,7 @@ namespace game
 
         void Notify(uint32_t event, dae::ObserverData const *data) override;
 
-        explicit PlatformAiMovement(dae::GameObject &owner, PlatformAiAction initialAction);
+        PlatformAiMovement(dae::GameObject &owner, PlatformAiActions initialAction);
         ~PlatformAiMovement() override = default;
 
     private:
@@ -43,8 +43,8 @@ namespace game
         constexpr static float MIN_EDGE_JUMP_SPEED{12.0f};
         constexpr static float JUMPING_DIFFERENCE{128.0f};
 
-        dae::PhysicsComponent *m_physics{};
-        PlatformAiAction m_currentAction{};
+        PhysicsComponent *m_physics{};
+        PlatformAiActions m_currentAction{};
 
         float m_decisionCooldown{};
 

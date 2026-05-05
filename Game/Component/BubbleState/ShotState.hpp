@@ -1,0 +1,30 @@
+#ifndef MINIGIN_BUBBLESHOTSTATE_HPP
+#define MINIGIN_BUBBLESHOTSTATE_HPP
+#include "BubbleState.hpp"
+
+namespace game
+{
+    class BubbleComponent;
+}
+
+namespace game::bubble
+{
+    class ShotState final : public BubbleState
+    {
+    public:
+        void Update() override;
+        bool CanTrapEnemy() override;
+
+        ShotState(BubbleComponent &owner, bool movingLeft);
+        ~ShotState() override = default;
+
+    private:
+        static constexpr float HORIZONTAL_SPEED{128.0f};
+
+        float m_timeRemaining{};
+        bool m_movingLeft{};
+    };
+}
+
+
+#endif //MINIGIN_BUBBLESHOTSTATE_HPP

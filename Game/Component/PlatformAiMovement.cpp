@@ -9,7 +9,7 @@
 
 void game::PlatformAiMovement::Start()
 {
-    m_physics = GetGameObject().GetComponent<dae::PhysicsComponent>();
+    m_physics = GetGameObject().GetComponent<PhysicsComponent>();
 
     GetGameObject().AddObserver(this);
 }
@@ -20,7 +20,7 @@ void game::PlatformAiMovement::Update()
     // When we are in a potential jump zone, we can jump if closest player is above us
     // When colliding with a jump collision zone, jump if closest player is not below us
     m_decisionCooldown += Time::timeDelta();
-    if (m_currentAction == PlatformAiAction::None || m_decisionCooldown > DECISION_TIMEOUT)
+    if (m_currentAction == PlatformAiActions::None || m_decisionCooldown > DECISION_TIMEOUT)
     {
         m_decisionCooldown = std::fmod(m_decisionCooldown, DECISION_TIMEOUT);
         TakeNextMovementDecision();
@@ -28,19 +28,19 @@ void game::PlatformAiMovement::Update()
 
     switch (m_currentAction)
     {
-        case PlatformAiAction::WalkingLeft:
+        case PlatformAiActions::WalkingLeft:
             if (m_physics->GetVelY() - MAX_WALKING_FALLING_VELOCITY <= 0.0f)
                 m_physics->MoveHorizontal(-1.0f);
             break;
-        case PlatformAiAction::WalkingRight:
+        case PlatformAiActions::WalkingRight:
             if (m_physics->GetVelY() - MAX_WALKING_FALLING_VELOCITY <= 0.0f)
                 m_physics->MoveHorizontal(1.0f);
             break;
-        case PlatformAiAction::Jumping:
+        case PlatformAiActions::Jumping:
             if (std::abs(m_physics->GetVelX()) <= 1.0f && m_physics->GetIsOnGround())
                 m_physics->Jump();
             break;
-        case PlatformAiAction::None:
+        case PlatformAiActions::None:
         default:
             TakeNextMovementDecision();
             m_decisionCooldown = 0.0f;
@@ -75,14 +75,14 @@ void game::PlatformAiMovement::EdgeJump()
 
 void game::PlatformAiMovement::InvertWalkDirection()
 {
-    if (m_currentAction == PlatformAiAction::WalkingLeft)
+    if (m_currentAction == PlatformAiActions::WalkingLeft)
     {
-        m_currentAction = PlatformAiAction::WalkingRight;
+        m_currentAction = PlatformAiActions::WalkingRight;
     }
 
-    else if (m_currentAction == PlatformAiAction::WalkingRight)
+    else if (m_currentAction == PlatformAiActions::WalkingRight)
     {
-        m_currentAction = PlatformAiAction::WalkingLeft;
+        m_currentAction = PlatformAiActions::WalkingLeft;
     }
 }
 
@@ -101,7 +101,7 @@ void game::PlatformAiMovement::Notify(uint32_t event, dae::ObserverData const *d
             InvertWalkDirection();
         }
 
-        if (colliderData->collisionNormal.y == -1.0f && m_currentAction == PlatformAiAction::Jumping)
+        if (colliderData->collisionNormal.y == -1.0f && m_currentAction == PlatformAiActions::Jumping)
         {
             TakeNextMovementDecision();
         }
@@ -128,7 +128,7 @@ void game::PlatformAiMovement::Notify(uint32_t event, dae::ObserverData const *d
     }
 }
 
-game::PlatformAiMovement::PlatformAiMovement(dae::GameObject &owner, PlatformAiAction initialAction)
+game::PlatformAiMovement::PlatformAiMovement(dae::GameObject &owner, PlatformAiActions initialAction)
     : GameComponent(owner)
       , m_currentAction(initialAction)
 {
@@ -146,10 +146,10 @@ void game::PlatformAiMovement::TakeNextMovementDecision()
 
     if (m_overlappingPotentialJumpZone && playerPos.y + JUMPING_DIFFERENCE <= selfPos.y)
     {
-        m_currentAction = PlatformAiAction::Jumping;
+        m_currentAction = PlatformAiActions::Jumping;
     }
-    else if (m_currentAction == PlatformAiAction::Jumping || std::abs(playerPos.y - selfPos.y) <= WALKING_DECISION_DIFFERENCE)
+    else if (m_currentAction == PlatformAiActions::Jumping || std::abs(playerPos.y - selfPos.y) <= WALKING_DECISION_DIFFERENCE)
     {
-        m_currentAction = playerPos.x < selfPos.x ? PlatformAiAction::WalkingLeft : PlatformAiAction::WalkingRight;
+        m_currentAction = playerPos.x < selfPos.x ? PlatformAiActions::WalkingLeft : PlatformAiActions::WalkingRight;
     }
 }

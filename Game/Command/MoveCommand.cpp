@@ -2,7 +2,7 @@
 
 #include "Component/PhysicsComponent.hpp"
 
-game::MoveCommand::MoveCommand(dae::PhysicsComponent *physics, float direction)
+game::MoveCommand::MoveCommand(PhysicsComponent *physics, float direction)
   : m_physicsComponent(physics)
     , m_moveDirection(direction)
 {

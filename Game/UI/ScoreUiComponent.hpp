@@ -28,7 +28,7 @@ namespace game
 
         // We should prob get player from some global object instead of param
         // But for now we use a param anyway
-        explicit ScoreUiComponent(dae::GameObject &owner, dae::GameObject *player);
+        ScoreUiComponent(dae::GameObject &owner, dae::GameObject *player);
         ~ScoreUiComponent() override;
 
         ScoreUiComponent(const ScoreUiComponent &other) = delete;

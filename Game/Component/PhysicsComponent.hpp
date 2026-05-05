@@ -8,9 +8,9 @@
 
 #include "Event/IObserver.hpp"
 
-namespace dae
+namespace game
 {
-    class PhysicsComponent final : public GameComponent, public IObserver
+    class PhysicsComponent final : public dae::GameComponent, public dae::IObserver
     {
     public:
         void Start() override;
@@ -26,9 +26,9 @@ namespace dae
         [[nodiscard]] float GetVelY() const;
         [[nodiscard]] bool GetIsOnGround() const;
 
-        void Notify(uint32_t event, const ObserverData *data) override;
+        void Notify(uint32_t event, const dae::ObserverData *data) override;
 
-        explicit PhysicsComponent(GameObject &owner, float horizontalSpeed = 256.0f)
+        explicit PhysicsComponent(dae::GameObject &owner, float horizontalSpeed = 256.0f)
             : GameComponent(owner)
               , m_maxHorizontalSpeed(horizontalSpeed)
               , m_groundAcceleration(horizontalSpeed * 8.0f)
@@ -47,9 +47,9 @@ namespace dae
         constexpr static float DRAG_AIR_FALLING{2.5f};
         constexpr static float WALKING_OFF_DEVISOR{3.6f};
 
-        ColliderComponent *m_collider{};
-        ColliderComponent const *m_standingOn{};
-        std::unordered_set<ColliderComponent const *> m_ignoredColliders{};
+        dae::ColliderComponent *m_collider{};
+        dae::ColliderComponent const *m_standingOn{};
+        std::unordered_set<dae::ColliderComponent const *> m_ignoredColliders{};
 
         float m_maxHorizontalSpeed{};
         float m_groundAcceleration{};

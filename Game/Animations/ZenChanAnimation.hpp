@@ -6,7 +6,7 @@
 
 namespace game
 {
-    enum class ZenChanAnimationState
+    enum class ZenChanAnimationStates : uint8_t
     {
         WalkingLeft,
         WalkingRight,
@@ -14,11 +14,11 @@ namespace game
         WalkingRightAngered,
     };
 
-    const std::unordered_map<ZenChanAnimationState, AnimationData> ZEN_CHAN_ANIMATIONS {
-        {ZenChanAnimationState::WalkingLeft, {0.0f, 0.0f, 4}},
-        {ZenChanAnimationState::WalkingRight, {1.0f, 0.0f, 4}},
-        {ZenChanAnimationState::WalkingLeftAngered, {2.0f, 0.0f, 4}},
-        {ZenChanAnimationState::WalkingRightAngered, {3.0f, 0.0f, 4}},
+    const std::unordered_map<ZenChanAnimationStates, AnimationData> ZEN_CHAN_ANIMATIONS {
+        {ZenChanAnimationStates::WalkingLeft, {0.0f, 0.0f, 4}},
+        {ZenChanAnimationStates::WalkingRight, {1.0f, 0.0f, 4}},
+        {ZenChanAnimationStates::WalkingLeftAngered, {2.0f, 0.0f, 4}},
+        {ZenChanAnimationStates::WalkingRightAngered, {3.0f, 0.0f, 4}},
     };
 }
 

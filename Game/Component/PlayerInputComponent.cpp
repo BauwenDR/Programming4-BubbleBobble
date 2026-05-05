@@ -26,7 +26,7 @@ void game::PlayerInputComponent::Start()
     // const auto kbSmall{player == 0 ? SDLK_Z : SDLK_V};
     // const auto kbBig{player == 0 ? SDLK_X : SDLK_B};
 
-    auto physics{GetGameObject().GetComponent<dae::PhysicsComponent>()};
+    auto physics{GetGameObject().GetComponent<PhysicsComponent>()};
 
     m_jumpCommand = std::make_unique<JumpCommand>(physics);
     m_moveLeftCommand = std::make_unique<MoveCommand>(physics, -1.0f);

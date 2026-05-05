@@ -3,7 +3,7 @@
 
 #include "Event/ICommand.hpp"
 
-namespace dae
+namespace game
 {
     class PhysicsComponent;
 }
@@ -13,11 +13,11 @@ namespace game
     class MoveCommand final : public dae::ICommand
     {
     public:
-        MoveCommand(dae::PhysicsComponent *physics, float direction);
+        MoveCommand(PhysicsComponent *physics, float direction);
         void Execute() override;
 
     private:
-        dae::PhysicsComponent *m_physicsComponent{};
+        PhysicsComponent *m_physicsComponent{};
         float m_moveDirection{};
     };
 }

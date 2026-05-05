@@ -9,7 +9,7 @@
 void game::PlayerAnimationComponent::Start()
 {
     m_animationComponent = GetGameObject().GetComponent<AnimationComponent>();
-    m_physicsComponent = GetGameObject().GetComponent<dae::PhysicsComponent>();
+    m_physicsComponent = GetGameObject().GetComponent<PhysicsComponent>();
 }
 
 void game::PlayerAnimationComponent::Update()
@@ -25,15 +25,15 @@ void game::PlayerAnimationComponent::Update()
         {
             m_animationComponent->RequestAnimationState(&
                 (m_wasMovingLeft
-                     ? PLAYER_ANIMATIONS.at(PlayerAnimationState::FallingLeft)
-                     : PLAYER_ANIMATIONS.at(PlayerAnimationState::FallingRight))
+                     ? PLAYER_ANIMATIONS.at(PlayerAnimationStates::FallingLeft)
+                     : PLAYER_ANIMATIONS.at(PlayerAnimationStates::FallingRight))
             );
         } else if (m_physicsComponent->GetVelY() < 1.0f)
         {
             m_animationComponent->RequestAnimationState(&
                 (m_wasMovingLeft
-                     ? PLAYER_ANIMATIONS.at(PlayerAnimationState::JumpingLeft)
-                     : PLAYER_ANIMATIONS.at(PlayerAnimationState::JumpingRight))
+                     ? PLAYER_ANIMATIONS.at(PlayerAnimationStates::JumpingLeft)
+                     : PLAYER_ANIMATIONS.at(PlayerAnimationStates::JumpingRight))
             );
         }
     }
@@ -44,15 +44,15 @@ void game::PlayerAnimationComponent::Update()
         {
             m_animationComponent->RequestAnimationState(&
                 (m_wasMovingLeft
-                     ? PLAYER_ANIMATIONS.at(PlayerAnimationState::WalkingLeft)
-                     : PLAYER_ANIMATIONS.at(PlayerAnimationState::WalkingRight))
+                     ? PLAYER_ANIMATIONS.at(PlayerAnimationStates::WalkingLeft)
+                     : PLAYER_ANIMATIONS.at(PlayerAnimationStates::WalkingRight))
             );
         } else
         {
             m_animationComponent->RequestAnimationState(&
                 (m_wasMovingLeft
-                     ? PLAYER_ANIMATIONS.at(PlayerAnimationState::IdleLeft)
-                     : PLAYER_ANIMATIONS.at(PlayerAnimationState::IdleRight))
+                     ? PLAYER_ANIMATIONS.at(PlayerAnimationStates::IdleLeft)
+                     : PLAYER_ANIMATIONS.at(PlayerAnimationStates::IdleRight))
             );
         }
     }

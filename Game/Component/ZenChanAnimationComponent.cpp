@@ -9,7 +9,7 @@
 void game::ZenChanAnimationComponent::Start()
 {
     m_animationComponent = GetGameObject().GetComponent<AnimationComponent>();
-    m_physicsComponent = GetGameObject().GetComponent<dae::PhysicsComponent>();
+    m_physicsComponent = GetGameObject().GetComponent<PhysicsComponent>();
 }
 
 void game::ZenChanAnimationComponent::Update()
@@ -21,7 +21,7 @@ void game::ZenChanAnimationComponent::Update()
 
     m_animationComponent->RequestAnimationState(&
         (m_wasMovingLeft
-             ? ZEN_CHAN_ANIMATIONS.at(ZenChanAnimationState::WalkingLeft)
-             : ZEN_CHAN_ANIMATIONS.at(ZenChanAnimationState::WalkingRight))
+             ? ZEN_CHAN_ANIMATIONS.at(ZenChanAnimationStates::WalkingLeft)
+             : ZEN_CHAN_ANIMATIONS.at(ZenChanAnimationStates::WalkingRight))
     );
 }

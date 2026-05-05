@@ -5,14 +5,14 @@
 #include "GameObject.hpp"
 #include "Time.hpp"
 
-void dae::PhysicsComponent::Start()
+void game::PhysicsComponent::Start()
 {
     GetGameObject().AddObserver(this);
 
-    m_collider = GetGameObject().GetComponent<ColliderComponent>();
+    m_collider = GetGameObject().GetComponent<dae::ColliderComponent>();
 }
 
-void dae::PhysicsComponent::Update()
+void game::PhysicsComponent::Update()
 {
     m_velY += GRAVITY_FORCE * Time::timeDelta();
     m_velY = std::clamp(m_velY, -JUMP_FORCE, TERMINAL_VELOCITY);
@@ -28,17 +28,18 @@ void dae::PhysicsComponent::Update()
     GetGameObject().SetLocalPosition(currentPos);
 }
 
-void dae::PhysicsComponent::LateUpdate()
+void game::PhysicsComponent::LateUpdate()
 {
     m_horizontalInput = 0.0f;
 }
 
-void dae::PhysicsComponent::Notify(uint32_t event, ObserverData const *data)
+// TODO split this function up into three private ones
+void game::PhysicsComponent::Notify(uint32_t event, dae::ObserverData const *data)
 {
     if (!(
-        event == sdbm_hash("on_collision_enter") ||
-        event == sdbm_hash("on_collision_stay") ||
-        event == sdbm_hash("on_collision_exit")
+        event == dae::sdbm_hash("on_collision_enter") ||
+        event == dae::sdbm_hash("on_collision_stay") ||
+        event == dae::sdbm_hash("on_collision_exit")
     ))
     {
         return;
@@ -46,12 +47,12 @@ void dae::PhysicsComponent::Notify(uint32_t event, ObserverData const *data)
 
     if (data == nullptr) return;
 
-    const auto colliderData{dynamic_cast<ColliderData const *>(data)};
+    const auto colliderData{dynamic_cast<dae::ColliderData const *>(data)};
     if (colliderData == nullptr) return;
 
-    if (colliderData->collider->GetTag() != sdbm_hash("STAGE")) return;
+    if (colliderData->collider->GetTag() != dae::sdbm_hash("STAGE")) return;
 
-    if (event == sdbm_hash("on_collision_enter"))
+    if (event == dae::sdbm_hash("on_collision_enter"))
     {
         const glm::vec4 &ownCollider{m_collider->GetColliderPosition()};
         const glm::vec4 &otherCollider{colliderData->collider->GetColliderPosition()};
@@ -66,7 +67,8 @@ void dae::PhysicsComponent::Notify(uint32_t event, ObserverData const *data)
 
         ++m_collidingWithCount;
     }
-    if (event == sdbm_hash("on_collision_stay"))
+
+    if (event == dae::sdbm_hash("on_collision_stay"))
     {
         // Ignore collision if we have entered it from the bottom
         if (m_ignoredColliders.contains(colliderData->collider)) return;
@@ -111,7 +113,8 @@ void dae::PhysicsComponent::Notify(uint32_t event, ObserverData const *data)
             m_velY = 0.0f;
         }
     }
-    if (event == sdbm_hash("on_collision_exit"))
+
+    if (event == dae::sdbm_hash("on_collision_exit"))
     {
         --m_collidingWithCount;
 
@@ -135,7 +138,7 @@ void dae::PhysicsComponent::Notify(uint32_t event, ObserverData const *data)
     }
 }
 
-void dae::PhysicsComponent::MoveHorizontal(float amount)
+void game::PhysicsComponent::MoveHorizontal(float amount)
 {
     const float accel = m_isOnGround ? m_groundAcceleration : m_airAcceleration;
 
@@ -149,17 +152,17 @@ void dae::PhysicsComponent::MoveHorizontal(float amount)
     m_horizontalInput += amount;
 }
 
-void dae::PhysicsComponent::Jump()
+void game::PhysicsComponent::Jump()
 {
     if (m_isOnGround)
     {
         m_velY = -JUMP_FORCE;
         m_isOnGround = false;
-        GetGameObject().NotifyObservers(sdbm_hash("on_jump"), {});
+        GetGameObject().NotifyObservers(dae::sdbm_hash("on_jump"), {});
     }
 }
 
-void dae::PhysicsComponent::SmallJump()
+void game::PhysicsComponent::SmallJump()
 {
     if (m_isOnGround)
     {
@@ -168,22 +171,22 @@ void dae::PhysicsComponent::SmallJump()
     }
 }
 
-float dae::PhysicsComponent::GetXInput() const
+float game::PhysicsComponent::GetXInput() const
 {
     return m_horizontalInput;
 }
 
-float dae::PhysicsComponent::GetVelX() const
+float game::PhysicsComponent::GetVelX() const
 {
     return m_velX;
 }
 
-float dae::PhysicsComponent::GetVelY() const
+float game::PhysicsComponent::GetVelY() const
 {
     return m_velY;
 }
 
-bool dae::PhysicsComponent::GetIsOnGround() const
+bool game::PhysicsComponent::GetIsOnGround() const
 {
     return m_isOnGround;
 }

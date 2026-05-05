@@ -2,21 +2,20 @@
 #define MINIGIN_JUMPCOMMAND_HPP
 #include "Event/ICommand.hpp"
 
-namespace dae
+namespace game
 {
-        class PhysicsComponent;
-}
+    class PhysicsComponent;
 
-class JumpCommand final : public dae::ICommand
-{
-public:
+    class JumpCommand final : public dae::ICommand
+    {
+    public:
         void Execute() override;
 
-        explicit JumpCommand(dae::PhysicsComponent *physics) : m_physicsComponent(physics) {}
+        explicit JumpCommand(PhysicsComponent *physics) : m_physicsComponent(physics) {}
         ~JumpCommand() override = default;
-private:
-        dae::PhysicsComponent *m_physicsComponent;
-};
-
+    private:
+        PhysicsComponent *m_physicsComponent;
+    };
+}
 
 #endif //MINIGIN_JUMPCOMMAND_HPP

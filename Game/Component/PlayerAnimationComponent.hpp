@@ -5,13 +5,13 @@
 
 namespace dae
 {
-    class PhysicsComponent;
     class TextureComponent;
 }
 
 namespace game
 {
     class AnimationComponent;
+    class PhysicsComponent;
 
     class PlayerAnimationComponent final : public dae::GameComponent
     {
@@ -20,7 +20,7 @@ namespace game
         void Update() override;
         void Render() const override {}
 
-        explicit PlayerAnimationComponent(dae::GameObject &owner, bool facingLeft)
+        PlayerAnimationComponent(dae::GameObject &owner, bool facingLeft)
             : GameComponent(owner)
               , m_wasMovingLeft(facingLeft)
         {
@@ -28,7 +28,7 @@ namespace game
         ~PlayerAnimationComponent() override = default;
 
     private:
-        dae::PhysicsComponent *m_physicsComponent{};
+        PhysicsComponent *m_physicsComponent{};
         AnimationComponent *m_animationComponent{};
 
         bool m_wasMovingLeft{};

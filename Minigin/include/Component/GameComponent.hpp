@@ -8,6 +8,7 @@ namespace dae
     class GameComponent
     {
     public:
+        bool enabled{true};
 
         virtual void Start() {}
         virtual void Update() {}
