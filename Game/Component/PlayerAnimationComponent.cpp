@@ -14,24 +14,19 @@ void game::PlayerAnimationComponent::Start()
 
 void game::PlayerAnimationComponent::Update()
 {
-    if (m_physicsComponent->GetXInput() != 0.0f)
-    {
-        m_wasMovingLeft = m_physicsComponent->GetXInput() < 0.0f;
-    }
-
     if (!m_physicsComponent->GetIsOnGround())
     {
         if (m_physicsComponent->GetVelY() > 1.0f)
         {
             m_animationComponent->RequestAnimationState(&
-                (m_wasMovingLeft
+                (m_physicsComponent->GetWasMovingLeft()
                      ? PLAYER_ANIMATIONS.at(PlayerAnimationStates::FallingLeft)
                      : PLAYER_ANIMATIONS.at(PlayerAnimationStates::FallingRight))
             );
         } else if (m_physicsComponent->GetVelY() < 1.0f)
         {
             m_animationComponent->RequestAnimationState(&
-                (m_wasMovingLeft
+                (m_physicsComponent->GetWasMovingLeft()
                      ? PLAYER_ANIMATIONS.at(PlayerAnimationStates::JumpingLeft)
                      : PLAYER_ANIMATIONS.at(PlayerAnimationStates::JumpingRight))
             );
@@ -43,17 +38,22 @@ void game::PlayerAnimationComponent::Update()
         if (m_physicsComponent->GetVelX() < -1.0f || m_physicsComponent->GetVelX() > 1.0f)
         {
             m_animationComponent->RequestAnimationState(&
-                (m_wasMovingLeft
+                (m_physicsComponent->GetWasMovingLeft()
                      ? PLAYER_ANIMATIONS.at(PlayerAnimationStates::WalkingLeft)
                      : PLAYER_ANIMATIONS.at(PlayerAnimationStates::WalkingRight))
             );
         } else
         {
             m_animationComponent->RequestAnimationState(&
-                (m_wasMovingLeft
+                (m_physicsComponent->GetWasMovingLeft()
                      ? PLAYER_ANIMATIONS.at(PlayerAnimationStates::IdleLeft)
                      : PLAYER_ANIMATIONS.at(PlayerAnimationStates::IdleRight))
             );
         }
     }
+}
+
+game::PlayerAnimationComponent::PlayerAnimationComponent(dae::GameObject &owner)
+: GameComponent(owner)
+{
 }

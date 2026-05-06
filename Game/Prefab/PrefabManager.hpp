@@ -36,7 +36,9 @@ namespace game
     public:
         void LoadSceneFromJson(std::string const & sceneName);
 
+        void SpawnBubble(ProjectilePrefabData const &data) const;
         void SpawnPickup(PickupPrefabData const &data) const;
+
         void AttachGui(std::unique_ptr<dae::GuiWindow> &&gui) const;
 
         [[nodiscard]] PlayerData GetClosestActivePlayer(glm::vec3 const &searchPos) const;

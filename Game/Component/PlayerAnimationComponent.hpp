@@ -18,20 +18,13 @@ namespace game
     public:
         void Start() override;
         void Update() override;
-        void Render() const override {}
 
-        PlayerAnimationComponent(dae::GameObject &owner, bool facingLeft)
-            : GameComponent(owner)
-              , m_wasMovingLeft(facingLeft)
-        {
-        }
+        explicit PlayerAnimationComponent(dae::GameObject &owner);
         ~PlayerAnimationComponent() override = default;
 
     private:
         PhysicsComponent *m_physicsComponent{};
         AnimationComponent *m_animationComponent{};
-
-        bool m_wasMovingLeft{};
     };
 }
 

@@ -10,8 +10,9 @@ namespace game
         explicit InstructionWindow() : GuiWindow("Instructions") {}
 
     private:
-        bool m_showInstructions{true};
+        bool m_showInstructions{false};
         bool m_showControls{true};
+        bool m_showStateMachine{true};
 
         void DrawWindowContent() override;
     };

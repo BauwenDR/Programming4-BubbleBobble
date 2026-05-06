@@ -1,6 +1,5 @@
 #include "PlayerInputComponent.hpp"
 
-#include <iostream>
 #include <memory>
 
 #include "Command/JumpCommand.hpp"
@@ -8,9 +7,9 @@
 #include "Component/LivesScoreComponent.hpp"
 
 #include "PhysicsComponent.hpp"
-#include "Event/Sdbm.hpp"
 #include "Input/InputManager.hpp"
 #include "GameObject.hpp"
+#include "Command/SpawnBubbleCommand.hpp"
 
 void game::PlayerInputComponent::Start()
 {
@@ -20,15 +19,13 @@ void game::PlayerInputComponent::Start()
 
     const auto kbLeft{player == 0 ? SDLK_A : SDLK_LEFT};
     const auto kbRight{player == 0 ? SDLK_D : SDLK_RIGHT};
-    const auto kbJump{player == 0 ? SDLK_W : SDLK_UP};
-
-    // const auto kbKill{player == 0 ? SDLK_C : SDLK_N};
-    // const auto kbSmall{player == 0 ? SDLK_Z : SDLK_V};
-    // const auto kbBig{player == 0 ? SDLK_X : SDLK_B};
+    const auto kbJump{player == 0 ? SDLK_Z : SDLK_UP};
+    const auto kbAttack{player == 0 ? SDLK_X : SDLK_DOWN};
 
     auto physics{GetGameObject().GetComponent<PhysicsComponent>()};
 
     m_jumpCommand = std::make_unique<JumpCommand>(physics);
+    m_attackCommand = std::make_unique<SpawnBubbleCommand>(&GetGameObject(), physics);
     m_moveLeftCommand = std::make_unique<MoveCommand>(physics, -1.0f);
     m_moveRightCommand = std::make_unique<MoveCommand>(physics, 1.0f);
 
@@ -36,11 +33,13 @@ void game::PlayerInputComponent::Start()
     dae::InputManager::GetInstance().Bind(kbRight, dae::Input::CommandTrigger::KeyHeld, m_moveRightCommand.get());
 
     dae::InputManager::GetInstance().Bind(kbJump, dae::Input::CommandTrigger::KeyDown, m_jumpCommand.get());
+    dae::InputManager::GetInstance().Bind(kbAttack, dae::Input::CommandTrigger::KeyDown, m_attackCommand.get());
 
     dae::InputManager::GetInstance().Bind(dae::Input::ControllerKey::DpadLeft, player, dae::Input::CommandTrigger::KeyHeld, m_moveLeftCommand.get());
     dae::InputManager::GetInstance().Bind(dae::Input::ControllerKey::DpadRight, player, dae::Input::CommandTrigger::KeyHeld, m_moveRightCommand.get());
 
-    dae::InputManager::GetInstance().Bind(dae::Input::ControllerKey::A, player, dae::Input::CommandTrigger::KeyHeld, m_jumpCommand.get());
+    dae::InputManager::GetInstance().Bind(dae::Input::ControllerKey::A, player, dae::Input::CommandTrigger::KeyDown, m_jumpCommand.get());
+    dae::InputManager::GetInstance().Bind(dae::Input::ControllerKey::X, player, dae::Input::CommandTrigger::KeyDown, m_attackCommand.get());
 }
 
 game::PlayerInputComponent::PlayerInputComponent(dae::GameObject &owner, int player)
@@ -50,10 +49,7 @@ game::PlayerInputComponent::PlayerInputComponent(dae::GameObject &owner, int pla
 
 game::PlayerInputComponent::~PlayerInputComponent()
 {
-    // dae::InputManager::GetInstance().Unbind(m_increaseScoreCommandBig.get());
-    // dae::InputManager::GetInstance().Unbind(m_increaseScoreCommandSmall.get());
-    // dae::InputManager::GetInstance().Unbind(m_decreaseLivesCommand.get());
-
+    dae::InputManager::GetInstance().Unbind(m_attackCommand.get());
     dae::InputManager::GetInstance().Unbind(m_jumpCommand.get());
     dae::InputManager::GetInstance().Unbind(m_moveRightCommand.get());
     dae::InputManager::GetInstance().Unbind(m_moveLeftCommand.get());

@@ -16,8 +16,13 @@ void PlayerSoundProducer::Notify(uint32_t event, const dae::ObserverData*)
         case dae::sdbm_hash("on_jump"):
             dae::AudioQueue::PlaySound(dae::sdbm_hash("PlayerJump"), 1.0f);
             break;
+
         case dae::sdbm_hash("on_pickup"):
             dae::AudioQueue::PlaySound(dae::sdbm_hash("Pickup"), 1.0f);
+            break;
+
+        case dae::sdbm_hash("on_attack"):
+            dae::AudioQueue::PlaySound(dae::sdbm_hash("PlayerShoot"), 1.0f);
             break;
 
         default:

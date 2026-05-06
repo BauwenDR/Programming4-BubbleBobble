@@ -25,14 +25,16 @@ namespace game
         [[nodiscard]] float GetVelX() const;
         [[nodiscard]] float GetVelY() const;
         [[nodiscard]] bool GetIsOnGround() const;
+        [[nodiscard]] bool GetWasMovingLeft() const;
 
         void Notify(uint32_t event, const dae::ObserverData *data) override;
 
-        explicit PhysicsComponent(dae::GameObject &owner, float horizontalSpeed = 256.0f)
+        explicit PhysicsComponent(dae::GameObject &owner, bool isFacingLeft, float horizontalSpeed = 256.0f)
             : GameComponent(owner)
               , m_maxHorizontalSpeed(horizontalSpeed)
               , m_groundAcceleration(horizontalSpeed * 8.0f)
               , m_airAcceleration(horizontalSpeed / 2.0f)
+              , m_wasMovingLeft(isFacingLeft)
         {}
         ~PhysicsComponent() override = default;
     private:
@@ -55,14 +57,15 @@ namespace game
         float m_groundAcceleration{};
         float m_airAcceleration{};
 
+        float m_horizontalInput{};
+
         float m_velY{};
         float m_velX{};
 
         int m_collidingWithCount{0};
 
         bool m_isOnGround{};
-
-        float m_horizontalInput{};
+        bool m_wasMovingLeft{};
     };
 }
 

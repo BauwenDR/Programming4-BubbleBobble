@@ -12,6 +12,9 @@ namespace game::bubble
 
         explicit AirCurrentState(BubbleComponent &owner);
         ~AirCurrentState() override = default;
+
+    private:
+        static constexpr float CURRENT_SPEED{128.0f};
     };
 }
 

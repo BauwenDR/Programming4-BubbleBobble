@@ -1,5 +1,7 @@
 #include "ZenChanAnimationComponent.hpp"
 
+#include <iostream>
+
 #include "Component/AnimationComponent.hpp"
 
 #include "PhysicsComponent.hpp"
@@ -14,14 +16,14 @@ void game::ZenChanAnimationComponent::Start()
 
 void game::ZenChanAnimationComponent::Update()
 {
-    if (m_physicsComponent->GetXInput() != 0.0f)
-    {
-        m_wasMovingLeft = m_physicsComponent->GetXInput() < 0.0f;
-    }
-
     m_animationComponent->RequestAnimationState(&
-        (m_wasMovingLeft
+        (m_physicsComponent->GetWasMovingLeft()
              ? ZEN_CHAN_ANIMATIONS.at(ZenChanAnimationStates::WalkingLeft)
              : ZEN_CHAN_ANIMATIONS.at(ZenChanAnimationStates::WalkingRight))
     );
+}
+
+game::ZenChanAnimationComponent::ZenChanAnimationComponent(dae::GameObject &owner)
+    : GameComponent(owner)
+{
 }

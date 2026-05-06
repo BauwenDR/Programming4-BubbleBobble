@@ -17,16 +17,12 @@ namespace game
         void Start() override;
         void Update() override;
 
-        ZenChanAnimationComponent(dae::GameObject &owner, bool facingLeft)
-            : GameComponent(owner)
-              , m_wasMovingLeft(facingLeft) {}
+        explicit ZenChanAnimationComponent(dae::GameObject &owner);
         ~ZenChanAnimationComponent() override = default;
 
     private:
         PhysicsComponent *m_physicsComponent{nullptr};
         AnimationComponent *m_animationComponent{nullptr};
-
-        bool m_wasMovingLeft{false};
     };
 }
 

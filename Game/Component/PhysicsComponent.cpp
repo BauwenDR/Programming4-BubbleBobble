@@ -30,6 +30,10 @@ void game::PhysicsComponent::Update()
 
 void game::PhysicsComponent::LateUpdate()
 {
+    if (m_horizontalInput != 0.0f)
+    {
+        m_wasMovingLeft = m_horizontalInput < 0.0f;
+    }
     m_horizontalInput = 0.0f;
 }
 
@@ -189,4 +193,9 @@ float game::PhysicsComponent::GetVelY() const
 bool game::PhysicsComponent::GetIsOnGround() const
 {
     return m_isOnGround;
+}
+
+bool game::PhysicsComponent::GetWasMovingLeft() const
+{
+    return m_wasMovingLeft;
 }

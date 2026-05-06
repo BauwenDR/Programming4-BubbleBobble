@@ -26,7 +26,7 @@ namespace dae
 		[[nodiscard]] size_t GetChildCount() const;
 		[[nodiscard]] GameObject* GetChildAt(size_t index) const;
 
-		const glm::vec3& GetWorldPosition();
+		const glm::vec3& GetWorldPosition() const;
 
 		[[nodiscard]] const Transform &GetLocalTransform() const;
 		void SetLocalPosition(const glm::vec3& transform);
@@ -83,8 +83,8 @@ namespace dae
 		void RemoveChild(const GameObject *child);
 		bool IsChild(const GameObject* child) const;
 
-		void UpdateWorldPosition();
-		void SetPositionDirty();
+		void UpdateWorldPosition() const;
+		void SetPositionDirty() const;
 
 		std::vector<std::unique_ptr<GameObject>> m_children{};	// TODO: find a clean way of converting these to unique_ptrs
 		std::vector<std::unique_ptr<GameComponent>> m_components{};
@@ -92,11 +92,11 @@ namespace dae
 		std::vector<IObserver*> m_observers{};
 
 		std::unique_ptr<Transform> m_localTransform{};
-		std::unique_ptr<Transform> m_worldTransform{};
+		mutable std::unique_ptr<Transform> m_worldTransform{};
 
 		GameObject *m_pParent{};
 
 		bool m_markedForDelete{false};
-		bool m_positionIsDirty{false};
+		mutable bool m_positionIsDirty{false};
 	};
 }

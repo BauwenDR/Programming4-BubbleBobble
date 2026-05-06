@@ -19,9 +19,9 @@ namespace game::bubble
         ~ShotState() override = default;
 
     private:
-        static constexpr float HORIZONTAL_SPEED{128.0f};
+        static constexpr float HORIZONTAL_SPEED{512.0f};
 
-        float m_timeRemaining{};
+        float m_timeRemaining{0.7f};
         bool m_movingLeft{};
     };
 }

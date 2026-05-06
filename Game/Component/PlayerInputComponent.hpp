@@ -5,6 +5,8 @@
 
 #include "Component/GameComponent.hpp"
 
+class SpawnBubbleCommand;
+
 namespace game {
     class JumpCommand;
     class IncreaseScoreCommand;
@@ -34,6 +36,7 @@ namespace game {
         std::unique_ptr<MoveCommand> m_moveRightCommand{};
 
         std::unique_ptr<JumpCommand> m_jumpCommand{};
+        std::unique_ptr<SpawnBubbleCommand> m_attackCommand{};
     };
 }
 

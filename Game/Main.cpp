@@ -23,6 +23,7 @@ static void load()
 	// TODO move these into JSON file
 	dae::AudioQueue::LoadSound(dae::sdbm_hash("PlayerJump"), "Audio/PlayerJump.wav");
 	dae::AudioQueue::LoadSound(dae::sdbm_hash("Pickup"), "Audio/Pickup.wav");
+	dae::AudioQueue::LoadSound(dae::sdbm_hash("PlayerShoot"), "Audio/PlayerShoot.wav");
 
 	game::PrefabManager::GetInstance().LoadSceneFromJson("Stage3");
 

@@ -10,4 +10,10 @@ struct PickupPrefabData
     int worth;
 };
 
+struct ProjectilePrefabData
+{
+    glm::vec2 location;
+    bool facingLeft;
+};
+
 #endif //MINIGIN_PREFABS_HPP

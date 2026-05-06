@@ -85,6 +85,61 @@
       "facingLeft": true
     },
     {
+      "name": "level-roof",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "name": "wind-current",
+      "position": {
+        "x": 48,
+        "y": 100
+      },
+      "rect": {
+        "width": 64,
+        "height": 4
+      },
+      "isLeft": false
+    },
+    {
+      "name": "wind-current",
+      "position": {
+        "x": 144,
+        "y": 100
+      },
+      "rect": {
+        "width": 64,
+        "height": 4
+      },
+      "isLeft": true
+    },
+    {
+      "name": "wind-current",
+      "position": {
+        "x": 48,
+        "y": 60
+      },
+      "rect": {
+        "width": 56,
+        "height": 4
+      },
+      "isLeft": false
+    },
+    {
+      "name": "wind-current",
+      "position": {
+        "x": 152,
+        "y": 60
+      },
+      "rect": {
+        "width": 56,
+        "height": 4
+      },
+      "isLeft": true
+    },
+    {
       "name": "rect-collider",
       "position": {
         "x": 0,

@@ -71,6 +71,13 @@
       "facingLeft": false
     },
     {
+      "name": "level-roof",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
       "name": "rect-collider",
       "position": {
         "x": 0,

@@ -117,12 +117,12 @@ void dae::GameObject::SetParent(GameObject *parent, bool keepWorldPosition)
         }
     }
 
-    if (m_pParent)
+    if (m_pParent != nullptr)
     {
         m_pParent->RemoveChild(this);
     }
     m_pParent = parent;
-    if (m_pParent)
+    if (m_pParent != nullptr)
     {
         m_pParent->AddChild(this);
     }
@@ -139,7 +139,7 @@ dae::GameObject *dae::GameObject::GetChildAt(size_t index) const
     return m_children.at(index).get();
 }
 
-const glm::vec3 &dae::GameObject::GetWorldPosition()
+const glm::vec3 &dae::GameObject::GetWorldPosition() const
 {
     if (m_positionIsDirty)
     {
@@ -193,7 +193,7 @@ bool dae::GameObject::IsChild(const GameObject *child) const
            end();
 }
 
-void dae::GameObject::UpdateWorldPosition()
+void dae::GameObject::UpdateWorldPosition() const
 {
     if (m_positionIsDirty)
     {
@@ -208,7 +208,7 @@ void dae::GameObject::UpdateWorldPosition()
     m_positionIsDirty = false;
 }
 
-void dae::GameObject::SetPositionDirty()
+void dae::GameObject::SetPositionDirty() const
 {
     m_positionIsDirty = true;
 

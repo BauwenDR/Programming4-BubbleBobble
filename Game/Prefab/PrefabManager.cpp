@@ -6,6 +6,7 @@
 #include "Animations/PlayerAnimations.hpp"
 #include "Animations/ZenChanAnimation.hpp"
 #include "Component/AnimationComponent.hpp"
+#include "Component/BubbleComponent.hpp"
 #include "Component/LivesScoreComponent.hpp"
 #include "Component/PlayerInputComponent.hpp"
 #include "Component/PickupComponent.hpp"
@@ -40,9 +41,30 @@ void game::PrefabManager::LoadSceneFromJson(std::string const &sceneName)
 	}
 }
 
+void game::PrefabManager::SpawnBubble(ProjectilePrefabData const &data) const
+{
+	auto bubblePrefab{std::make_unique<dae::GameObject>()};
+
+	bubblePrefab->SetLocalPosition({
+		data.location,
+		0.0f
+	});
+
+	bubblePrefab->AddComponent(std::make_unique<dae::TextureComponent>(
+		*bubblePrefab,
+		dae::ResourceManager::GetInstance().LoadTexture("PlayerBubble.png"),
+		4.0f
+	));
+
+	bubblePrefab->AddComponent(std::make_unique<dae::ColliderComponent>(*bubblePrefab, glm::vec2{64.0f,64.0f}, dae::sdbm_hash("BUBBLE")));
+	bubblePrefab->AddComponent(std::make_unique<BubbleComponent>(*bubblePrefab, data.facingLeft));
+
+	m_scene->Add(std::move(bubblePrefab));
+}
+
 void game::PrefabManager::SpawnPickup(PickupPrefabData const &data) const
 {
-	auto pickupPrefab = std::make_unique<dae::GameObject>();
+	auto pickupPrefab{std::make_unique<dae::GameObject>()};
 
 	pickupPrefab->SetLocalPosition({
 		data.location,
@@ -113,12 +135,12 @@ std::unique_ptr<dae::GameObject> game::PrefabManager::PrefabLoader(nlohmann::jso
 		);
 
 		prefab->AddComponent(std::make_unique<dae::ColliderComponent>(*prefab, glm::vec2{64.0f,64.0f}, dae::sdbm_hash("PLAYER")));
-		prefab->AddComponent(std::make_unique<PhysicsComponent>(*prefab));
+		prefab->AddComponent(std::make_unique<PhysicsComponent>(*prefab, !m_players.empty()));
 		prefab->AddComponent(std::make_unique<LivesScoreComponent>(*prefab));
 		prefab->AddComponent(std::make_unique<PlayerInputComponent>(*prefab, static_cast<int>(m_players.size())));
 		prefab->AddComponent(std::make_unique<WrapAroundScreenComponent>(*prefab));
 		prefab->AddComponent(std::make_unique<AnimationComponent>(*prefab, &PLAYER_ANIMATIONS.at(!m_players.empty() ? PlayerAnimationStates::IdleLeft : PlayerAnimationStates::IdleRight), 1.0f/3.0f, glm::vec2{static_cast<float>(m_players.size()) * 4.0f, 0.0f} ));
-		prefab->AddComponent(std::make_unique<PlayerAnimationComponent>(*prefab, !m_players.empty()));
+		prefab->AddComponent(std::make_unique<PlayerAnimationComponent>(*prefab));
 		prefab->AddComponent(std::make_unique<PlayerSoundProducer>(*prefab));
 
 		m_players.emplace_back(prefab.get(), prefab->GetComponent<LivesScoreComponent>());
@@ -137,11 +159,11 @@ std::unique_ptr<dae::GameObject> game::PrefabManager::PrefabLoader(nlohmann::jso
 		);
 
 		prefab->AddComponent(std::make_unique<dae::ColliderComponent>(*prefab, glm::vec2{64.0f,64.0f}, dae::sdbm_hash("ENEMY")));
-		prefab->AddComponent(std::make_unique<PhysicsComponent>(*prefab, 320.0f));
+		prefab->AddComponent(std::make_unique<PhysicsComponent>(*prefab, facingLeft, 320.0f));
 		prefab->AddComponent(std::make_unique<WrapAroundScreenComponent>(*prefab));
 		prefab->AddComponent(std::make_unique<AnimationComponent>(*prefab, &ZEN_CHAN_ANIMATIONS.at(facingLeft ? ZenChanAnimationStates::WalkingLeft : ZenChanAnimationStates::WalkingRight), 1.0f / 6.0f));
 		prefab->AddComponent(std::make_unique<PlatformAiMovement>(*prefab, facingLeft ? PlatformAiActions::WalkingLeft : PlatformAiActions::WalkingRight));
-		prefab->AddComponent(std::make_unique<ZenChanAnimationComponent>(*prefab, facingLeft));
+		prefab->AddComponent(std::make_unique<ZenChanAnimationComponent>(*prefab));
 	}
 
 	else if (prefabName == "player-score")
@@ -155,6 +177,25 @@ std::unique_ptr<dae::GameObject> game::PrefabManager::PrefabLoader(nlohmann::jso
 		prefab->AddComponent(std::make_unique<ScoreUiComponent>(*prefab, m_players[playerNumber].object));
 
 		++playerNumber;
+	}
+
+	else if (prefabName == "level-roof")
+	{
+		prefab->AddComponent(std::make_unique<dae::ColliderComponent>(*prefab, glm::vec2{
+			 256.0f * 4.0f,
+			24.0f * 4.0f
+		},
+		dae::sdbm_hash("LEVEL_ROOF")));
+	}
+
+	else if (prefabName == "wind-current")
+	{
+		uint32_t const tag{data["isLeft"].get<bool>() ? dae::sdbm_hash("WIND_CURRENT_LEFT") : dae::sdbm_hash("WIND_CURRENT_RIGHT")};
+		prefab->AddComponent(std::make_unique<dae::ColliderComponent>(*prefab, glm::vec2{
+			data["rect"]["width"].get<float>() * 4.0f,
+			data["rect"]["height"].get<float>() * 4.0f
+		},
+		tag));
 	}
 
 	else if (prefabName == "rect-collider")

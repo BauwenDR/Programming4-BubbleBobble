@@ -1,6 +1,7 @@
 #include "BubbleComponent.hpp"
 
 #include "PlatformAiMovement.hpp"
+#include "Time.hpp"
 #include "BubbleState/AirCurrentState.hpp"
 #include "BubbleState/FloatState.hpp"
 #include "BubbleState/ShotState.hpp"
@@ -10,50 +11,79 @@
 #include "Event/Sdbm.hpp"
 #include "Prefab/PrefabManager.hpp"
 
+void game::BubbleComponent::Start()
+{
+    GetGameObject().AddObserver(this);
+}
+
+void game::BubbleComponent::Update()
+{
+    m_currentState->Update();
+
+    m_velocity *= Time::timeDelta();
+    GetGameObject().SetLocalPosition(GetGameObject().GetLocalTransform().GetPosition() + glm::vec3{m_velocity, 0.0f});
+}
+
+// TODO pop bubbles that are nearby this one
+void game::BubbleComponent::Pop() const
+{
+    GetGameObject().MarkForDelete();
+
+    if (!m_hasTrappedEnemy) return;
+
+    PickupPrefabData const data{.location = {GetGameObject().GetWorldPosition().x, GetGameObject().GetWorldPosition().y}, .worth = 500};
+    PrefabManager::GetInstance().SpawnPickup(data);
+}
+
+// TODO have bubbles push each-other
+void game::BubbleComponent::Notify(uint32_t event, const dae::ObserverData *data)
+{
+    if (!(event == dae::sdbm_hash("on_collision_enter") || event == dae::sdbm_hash("on_collision_exit"))) return;
+
+    if (data == nullptr) return;
+    const auto colliderData{dynamic_cast<dae::ColliderData const *>(data)};
+    if (colliderData == nullptr) return;
+
+    if (colliderData->collider->GetTag() == dae::sdbm_hash("LEVEL_ROOF"))
+    {
+        m_isStuckToRoof = event == dae::sdbm_hash("on_collision_enter");
+    }
+
+    if (colliderData->collider->GetTag() == dae::sdbm_hash("STAGE") && colliderData->collisionNormal.y == 0.0f)
+    {
+        m_isInWall = event == dae::sdbm_hash("on_collision_enter");
+    }
+
+    if (colliderData->collider->GetTag() == dae::sdbm_hash("WIND_CURRENT_LEFT") || colliderData->collider->GetTag() == dae::sdbm_hash("WIND_CURRENT_RIGHT"))
+    {
+        m_isInAirCurrent = event == dae::sdbm_hash("on_collision_enter");
+        m_isLeftCurrent = colliderData->collider->GetTag() == dae::sdbm_hash("WIND_CURRENT_LEFT");
+    }
+
+    // Vertical with player collision -> pop
+    if (event == dae::sdbm_hash("on_collision_enter") && colliderData->collider->GetTag() == dae::sdbm_hash("PLAYER") && colliderData->collisionNormal.x == 0.0f)
+    {
+        Pop();
+    }
+
+    // Trap if in a trappable state
+    if (!m_hasTrappedEnemy && event == dae::sdbm_hash("on_collision_enter") && colliderData->collider->GetTag() == dae::sdbm_hash("ENEMY") && m_currentState->CanTrapEnemy())
+    {
+        auto &collidedEnemy{colliderData->collider->GetGameObject()};
+        collidedEnemy.MarkForDelete();
+        collidedEnemy.GetComponent<PlatformAiMovement>()->enabled = false;
+        collidedEnemy.GetComponent<PhysicsComponent>()->enabled = false;
+        m_hasTrappedEnemy = true;
+    }
+}
+
 game::BubbleComponent::BubbleComponent(dae::GameObject &owner, bool shotLeft)
     : GameComponent(owner)
       , m_currentState(std::make_unique<bubble::ShotState>(*this, shotLeft))
 {
 }
 
-void game::BubbleComponent::Update()
-{
-    m_currentState->Update();
-}
-
-void game::BubbleComponent::Pop() const
-{
-    PickupPrefabData const data{.location = {GetGameObject().GetWorldPosition().x, GetGameObject().GetWorldPosition().y}, .worth = 500};
-    PrefabManager::GetInstance().SpawnPickup(data);
-    GetGameObject().MarkForDelete();
-
-    // TODO pop bubbles that are nearby this one
-}
-
-void game::BubbleComponent::Notify(uint32_t event, const dae::ObserverData *data)
-{
-    if (event != dae::sdbm_hash("on_collision_enter")) return;
-
-    if (data == nullptr) return;
-    const auto colliderData{dynamic_cast<dae::ColliderData const *>(data)};
-    if (colliderData == nullptr) return;
-
-    // Vertical with player collision -> pop
-    if (colliderData->collider->GetTag() == dae::sdbm_hash("PLAYER") && colliderData->collisionNormal.x == 0.0f)
-    {
-        Pop();
-    }
-
-    // Trap if in a trappable state
-    if (colliderData->collider->GetTag() == dae::sdbm_hash("ENEMY") && m_currentState->CanTrapEnemy())
-    {
-        auto &collidedEnemy{colliderData->collider->GetGameObject()};
-        collidedEnemy.SetParent(&GetGameObject(), false);
-        collidedEnemy.GetComponent<PlatformAiMovement>()->enabled = false;
-        collidedEnemy.GetComponent<PhysicsComponent>()->enabled = false;
-        m_hasTrappedEnemy = true;
-    }
-}
+game::BubbleComponent::~BubbleComponent() = default;
 
 void game::BubbleComponent::SwitchState(BubbleStates newState)
 {

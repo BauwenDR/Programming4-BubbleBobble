@@ -2,6 +2,7 @@ set(GAME_SOURCE_FILES
         Game/Main.cpp
         Game/Command/JumpCommand.cpp
         Game/Command/MoveCommand.cpp
+        Game/Command/SpawnBubbleCommand.cpp
         Game/Component/BubbleState/AirCurrentState.cpp
         Game/Component/BubbleState/BubbleState.cpp
         Game/Component/BubbleState/FloatState.cpp
