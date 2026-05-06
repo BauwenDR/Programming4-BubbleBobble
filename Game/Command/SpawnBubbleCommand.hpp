@@ -23,7 +23,6 @@ public:
 private:
     dae::GameObject const *m_gameObject{};
     game::PhysicsComponent const *m_physicsComponent{};
-    bool m_wasMovingLeft{};
 };
 
 #endif //MINIGIN_SPAWNBUBBLECOMMAND_HPP
