@@ -1,6 +1,6 @@
 #include "PlatformAiMovement.hpp"
 
-#include "Prefab/PrefabManager.hpp"
+#include "Prefab/StagesManager.hpp"
 
 #include "Component/ColliderComponent.hpp"
 #include "PhysicsComponent.hpp"
@@ -53,7 +53,7 @@ void game::PlatformAiMovement::EdgeJump()
     if (std::abs(m_physics->GetVelX()) < MIN_EDGE_JUMP_SPEED) return;
     if (!m_physics->GetIsOnGround()) return;
 
-    auto const [playerObject, _]{PrefabManager::GetInstance().GetClosestActivePlayer(GetGameObject().GetWorldPosition())};
+    auto const [playerObject, _]{StagesManager::GetInstance().GetClosestActivePlayer(GetGameObject().GetWorldPosition())};
 
     if (playerObject == nullptr)
     {
@@ -138,7 +138,7 @@ void game::PlatformAiMovement::TakeNextMovementDecision()
 {
     constexpr float WALKING_DECISION_DIFFERENCE{16.0f};
 
-    auto const [playerObject, _]{PrefabManager::GetInstance().GetClosestActivePlayer(GetGameObject().GetWorldPosition())};
+    auto const [playerObject, _]{StagesManager::GetInstance().GetClosestActivePlayer(GetGameObject().GetWorldPosition())};
 
     if (playerObject == nullptr) return;    // TODO if both players are invulnerable, take random decisions
     const auto &playerPos{playerObject->GetWorldPosition()};

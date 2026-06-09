@@ -4,11 +4,11 @@
 #include "PhysicsSystem.hpp"
 #include "Component/PhysicsComponent.hpp"
 #include "Event/Sdbm.hpp"
-#include "Prefab/PrefabManager.hpp"
+#include "Prefab/StagesManager.hpp"
 
 void SpawnBubbleCommand::Execute()
 {
-    game::PrefabManager::GetInstance().SpawnBubble({m_gameObject->GetWorldPosition(), m_physicsComponent->GetWasMovingLeft()});
+    game::StagesManager::GetInstance().SpawnBubble({m_gameObject->GetWorldPosition(), m_physicsComponent->GetWasMovingLeft()});
     m_gameObject->NotifyObservers(dae::sdbm_hash("on_attack"));
 }
 

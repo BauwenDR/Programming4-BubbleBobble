@@ -17,9 +17,10 @@ set(GAME_SOURCE_FILES
         Game/Component/PlayerAnimationComponent.cpp
         Game/Component/PlayerInputComponent.cpp
         Game/Component/PlayerSoundProducer.cpp
+        Game/Component/SwitchSceneOnEnemiesKilled.cpp
         Game/Component/WrapAroundScreenComponent.cpp
         Game/Component/ZenChanAnimationComponent.cpp
-        Game/Prefab/PrefabManager.cpp
+        Game/Prefab/StagesManager.cpp
         Game/UI/LivesUiComponent.cpp
         Game/UI/ScoreUiComponent.cpp
         Game/InstructionWindow.cpp

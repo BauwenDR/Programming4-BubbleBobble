@@ -8,8 +8,9 @@
 #include "BubbleState/StaticState.hpp"
 #include "Component/ColliderComponent.hpp"
 #include "Component/PhysicsComponent.hpp"
+#include "Event/EventManager.hpp"
 #include "Event/Sdbm.hpp"
-#include "Prefab/PrefabManager.hpp"
+#include "Prefab/StagesManager.hpp"
 
 void game::BubbleComponent::Start()
 {
@@ -21,7 +22,7 @@ void game::BubbleComponent::Update()
     m_currentState->Update();
 
     m_velocity *= Time::timeDelta();
-    GetGameObject().SetLocalPosition(GetGameObject().GetLocalTransform().GetPosition() + glm::vec3{m_velocity, 0.0f});
+    GetGameObject().SetLocalPosition(GetGameObject().GetLocalTransform().Position + glm::vec3{m_velocity, 0.0f});
 }
 
 // TODO pop bubbles that are nearby this one
@@ -32,10 +33,11 @@ void game::BubbleComponent::Pop() const
     if (!m_hasTrappedEnemy) return;
 
     PickupPrefabData const data{.location = {GetGameObject().GetWorldPosition().x, GetGameObject().GetWorldPosition().y}, .worth = 500};
-    PrefabManager::GetInstance().SpawnPickup(data);
+    StagesManager::GetInstance().SpawnPickup(data);
 }
 
 // TODO have bubbles push each-other
+// TODO move state specific logic out of this function and delegate
 void game::BubbleComponent::Notify(uint32_t event, const dae::ObserverData *data)
 {
     if (!(event == dae::sdbm_hash("on_collision_enter") || event == dae::sdbm_hash("on_collision_exit"))) return;
@@ -64,6 +66,11 @@ void game::BubbleComponent::Notify(uint32_t event, const dae::ObserverData *data
     if (event == dae::sdbm_hash("on_collision_enter") && colliderData->collider->GetTag() == dae::sdbm_hash("PLAYER") && colliderData->collisionNormal.x == 0.0f)
     {
         Pop();
+
+        if (m_hasTrappedEnemy)
+        {
+            dae::EventManager::GetInstance().SendEvent(dae::sdbm_hash("enemy_died"));
+        }
     }
 
     // Trap if in a trappable state

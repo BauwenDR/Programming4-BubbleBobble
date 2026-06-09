@@ -45,7 +45,7 @@ void Scene::RemoveAllGui()
 	m_guis.clear();
 }
 
-void Scene::Update()
+void Scene::Update() const
 {
 	for (auto const &object: m_objects)
 	{
@@ -85,4 +85,18 @@ void Scene::RenderGui() const
 	{
 		gui->DrawWindow();
 	}
+}
+
+void Scene::TransferKeepAliveObjects(Scene &newScene)
+{
+	auto middle = std::ranges::stable_partition(m_objects,
+		[&](const auto &object)
+		{
+			return !object->KeepAlive;
+		}
+	);
+
+	newScene.m_objects.reserve(newScene.m_objects.size() + middle.size());
+	std::ranges::move(middle, std::back_inserter(newScene.m_objects));
+	m_objects.erase(middle.begin(), middle.end());
 }

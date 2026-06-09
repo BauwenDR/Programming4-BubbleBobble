@@ -1,5 +1,6 @@
-#include "PrefabManager.hpp"
+#include "StagesManager.hpp"
 
+#include <format>
 #include <fstream>
 
 #include "SceneManager.hpp"
@@ -17,6 +18,7 @@
 #include "Component/PlatformAiMovement.hpp"
 #include "Component/PlayerAnimationComponent.hpp"
 #include "Component/PlayerSoundProducer.hpp"
+#include "Component/SwitchSceneOnEnemiesKilled.hpp"
 #include "Component/TextComponent.hpp"
 #include "Component/TextureComponent.hpp"
 #include "Component/WrapAroundScreenComponent.hpp"
@@ -25,23 +27,42 @@
 #include "glm/gtx/norm.inl"
 #include "Render/ResourceManager.hpp"
 
-void game::PrefabManager::LoadSceneFromJson(std::string const &sceneName)
+void game::StagesManager::LoadNextStageFromJson()
+{
+	LoadStageFromJson(m_currentStage+1);
+}
+
+void game::StagesManager::LoadStageFromJson(int32_t stageNumber)
+{
+	m_currentStage = stageNumber;
+	LoadSceneFromJson(std::format("Stage{}", stageNumber));
+}
+
+void game::StagesManager::LoadSceneFromJson(std::string const &sceneName, bool preserveKeepAlive)
 {
 	using json = nlohmann::json;
-	m_scene = &dae::SceneManager::GetInstance().CreateScene();
+
+	m_scene = &dae::SceneManager::GetInstance().CreateScene(preserveKeepAlive);
 
 	// TODO log the fact that it failed
-	// Return empty scene if json failed to load
+	// Return empty scene if JSON failed to load
 	std::ifstream jsonFile{dae::ResourceManager::GetInstance().LoadFile(sceneName + ".json")};
 	if (!jsonFile.is_open()) return;
 
-	for (const json &sceneJson{json::parse(jsonFile)}; const auto &item : sceneJson["prefabs"])
+	const json &sceneJson{json::parse(jsonFile)};
+
+	m_scaleFactor = sceneJson["scalar"].get<float>();
+
+	for (const auto &item : sceneJson["prefabs"])
 	{
-		m_scene->Add(PrefabLoader(item));
+		if (auto newItem{PrefabLoader(item)})
+		{
+			m_scene->Add(std::move(newItem));
+		}
 	}
 }
 
-void game::PrefabManager::SpawnBubble(ProjectilePrefabData const &data) const
+void game::StagesManager::SpawnBubble(ProjectilePrefabData const &data) const
 {
 	auto bubblePrefab{std::make_unique<dae::GameObject>()};
 
@@ -53,7 +74,7 @@ void game::PrefabManager::SpawnBubble(ProjectilePrefabData const &data) const
 	bubblePrefab->AddComponent(std::make_unique<dae::TextureComponent>(
 		*bubblePrefab,
 		dae::ResourceManager::GetInstance().LoadTexture("PlayerBubble.png"),
-		4.0f
+		m_scaleFactor
 	));
 
 	bubblePrefab->AddComponent(std::make_unique<dae::ColliderComponent>(*bubblePrefab, glm::vec2{64.0f,64.0f}, dae::sdbm_hash("BUBBLE")));
@@ -62,7 +83,7 @@ void game::PrefabManager::SpawnBubble(ProjectilePrefabData const &data) const
 	m_scene->Add(std::move(bubblePrefab));
 }
 
-void game::PrefabManager::SpawnPickup(PickupPrefabData const &data) const
+void game::StagesManager::SpawnPickup(PickupPrefabData const &data) const
 {
 	auto pickupPrefab{std::make_unique<dae::GameObject>()};
 
@@ -74,7 +95,7 @@ void game::PrefabManager::SpawnPickup(PickupPrefabData const &data) const
 	pickupPrefab->AddComponent(std::make_unique<dae::TextureComponent>(
 		*pickupPrefab,
 		dae::ResourceManager::GetInstance().LoadTexture("PickupSprites.png"),
-		4.0f,
+		m_scaleFactor,
 		glm::vec2{16.0f, 16.0f},
 		glm::vec2{0.0f, 0.0f}
 	));
@@ -85,12 +106,12 @@ void game::PrefabManager::SpawnPickup(PickupPrefabData const &data) const
 	m_scene->Add(std::move(pickupPrefab));
 }
 
-void game::PrefabManager::AttachGui(std::unique_ptr<dae::GuiWindow> &&gui) const
+void game::StagesManager::AttachGui(std::unique_ptr<dae::GuiWindow> &&gui) const
 {
 	m_scene->AddGui(std::move(gui));
 }
 
-game::PlayerData game::PrefabManager::GetClosestActivePlayer(glm::vec3 const &searchPos) const
+game::PlayerData game::StagesManager::GetClosestActivePlayer(glm::vec3 const &searchPos) const
 {
 	auto GetDistanceScore = [&searchPos](PlayerData const &data)
 	{
@@ -106,14 +127,14 @@ game::PlayerData game::PrefabManager::GetClosestActivePlayer(glm::vec3 const &se
 	return {};
 }
 
-std::unique_ptr<dae::GameObject> game::PrefabManager::PrefabLoader(nlohmann::json const &data)
+std::unique_ptr<dae::GameObject> game::StagesManager::PrefabLoader(nlohmann::json const &data)
 {
 	auto prefab = std::make_unique<dae::GameObject>();
 	const auto prefabName{data["name"].get<std::string>()};
 
 	prefab->SetLocalPosition({
-		data["position"]["x"].get<float>() * 4.0f,
-		data["position"]["y"].get<float>() * 4.0f,
+		data["position"]["x"].get<float>() * m_scaleFactor,
+		data["position"]["y"].get<float>() * m_scaleFactor,
 		0.0f
 	});
 
@@ -121,15 +142,23 @@ std::unique_ptr<dae::GameObject> game::PrefabManager::PrefabLoader(nlohmann::jso
 		prefab->AddComponent(std::make_unique<dae::TextureComponent>(
 			*prefab.get(),
 			dae::ResourceManager::GetInstance().LoadTexture(data["texture"].get<std::string>()),
-			4.0f)
+			m_scaleFactor)
 		);
 	}
 
+	else if (prefabName == "level-manager")
+	{
+		auto const threshold{data["threshold"].get<int32_t>()};
+		prefab->AddComponent(std::make_unique<SwitchSceneOnEnemiesKilled>(*prefab, threshold));
+	}
+
 	else if (prefabName == "player") {
+		if (m_players.size() == static_cast<size_t>(m_maxPlayers)) return nullptr;
+
 		prefab->AddComponent(std::make_unique<dae::TextureComponent>(
 			*prefab,
 			dae::ResourceManager::GetInstance().LoadTexture("PlayerSprites.png"),
-			4.0f,
+			m_scaleFactor,
 			glm::vec2{16.0f, 16.0f},
 			glm::vec2{static_cast<float>(m_players.size()), 0.0f})
 		);
@@ -143,6 +172,7 @@ std::unique_ptr<dae::GameObject> game::PrefabManager::PrefabLoader(nlohmann::jso
 		prefab->AddComponent(std::make_unique<PlayerAnimationComponent>(*prefab));
 		prefab->AddComponent(std::make_unique<PlayerSoundProducer>(*prefab));
 
+		prefab->KeepAlive = true;
 		m_players.emplace_back(prefab.get(), prefab->GetComponent<LivesScoreComponent>());
 	}
 
@@ -153,7 +183,7 @@ std::unique_ptr<dae::GameObject> game::PrefabManager::PrefabLoader(nlohmann::jso
 		prefab->AddComponent(std::make_unique<dae::TextureComponent>(
 			*prefab,
 			dae::ResourceManager::GetInstance().LoadTexture("ZenChan.png"),
-			4.0f,
+			m_scaleFactor,
 			glm::vec2{16.0f, 16.0f},
 			glm::vec2{static_cast<float>(m_players.size()), 0.0f})
 		);
@@ -182,8 +212,8 @@ std::unique_ptr<dae::GameObject> game::PrefabManager::PrefabLoader(nlohmann::jso
 	else if (prefabName == "level-roof")
 	{
 		prefab->AddComponent(std::make_unique<dae::ColliderComponent>(*prefab, glm::vec2{
-			 256.0f * 4.0f,
-			24.0f * 4.0f
+			 256.0f * m_scaleFactor,
+			24.0f * m_scaleFactor
 		},
 		dae::sdbm_hash("LEVEL_ROOF")));
 	}
@@ -192,8 +222,8 @@ std::unique_ptr<dae::GameObject> game::PrefabManager::PrefabLoader(nlohmann::jso
 	{
 		uint32_t const tag{data["isLeft"].get<bool>() ? dae::sdbm_hash("WIND_CURRENT_LEFT") : dae::sdbm_hash("WIND_CURRENT_RIGHT")};
 		prefab->AddComponent(std::make_unique<dae::ColliderComponent>(*prefab, glm::vec2{
-			data["rect"]["width"].get<float>() * 4.0f,
-			data["rect"]["height"].get<float>() * 4.0f
+			data["rect"]["width"].get<float>() * m_scaleFactor,
+			data["rect"]["height"].get<float>() * m_scaleFactor
 		},
 		tag));
 	}
@@ -201,8 +231,8 @@ std::unique_ptr<dae::GameObject> game::PrefabManager::PrefabLoader(nlohmann::jso
 	else if (prefabName == "rect-collider")
 	{
 		prefab->AddComponent(std::make_unique<dae::ColliderComponent>(*prefab, glm::vec2{
-			data["rect"]["width"].get<float>() * 4.0f,
-			data["rect"]["height"].get<float>() * 4.0f
+			data["rect"]["width"].get<float>() * m_scaleFactor,
+			data["rect"]["height"].get<float>() * m_scaleFactor
 		},
 		dae::sdbm_hash("STAGE")));
 	}
@@ -210,8 +240,8 @@ std::unique_ptr<dae::GameObject> game::PrefabManager::PrefabLoader(nlohmann::jso
 	else if (prefabName == "ai-jumpable-zone")
 	{
 		prefab->AddComponent(std::make_unique<dae::ColliderComponent>(*prefab, glm::vec2{
-			data["rect"]["width"].get<float>() * 4.0f,
-			data["rect"]["height"].get<float>() * 4.0f
+			data["rect"]["width"].get<float>() * m_scaleFactor,
+			data["rect"]["height"].get<float>() * m_scaleFactor,
 		},
 		dae::sdbm_hash("AI_JUMPABLE")));
 	}
@@ -219,8 +249,8 @@ std::unique_ptr<dae::GameObject> game::PrefabManager::PrefabLoader(nlohmann::jso
 	else if (prefabName == "ai-jump-zone")
 	{
 		prefab->AddComponent(std::make_unique<dae::ColliderComponent>(*prefab, glm::vec2{
-			4.0f * 4.0f,
-			4.0f * 4.0f
+			4.0f * m_scaleFactor,
+			4.0f * m_scaleFactor
 		},
 		dae::sdbm_hash("PLATFORM_EDGE")));
 	}
@@ -228,7 +258,7 @@ std::unique_ptr<dae::GameObject> game::PrefabManager::PrefabLoader(nlohmann::jso
 	return prefab;
 }
 
-game::PrefabManager::PrefabManager()
+game::StagesManager::StagesManager()
 	: m_uiFont(dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 24))
 {
 }

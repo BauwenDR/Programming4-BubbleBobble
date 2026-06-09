@@ -13,6 +13,9 @@
 
 void game::PlayerInputComponent::Start()
 {
+    using enum dae::Input::CommandTrigger;
+    using enum dae::Input::ControllerKey;
+
     m_livesScoreComponent = GetGameObject().GetComponent<LivesScoreComponent>();
 
     assert(m_livesScoreComponent != nullptr && "There was no lives component attached!");
@@ -29,17 +32,17 @@ void game::PlayerInputComponent::Start()
     m_moveLeftCommand = std::make_unique<MoveCommand>(physics, -1.0f);
     m_moveRightCommand = std::make_unique<MoveCommand>(physics, 1.0f);
 
-    dae::InputManager::GetInstance().Bind(kbLeft, dae::Input::CommandTrigger::KeyHeld, m_moveLeftCommand.get());
-    dae::InputManager::GetInstance().Bind(kbRight, dae::Input::CommandTrigger::KeyHeld, m_moveRightCommand.get());
+    dae::InputManager::GetInstance().Bind(kbLeft, KeyHeld, m_moveLeftCommand.get());
+    dae::InputManager::GetInstance().Bind(kbRight, KeyHeld, m_moveRightCommand.get());
 
-    dae::InputManager::GetInstance().Bind(kbJump, dae::Input::CommandTrigger::KeyDown, m_jumpCommand.get());
-    dae::InputManager::GetInstance().Bind(kbAttack, dae::Input::CommandTrigger::KeyDown, m_attackCommand.get());
+    dae::InputManager::GetInstance().Bind(kbJump, KeyDown, m_jumpCommand.get());
+    dae::InputManager::GetInstance().Bind(kbAttack, KeyDown, m_attackCommand.get());
 
-    dae::InputManager::GetInstance().Bind(dae::Input::ControllerKey::DpadLeft, player, dae::Input::CommandTrigger::KeyHeld, m_moveLeftCommand.get());
-    dae::InputManager::GetInstance().Bind(dae::Input::ControllerKey::DpadRight, player, dae::Input::CommandTrigger::KeyHeld, m_moveRightCommand.get());
+    dae::InputManager::GetInstance().Bind(DpadLeft, player, KeyHeld, m_moveLeftCommand.get());
+    dae::InputManager::GetInstance().Bind(DpadRight, player, KeyHeld, m_moveRightCommand.get());
 
-    dae::InputManager::GetInstance().Bind(dae::Input::ControllerKey::A, player, dae::Input::CommandTrigger::KeyDown, m_jumpCommand.get());
-    dae::InputManager::GetInstance().Bind(dae::Input::ControllerKey::X, player, dae::Input::CommandTrigger::KeyDown, m_attackCommand.get());
+    dae::InputManager::GetInstance().Bind(A, player, KeyDown, m_jumpCommand.get());
+    dae::InputManager::GetInstance().Bind(X, player, KeyDown, m_attackCommand.get());
 }
 
 game::PlayerInputComponent::PlayerInputComponent(dae::GameObject &owner, int player)

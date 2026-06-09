@@ -1,7 +1,7 @@
 #include <filesystem>
 
 #include "InstructionWindow.hpp"
-#include "Prefab/PrefabManager.hpp"
+#include "Prefab/StagesManager.hpp"
 namespace fs = std::filesystem;
 
 #if (_WIN32 or _WIN64)
@@ -25,13 +25,13 @@ static void load()
 	dae::AudioQueue::LoadSound(dae::sdbm_hash("Pickup"), "Audio/Pickup.wav");
 	dae::AudioQueue::LoadSound(dae::sdbm_hash("PlayerShoot"), "Audio/PlayerShoot.wav");
 
-	game::PrefabManager::GetInstance().LoadSceneFromJson("Stage3");
+	game::StagesManager::GetInstance().LoadStageFromJson(1);
 
 	// Todo, spawning these here is also not ideal
-	game::PrefabManager::GetInstance().SpawnPickup({glm::vec2{200.0f, 160.0f}, 1000});
-	game::PrefabManager::GetInstance().SpawnPickup({glm::vec2{700.0f, 160.0f}, 500});
+	game::StagesManager::GetInstance().SpawnPickup({glm::vec2{200.0f, 160.0f}, 1000});
+	game::StagesManager::GetInstance().SpawnPickup({glm::vec2{700.0f, 160.0f}, 500});
 
-	game::PrefabManager::GetInstance().AttachGui(std::make_unique<game::InstructionWindow>());
+	game::StagesManager::GetInstance().AttachGui(std::make_unique<game::InstructionWindow>());
 }
 
 int main(int, char*[]) {

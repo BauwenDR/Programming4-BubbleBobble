@@ -53,6 +53,8 @@ namespace game
         dae::ColliderComponent const *m_standingOn{};
         std::unordered_set<dae::ColliderComponent const *> m_ignoredColliders{};
 
+        dae::Transform m_initialPosition{};
+
         float m_maxHorizontalSpeed{};
         float m_groundAcceleration{};
         float m_airAcceleration{};

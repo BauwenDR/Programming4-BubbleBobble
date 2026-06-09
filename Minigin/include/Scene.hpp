@@ -14,12 +14,11 @@ namespace dae
 		void Remove(const GameObject& object);
 		void RemoveAll();
 
-
 		void AddGui(std::unique_ptr<GuiWindow> &&gui);
 		void RemoveGui(const GuiWindow &gui);
 		void RemoveAllGui();
 
-		void Update();
+		void Update() const;
 		void PostUpdate();
 
 		void Render() const;
@@ -37,6 +36,8 @@ namespace dae
 
 		std::vector <std::unique_ptr<GameObject>> m_objects{};
 		std::vector <std::unique_ptr<GuiWindow>> m_guis{};
+
+		void TransferKeepAliveObjects(Scene &newScene);
 	};
 
 }

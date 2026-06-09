@@ -7,13 +7,19 @@
 
 namespace dae
 {
+	struct NewScene
+	{
+		std::unique_ptr<Scene> scene{};
+		bool preserveKeepAlive{};
+	};
+
 	class Scene;
 	class SceneManager final : public Singleton<SceneManager>
 	{
 	public:
-		Scene& CreateScene();
+		Scene& CreateScene(bool preserveKeepAlive = true);
 
-		void Update() const;
+		void Update();
 		void Render() const;
 
 		void RenderGui() const;
@@ -23,7 +29,10 @@ namespace dae
 	private:
 		friend class Singleton;
 
+		std::unique_ptr<Scene> m_activeScene{};
+		NewScene m_newScene{};
+
+		void SwitchScenes();
 		SceneManager() = default;
-		std::vector<std::unique_ptr<Scene>> m_scenes{};
 	};
 }

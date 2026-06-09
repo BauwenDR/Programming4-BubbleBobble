@@ -15,6 +15,8 @@ namespace dae
 	class GameObject final
 	{
 	public:
+		bool KeepAlive{false};
+
 		void Start() const;
 		void Update() const;
 		void LateUpdate() const;

@@ -10,6 +10,7 @@ void game::PhysicsComponent::Start()
     GetGameObject().AddObserver(this);
 
     m_collider = GetGameObject().GetComponent<dae::ColliderComponent>();
+    m_initialPosition = GetGameObject().GetLocalTransform();
 }
 
 void game::PhysicsComponent::Update()
@@ -22,7 +23,7 @@ void game::PhysicsComponent::Update()
 
     m_velX = std::clamp(m_velX, -m_maxHorizontalSpeed, m_maxHorizontalSpeed);
 
-    glm::vec3 currentPos{GetGameObject().GetLocalTransform().GetPosition()};
+    glm::vec3 currentPos{GetGameObject().GetLocalTransform().Position};
     currentPos.x += m_velX * Time::timeDelta();
     currentPos.y += m_velY * Time::timeDelta();
     GetGameObject().SetLocalPosition(currentPos);
@@ -43,10 +44,20 @@ void game::PhysicsComponent::Notify(uint32_t event, dae::ObserverData const *dat
     if (!(
         event == dae::sdbm_hash("on_collision_enter") ||
         event == dae::sdbm_hash("on_collision_stay") ||
-        event == dae::sdbm_hash("on_collision_exit")
+        event == dae::sdbm_hash("on_collision_exit") ||
+        event == dae::sdbm_hash("scene_manager_scene_switch")
     ))
     {
         return;
+    }
+
+    if (event == dae::sdbm_hash("scene_manager_scene_switch"))
+    {
+        m_ignoredColliders.clear();
+        m_collidingWithCount = 0;
+        GetGameObject().SetLocalPosition(m_initialPosition.Position);
+        m_velX = 0.0f;
+        m_velY = 0.0f;
     }
 
     if (data == nullptr) return;
@@ -82,7 +93,7 @@ void game::PhysicsComponent::Notify(uint32_t event, dae::ObserverData const *dat
             constexpr float epsilon{0.0001f};
 
             const float colliderXPos{colliderData->collider->GetColliderPosition().x};
-            glm::vec3 currentPos{GetGameObject().GetLocalTransform().GetPosition()};
+            glm::vec3 currentPos{GetGameObject().GetLocalTransform().Position};
 
             if (colliderData->collisionNormal.x > 0.0f)
             {
@@ -108,7 +119,7 @@ void game::PhysicsComponent::Notify(uint32_t event, dae::ObserverData const *dat
         } else if (m_velY > 0.0f && colliderData->collisionNormal.x == 0.0f)
         {
             const float colliderYPos{colliderData->collider->GetColliderPosition().y};
-            glm::vec3 currentPos{GetGameObject().GetLocalTransform().GetPosition()};
+            glm::vec3 currentPos{GetGameObject().GetLocalTransform().Position};
             currentPos.y = colliderYPos - m_collider->GetColliderPosition().w;
             GetGameObject().SetLocalPosition(currentPos);
 

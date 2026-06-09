@@ -4,7 +4,7 @@
 
 void game::WrapAroundScreenComponent::Update()
 {
-    auto position{GetGameObject().GetLocalTransform().GetPosition()};
+    auto position{GetGameObject().GetLocalTransform().Position};
     if (position.y >= 232.0f * 4.0f)
     {
         position.y -= 248.0f * 4.0f;

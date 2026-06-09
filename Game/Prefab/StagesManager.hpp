@@ -31,10 +31,13 @@ namespace game
         LivesScoreComponent *m_livesScore{};
     };
 
-    class PrefabManager final : public dae::Singleton<PrefabManager>
+    class StagesManager final : public dae::Singleton<StagesManager>
     {
     public:
-        void LoadSceneFromJson(std::string const & sceneName);
+        void LoadNextStageFromJson();
+        void LoadStageFromJson(int32_t stageNumber);
+
+        void LoadSceneFromJson(std::string const & sceneName, bool preserveKeepAlive = true);
 
         void SpawnBubble(ProjectilePrefabData const &data) const;
         void SpawnPickup(PickupPrefabData const &data) const;
@@ -52,7 +55,11 @@ namespace game
         dae::Scene *m_scene{};
         std::vector<PlayerData> m_players{};
 
-        PrefabManager();
+        int32_t m_currentStage{1};
+        float m_scaleFactor{1.0f};
+        int8_t m_maxPlayers{2};
+
+        StagesManager();
     };
 }
 

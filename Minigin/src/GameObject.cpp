@@ -146,7 +146,7 @@ const glm::vec3 &dae::GameObject::GetWorldPosition() const
         UpdateWorldPosition();
     }
 
-    return m_worldTransform->GetPosition();
+    return m_worldTransform->Position;
 }
 
 const dae::Transform &dae::GameObject::GetLocalTransform() const
@@ -156,7 +156,7 @@ const dae::Transform &dae::GameObject::GetLocalTransform() const
 
 void dae::GameObject::SetLocalPosition(const glm::vec3 &position)
 {
-    m_localTransform->SetPosition(position);
+    m_localTransform->Position = position;
     SetPositionDirty();
 }
 
@@ -199,10 +199,10 @@ void dae::GameObject::UpdateWorldPosition() const
     {
         if (m_pParent == nullptr)
         {
-            m_worldTransform->SetPosition(m_localTransform->GetPosition());
+            m_worldTransform->Position = m_localTransform->Position;
         } else
         {
-            m_worldTransform->SetPosition(m_pParent->GetWorldPosition() + m_localTransform->GetPosition());
+            m_worldTransform->Position = m_pParent->GetWorldPosition() + m_localTransform->Position;
         }
     }
     m_positionIsDirty = false;
