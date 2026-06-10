@@ -1,9 +1,5 @@
 #include <filesystem>
 
-#include "InstructionWindow.hpp"
-#include "Prefab/StagesManager.hpp"
-namespace fs = std::filesystem;
-
 #if (_WIN32 or _WIN64)
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_main.h>
@@ -13,24 +9,23 @@ namespace fs = std::filesystem;
 #include <vld.h>
 #endif
 
+#include "InstructionWindow.hpp"
+#include "Prefab/StagesManager.hpp"
 #include "Audio/AudioQueue.hpp"
 #include "Event/Sdbm.hpp"
 #include "SceneManager.hpp"
 #include "Minigin.hpp"
 
+namespace fs = std::filesystem;
+
+
 static void load()
 {
-	// TODO move these into JSON file
 	dae::AudioQueue::LoadSound(dae::sdbm_hash("PlayerJump"), "Audio/PlayerJump.wav");
 	dae::AudioQueue::LoadSound(dae::sdbm_hash("Pickup"), "Audio/Pickup.wav");
 	dae::AudioQueue::LoadSound(dae::sdbm_hash("PlayerShoot"), "Audio/PlayerShoot.wav");
 
 	game::StagesManager::GetInstance().LoadStageFromJson(1);
-
-	// Todo, spawning these here is also not ideal
-	game::StagesManager::GetInstance().SpawnPickup({glm::vec2{200.0f, 160.0f}, 1000});
-	game::StagesManager::GetInstance().SpawnPickup({glm::vec2{700.0f, 160.0f}, 500});
-
 	game::StagesManager::GetInstance().AttachGui(std::make_unique<game::InstructionWindow>());
 }
 

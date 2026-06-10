@@ -24,7 +24,7 @@ namespace game
         SwitchSceneOnEnemiesKilled &operator=(SwitchSceneOnEnemiesKilled &&other) noexcept = delete;
 
     private:
-        constexpr static float SWITCH_DELAY{3.0f};
+        constexpr static float SWITCH_DELAY{10.0f};
 
         float m_switchCountdown{};
         int32_t const m_enemyThreshold{};

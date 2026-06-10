@@ -18,8 +18,11 @@ namespace game
         void LateUpdate() override;
 
         void MoveHorizontal(float amount);
+        void AirJump();
         void Jump();
         void SmallJump();
+
+        void MultiplyHorizontalSpeed(float factor);
 
         [[nodiscard]] float GetXInput() const;
         [[nodiscard]] float GetVelX() const;

@@ -42,7 +42,7 @@ void dae::PhysicsSystem::PhysicsUpdate()
             auto a = m_colliders[i];
             auto b = m_colliders[j];
 
-            if (!a->enabled || !b->enabled) continue;
+            if (!a->Enabled || !b->Enabled) continue;
 
             const auto &[intersects, collisionNormal, normal]{CollidersIntersecting(*a, *b)};
 
@@ -91,12 +91,9 @@ dae::PhysicsSystem::ColliderResult dae::PhysicsSystem::CollidersIntersecting(
         return {false, {}, {}};
     }
 
-    const glm::vec2 c1{ r1.x + r1.z * 0.5f, r1.y + r1.w * 0.5f };
-    const glm::vec2 c2{ r2.x + r2.z * 0.5f, r2.y + r2.w * 0.5f };
-
     // Calculate what axis we overlap with the most, point the normal towards that axis
-    const glm::vec2 distance = c1 - c2;
-    const glm::vec2 extents{ r1.z * 0.49f + r2.z * 0.49f, r1.w * 0.5f + r2.w * 0.5f };
+    const glm::vec2 distance{lhs.GetColliderCenter() - rhs.GetColliderCenter()};
+    const glm::vec2 extents{r1.z * 0.49f + r2.z * 0.49f, r1.w * 0.5f + r2.w * 0.5f};
     const glm::vec2 penetration{extents - glm::abs(distance)};
 
     if (penetration.x < penetration.y)

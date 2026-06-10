@@ -18,6 +18,7 @@ set(GAME_SOURCE_FILES
         Game/Component/PlayerAnimationComponent.cpp
         Game/Component/PlayerInputComponent.cpp
         Game/Component/PlayerSoundProducer.cpp
+        Game/Component/SpawnPickupOnDeath.cpp
         Game/Component/SwitchSceneOnEnemiesKilled.cpp
         Game/Component/WrapAroundScreenComponent.cpp
         Game/Component/ZenChanAnimationComponent.cpp

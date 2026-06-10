@@ -55,7 +55,7 @@ void dae::GameObject::Update() const
 {
     for (const auto &component: m_components)
     {
-        if (component->enabled) component->Update();
+        if (component->Enabled) component->Update();
     }
 
     for (const auto &child: m_children)
@@ -68,7 +68,7 @@ void dae::GameObject::LateUpdate() const
 {
     for (const auto &component: m_components)
     {
-        if (component->enabled) component->LateUpdate();
+        if (component->Enabled) component->LateUpdate();
     }
 
     for (const auto &child: m_children)
@@ -96,7 +96,7 @@ void dae::GameObject::Render() const
 {
     for (const auto &component: m_components)
     {
-        component->Render();
+        if (component->Enabled) component->Render();
     }
 
     for (const auto &child: m_children)
@@ -151,7 +151,6 @@ size_t dae::GameObject::GetChildCount() const
 
 dae::GameObject *dae::GameObject::GetChildAt(size_t index) const
 {
-    assert(index > 0 && index < m_children.size() && "GameObject GetAtIndex out of bounds");
     return m_children.at(index).get();
 }
 

@@ -3,12 +3,14 @@
 #include <glm/gtx/norm.inl>
 
 #include "PlatformAiMovement.hpp"
+#include "SpawnPickupOnDeath.hpp"
 #include "Time.hpp"
 #include "BubbleState/AirCurrentState.hpp"
 #include "BubbleState/FloatState.hpp"
 #include "BubbleState/ShotState.hpp"
 #include "BubbleState/StaticState.hpp"
 #include "Component/ColliderComponent.hpp"
+#include "Component/TextureComponent.hpp"
 #include "Event/EventManager.hpp"
 #include "Event/Sdbm.hpp"
 #include "Prefab/StagesManager.hpp"
@@ -27,24 +29,31 @@ void game::BubbleComponent::Update()
     GetGameObject().SetLocalPosition(GetGameObject().GetLocalTransform().Position + glm::vec3{m_velocity, 0.0f});
 }
 
-void game::BubbleComponent::Pop(int32_t popNumber)
+void game::BubbleComponent::Pop(glm::vec2 poppedFrom, int32_t popNumber)
 {
     if (m_hasPopped) return;
     m_hasPopped = true;
 
-    GetGameObject().MarkForDelete();
+    if (m_hasTrappedEnemy)
+    {
+        ++popNumber;
+        auto const trappedEnemy{GetGameObject().GetChildAt(0)};
+        trappedEnemy->GetComponent<SpawnPickupOnDeath>()->PopMultiplier = popNumber;
+        trappedEnemy->GetComponent<dae::TextureComponent>()->Enabled = false;
+
+        dae::EventManager::GetInstance().SendEvent(dae::sdbm_hash("enemy_died"));
+        ProjectilePrefabData pickupData{glm::vec2{GetGameObject().GetWorldPosition()}, poppedFrom.x < m_collider->GetColliderCenter().x};
+
+        auto const pickupObj{StagesManager::GetInstance().SpawnDeadEnemy(pickupData)};
+        trappedEnemy->SetParent(pickupObj, false);
+    }
 
     for (auto bubble: m_collidingBubbles)
     {
-        bubble->Pop(popNumber + 1);
+        bubble->Pop(poppedFrom, popNumber);
     }
 
-    if (!m_hasTrappedEnemy) return;
-
-    // GetGameObject().GetChildAt(0)->GetComponent<>();
-    dae::EventManager::GetInstance().SendEvent(dae::sdbm_hash("enemy_died"));
-    PickupPrefabData const data{.location = {GetGameObject().GetWorldPosition().x, GetGameObject().GetWorldPosition().y}, .worth = 500 * popNumber};
-    StagesManager::GetInstance().SpawnPickup(data);
+    GetGameObject().MarkForDelete();
 }
 
 void game::BubbleComponent::Notify(uint32_t event, const dae::ObserverData *data)
@@ -53,25 +62,29 @@ void game::BubbleComponent::Notify(uint32_t event, const dae::ObserverData *data
     const auto colliderData{dynamic_cast<dae::ColliderData const *>(data)};
     if (colliderData == nullptr) return;
 
-    if (colliderData->collider->GetTag() == dae::sdbm_hash("BUBBLE"))
+    bool canInteract{m_currentState->CanPop()};
+    if ((colliderData->collider->GetTag() == dae::sdbm_hash("BUBBLE") || colliderData->collider->GetTag() == dae::sdbm_hash("PLAYER")) && canInteract)
     {
-        OnBubbleCollision(event, colliderData);
-        return;
+        BubblePushCollision(event, colliderData);
+    }
+
+    if (colliderData->collider->GetTag() == dae::sdbm_hash("STAGE") && colliderData->collisionNormal.y == 0.0f)
+    {
+        m_isInWall = event == dae::sdbm_hash("on_collision_enter");
     }
 
     m_currentState->OnCollision(event, *colliderData);
-
 
     // Vertical with player collision -> pop
     if (
         event == dae::sdbm_hash("on_collision_stay") &&
         colliderData->collider->GetTag() == dae::sdbm_hash("PLAYER") &&
-        std::abs(colliderData->normal.y) > 0.3f &&
-        m_currentState->CanPop() &&
-        glm::distance2(m_collider->GetColliderCenter(), colliderData->collider->GetColliderCenter()) < 32.0f * 32.0f
+        colliderData->collisionNormal.x == 0.0f &&
+        canInteract &&
+        glm::distance2(m_collider->GetColliderCenter(), colliderData->collider->GetColliderCenter()) < 60.0f * 60.0f
     )
     {
-        Pop();
+        Pop(colliderData->collider->GetColliderCenter());
     }
 }
 
@@ -104,16 +117,19 @@ void game::BubbleComponent::SwitchState(BubbleStates newState)
     }
 }
 
-void game::BubbleComponent::OnBubbleCollision(uint32_t event, dae::ColliderData const *colliderData)
+void game::BubbleComponent::BubblePushCollision(uint32_t event, dae::ColliderData const *colliderData)
 {
-    if (event == dae::sdbm_hash("on_collision_enter"))
+    if (colliderData->collider->GetTag() == dae::sdbm_hash("BUBBLE"))
     {
-        m_collidingBubbles.emplace(colliderData->collider->GetGameObject().GetComponent<BubbleComponent>());
-    }
+        if (event == dae::sdbm_hash("on_collision_enter"))
+        {
+            m_collidingBubbles.emplace(colliderData->collider->GetGameObject().GetComponent<BubbleComponent>());
+        }
 
-    if (event == dae::sdbm_hash("on_collision_exit"))
-    {
-        m_collidingBubbles.erase(colliderData->collider->GetGameObject().GetComponent<BubbleComponent>());
+        if (event == dae::sdbm_hash("on_collision_exit"))
+        {
+            m_collidingBubbles.erase(colliderData->collider->GetGameObject().GetComponent<BubbleComponent>());
+        }
     }
 
     if (event == dae::sdbm_hash("on_collision_stay"))

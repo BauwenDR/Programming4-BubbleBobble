@@ -36,7 +36,7 @@ namespace game
         void Start() override;
         void Update() override;
 
-        void Pop(int32_t popNumber = 1);
+        void Pop(glm::vec2 poppedFrom, int32_t popNumber = 0);
 
         void Notify(uint32_t event, const dae::ObserverData *data) override;
 
@@ -65,7 +65,7 @@ namespace game
         bool m_hasPopped{};
 
         void SwitchState(BubbleStates newState);
-        void OnBubbleCollision(uint32_t event, dae::ColliderData const *colliderData);
+        void BubblePushCollision(uint32_t event, dae::ColliderData const *colliderData);
     };
 }
 

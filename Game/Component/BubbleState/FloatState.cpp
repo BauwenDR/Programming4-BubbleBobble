@@ -40,7 +40,7 @@ void game::bubble::FloatState::OnCollision(uint32_t event, const dae::ColliderDa
 glm::vec2 game::bubble::FloatState::ModifyPushAmount(glm::vec2 const &normal)
 {
     return {
-        normal.x * 3.0f,
+        m_owner.m_isInWall ? 0.0f : normal.x * 3.0f,
         std::clamp(normal.y, 0.0f, 1.0f) * 4.0f
     };
 }

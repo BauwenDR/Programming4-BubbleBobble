@@ -183,13 +183,18 @@ void game::PhysicsComponent::MoveHorizontal(float amount)
     m_horizontalInput += amount;
 }
 
+void game::PhysicsComponent::AirJump()
+{
+    m_velY = -m_jumpForce;
+    m_isOnGround = false;
+    GetGameObject().NotifyObservers(dae::sdbm_hash("on_jump"), {});
+}
+
 void game::PhysicsComponent::Jump()
 {
     if ((m_isOnGround || !m_onBubbleColliders.empty()) && m_velY > 0.0f)
     {
-        m_velY = -m_jumpForce;
-        m_isOnGround = false;
-        GetGameObject().NotifyObservers(dae::sdbm_hash("on_jump"), {});
+        AirJump();
     }
 }
 
@@ -199,7 +204,13 @@ void game::PhysicsComponent::SmallJump()
     {
         m_velY = -m_jumpForce / SMALL_JUMP_DEVISOR;
         m_isOnGround = false;
+        GetGameObject().NotifyObservers(dae::sdbm_hash("on_jump"), {});
     }
+}
+
+void game::PhysicsComponent::MultiplyHorizontalSpeed(float factor)
+{
+    m_maxHorizontalSpeed *= factor;
 }
 
 float game::PhysicsComponent::GetXInput() const

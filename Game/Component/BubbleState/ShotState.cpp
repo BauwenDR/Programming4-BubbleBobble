@@ -26,17 +26,12 @@ void game::bubble::ShotState::OnCollision(uint32_t event, dae::ColliderData cons
 {
     if (event != dae::sdbm_hash("on_collision_enter")) return;
 
-    if (data.collider->GetTag() == dae::sdbm_hash("STAGE") && data.collisionNormal.y == 0.0f)
-    {
-        m_isInWall = true;
-    }
-
     if (!m_owner.m_hasTrappedEnemy && data.collider->GetTag() == dae::sdbm_hash("ENEMY"))
     {
         auto &collidedEnemy{data.collider->GetGameObject()};
-        collidedEnemy.GetComponent<PlatformAiMovement>()->enabled = false;
-        collidedEnemy.GetComponent<PhysicsComponent>()->enabled = false;
-        collidedEnemy.GetComponent<dae::ColliderComponent>()->enabled = false;
+        collidedEnemy.GetComponent<PlatformAiMovement>()->Enabled = false;
+        collidedEnemy.GetComponent<PhysicsComponent>()->Enabled = false;
+        collidedEnemy.GetComponent<dae::ColliderComponent>()->Enabled = false;
         collidedEnemy.SetParent(&m_owner.GetGameObject(), false);
         collidedEnemy.SetLocalPosition({8.0f, 8.0f, 8.0f});
         collidedEnemy.SetLocalScale(0.75f);

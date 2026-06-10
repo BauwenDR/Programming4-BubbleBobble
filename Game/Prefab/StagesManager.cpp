@@ -19,6 +19,7 @@
 #include "Component/PlatformAiMovement.hpp"
 #include "Component/PlayerAnimationComponent.hpp"
 #include "Component/PlayerSoundProducer.hpp"
+#include "Component/SpawnPickupOnDeath.hpp"
 #include "Component/SwitchSceneOnEnemiesKilled.hpp"
 #include "Component/TextComponent.hpp"
 #include "Component/TextureComponent.hpp"
@@ -107,28 +108,31 @@ void game::StagesManager::SpawnPickup(PickupPrefabData const &data) const
 	m_scene->Add(std::move(pickupPrefab));
 }
 
-void game::StagesManager::SpawnDeadZenChanEnemy(ProjectilePrefabData const &data) const
+dae::GameObject *game::StagesManager::SpawnDeadEnemy(ProjectilePrefabData const &data) const
 {
-	auto pickupPrefab{std::make_unique<dae::GameObject>()};
+	auto deadEnemyPrefab{std::make_unique<dae::GameObject>()};
+	auto const newDeadEnemy{deadEnemyPrefab.get()};
 
-	pickupPrefab->SetLocalPosition({
+	deadEnemyPrefab->SetLocalPosition({
 		data.location,
 		0.0f
 	});
 
-	pickupPrefab->AddComponent(std::make_unique<dae::TextureComponent>(
-		*pickupPrefab,
-		dae::ResourceManager::GetInstance().LoadTexture("PickupSprites.png"),
+	deadEnemyPrefab->AddComponent(std::make_unique<dae::TextureComponent>(
+		*deadEnemyPrefab,
+		dae::ResourceManager::GetInstance().LoadTexture("DeadEnemies.png"),
 		m_scaleFactor,
 		glm::vec2{16.0f, 16.0f},
 		glm::vec2{0.0f, 0.0f}
 	));
 
-	pickupPrefab->AddComponent(std::make_unique<dae::ColliderComponent>(*pickupPrefab, glm::vec2{64.0f, 64.0f}, dae::sdbm_hash("DEAD_ENEMY")));
-	pickupPrefab->AddComponent(std::make_unique<PhysicsComponent>(*pickupPrefab, data.facingLeft, 320.0f, 520.0f));
-	pickupPrefab->AddComponent(std::make_unique<FallingDeadEnemy>(*pickupPrefab, data.facingLeft));
+	deadEnemyPrefab->AddComponent(std::make_unique<dae::ColliderComponent>(*deadEnemyPrefab, glm::vec2{64.0f, 64.0f}, dae::sdbm_hash("DEAD_ENEMY")));
+	deadEnemyPrefab->AddComponent(std::make_unique<PhysicsComponent>(*deadEnemyPrefab, data.facingLeft, 520.0f * 2.0f, 280.0f));
+	deadEnemyPrefab->AddComponent(std::make_unique<FallingDeadEnemy>(*deadEnemyPrefab, data.facingLeft));
 
-	m_scene->Add(std::move(pickupPrefab));
+	m_scene->Add(std::move(deadEnemyPrefab));
+
+	return newDeadEnemy;
 }
 
 void game::StagesManager::AttachGui(std::unique_ptr<dae::GuiWindow> &&gui) const
@@ -219,6 +223,7 @@ std::unique_ptr<dae::GameObject> game::StagesManager::PrefabLoader(nlohmann::jso
 		prefab->AddComponent(std::make_unique<AnimationComponent>(*prefab, &ZEN_CHAN_ANIMATIONS.at(facingLeft ? ZenChanAnimationStates::WalkingLeft : ZenChanAnimationStates::WalkingRight), 1.0f / 6.0f));
 		prefab->AddComponent(std::make_unique<PlatformAiMovement>(*prefab, facingLeft ? PlatformAiActions::WalkingLeft : PlatformAiActions::WalkingRight));
 		prefab->AddComponent(std::make_unique<ZenChanAnimationComponent>(*prefab));
+		prefab->AddComponent(std::make_unique<SpawnPickupOnDeath>(*prefab, 500));
 	}
 
 	else if (prefabName == "player-score")
