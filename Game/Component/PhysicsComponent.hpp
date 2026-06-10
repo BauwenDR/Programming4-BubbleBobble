@@ -72,7 +72,6 @@ namespace game
         int32_t m_collidingWithCount{0};
 
         bool m_isOnGround{};
-        bool m_isOnBubble{};
         bool m_wasMovingLeft{};
     };
 }
