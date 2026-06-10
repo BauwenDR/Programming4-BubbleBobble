@@ -16,7 +16,7 @@ void game::PhysicsComponent::Start()
 void game::PhysicsComponent::Update()
 {
     m_velY += GRAVITY_FORCE * Time::timeDelta();
-    m_velY = std::clamp(m_velY, -JUMP_FORCE, TERMINAL_VELOCITY);
+    m_velY = std::clamp(m_velY, -m_jumpForce, TERMINAL_VELOCITY);
 
     const float drag = m_isOnGround ? DRAG_GROUND : m_velY >= 0.0f ? DRAG_AIR_FALLING : DRAG_AIR;
     m_velX /= 1.0f + drag * Time::timeDelta();
@@ -93,35 +93,40 @@ void game::PhysicsComponent::Notify(uint32_t event, dae::ObserverData const *dat
             constexpr float epsilon{0.0001f};
 
             const float colliderXPos{colliderData->collider->GetColliderPosition().x};
-            glm::vec3 currentPos{GetGameObject().GetLocalTransform().Position};
+            glm::vec3 displacementPos{GetGameObject().GetLocalTransform().Position};
 
             if (colliderData->collisionNormal.x > 0.0f)
             {
-                currentPos.x = colliderXPos + colliderData->collider->GetColliderPosition().z;
+                displacementPos.x = colliderXPos + colliderData->collider->GetColliderPosition().z;
                 if (m_horizontalInput >= 0.0f)
                 {
-                    currentPos.x += epsilon;
+                    displacementPos.x += epsilon;
                 }
 
                 m_velX = 0.0f;
             } else if (colliderData->collisionNormal.x < 0.0f)
             {
-                currentPos.x = colliderXPos - m_collider->GetColliderPosition().z;
+                displacementPos.x = colliderXPos - m_collider->GetColliderPosition().z;
                 if (m_horizontalInput <= 0.0f)
                 {
-                    currentPos.x -= epsilon;
+                    displacementPos.x -= epsilon;
                 }
 
                 m_velX = 0.0f;
             }
 
-            GetGameObject().SetLocalPosition(currentPos);
+            GetGameObject().SetLocalPosition(displacementPos);
         } else if (m_velY > 0.0f && colliderData->collisionNormal.x == 0.0f)
         {
             const float colliderYPos{colliderData->collider->GetColliderPosition().y};
             glm::vec3 currentPos{GetGameObject().GetLocalTransform().Position};
             currentPos.y = colliderYPos - m_collider->GetColliderPosition().w;
             GetGameObject().SetLocalPosition(currentPos);
+
+            if (!m_isOnGround)
+            {
+                GetGameObject().NotifyObservers(dae::sdbm_hash("has_landed"));
+            }
 
             m_isOnGround = true;
             m_standingOn = colliderData->collider;
@@ -171,7 +176,7 @@ void game::PhysicsComponent::Jump()
 {
     if (m_isOnGround)
     {
-        m_velY = -JUMP_FORCE;
+        m_velY = -m_jumpForce;
         m_isOnGround = false;
         GetGameObject().NotifyObservers(dae::sdbm_hash("on_jump"), {});
     }
@@ -181,7 +186,7 @@ void game::PhysicsComponent::SmallJump()
 {
     if (m_isOnGround)
     {
-        m_velY = -JUMP_FORCE / SMALL_JUMP_DEVISOR;
+        m_velY = -m_jumpForce / SMALL_JUMP_DEVISOR;
         m_isOnGround = false;
     }
 }

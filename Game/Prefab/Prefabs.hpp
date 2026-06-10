@@ -7,7 +7,7 @@
 struct PickupPrefabData
 {
     glm::vec2 location;
-    int worth;
+    int32_t worth;
 };
 
 struct ProjectilePrefabData

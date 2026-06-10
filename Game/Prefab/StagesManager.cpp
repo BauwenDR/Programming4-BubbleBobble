@@ -14,6 +14,7 @@
 #include "UI/ScoreUiComponent.hpp"
 
 #include "Component/ColliderComponent.hpp"
+#include "Component/FallingDeadEnemy.hpp"
 #include "Component/PhysicsComponent.hpp"
 #include "Component/PlatformAiMovement.hpp"
 #include "Component/PlayerAnimationComponent.hpp"
@@ -102,6 +103,30 @@ void game::StagesManager::SpawnPickup(PickupPrefabData const &data) const
 
 	pickupPrefab->AddComponent(std::make_unique<dae::ColliderComponent>(*pickupPrefab, glm::vec2{64.0f, 64.0f}, dae::sdbm_hash("PICKUP")));
 	pickupPrefab->AddComponent(std::make_unique<PickupComponent>(*pickupPrefab, data.worth));
+
+	m_scene->Add(std::move(pickupPrefab));
+}
+
+void game::StagesManager::SpawnDeadZenChanEnemy(ProjectilePrefabData const &data) const
+{
+	auto pickupPrefab{std::make_unique<dae::GameObject>()};
+
+	pickupPrefab->SetLocalPosition({
+		data.location,
+		0.0f
+	});
+
+	pickupPrefab->AddComponent(std::make_unique<dae::TextureComponent>(
+		*pickupPrefab,
+		dae::ResourceManager::GetInstance().LoadTexture("PickupSprites.png"),
+		m_scaleFactor,
+		glm::vec2{16.0f, 16.0f},
+		glm::vec2{0.0f, 0.0f}
+	));
+
+	pickupPrefab->AddComponent(std::make_unique<dae::ColliderComponent>(*pickupPrefab, glm::vec2{64.0f, 64.0f}, dae::sdbm_hash("DEAD_ENEMY")));
+	pickupPrefab->AddComponent(std::make_unique<PhysicsComponent>(*pickupPrefab, data.facingLeft, 320.0f, 520.0f));
+	pickupPrefab->AddComponent(std::make_unique<FallingDeadEnemy>(*pickupPrefab, data.facingLeft));
 
 	m_scene->Add(std::move(pickupPrefab));
 }

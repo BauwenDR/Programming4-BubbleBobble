@@ -33,6 +33,7 @@ namespace dae {
         struct ColliderResult
         {
             bool const hasCollided;
+            glm::vec2 const collisionNormal;
             glm::vec2 const normal;
         };
         static ColliderResult CollidersIntersecting(ColliderComponent const & lhs, ColliderComponent const & rhs);

@@ -11,9 +11,10 @@ namespace dae
         bool enabled{true};
 
         virtual void Start() {}
-        virtual void Update() {}
+        virtual void Update() = 0;
         virtual void LateUpdate() {}
         virtual void Render() const {}
+        virtual void OnDelete() {}
 
         void MarkForDelete();
 

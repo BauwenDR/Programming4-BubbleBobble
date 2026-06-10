@@ -1,5 +1,6 @@
 #include "SceneManager.hpp"
 
+#include <cstdint>
 #include <algorithm>
 
 #include "Scene.hpp"
@@ -49,7 +50,7 @@ void dae::SceneManager::SwitchScenes()
 {
 	if (m_activeScene && m_newScene.preserveKeepAlive)
 	{
-		auto const oldLength{static_cast<ssize_t>(m_newScene.scene->m_objects.size())};
+		auto const oldLength{static_cast<int64_t>(m_newScene.scene->m_objects.size())};
 		m_activeScene->TransferKeepAliveObjects(*m_newScene.scene);
 		std::for_each(std::begin(m_newScene.scene->m_objects) + oldLength, std::end(m_newScene.scene->m_objects), [](const auto &object)
 		{

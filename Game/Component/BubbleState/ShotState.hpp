@@ -24,7 +24,6 @@ namespace game::bubble
         float m_timeRemaining{0.7f};
         bool m_isInWall{};
         bool m_movingLeft{};
-        bool m_hasTrappedEnemy{};
     };
 }
 

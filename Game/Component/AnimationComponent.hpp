@@ -17,6 +17,7 @@ namespace game
     {
     public:
         void Start() override;
+        void Update() override {}
         void LateUpdate() override;
 
         void RequestAnimationState(AnimationData const *newState);

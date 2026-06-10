@@ -9,14 +9,15 @@ namespace dae
     class ColliderComponent : public GameComponent
     {
     public:
-        void OnCollisionEnter(ColliderComponent const *collider, glm::vec2 const &normal) const;
+        void OnCollisionEnter(ColliderComponent const *collider, glm::vec2 const &collisionNormal, glm::vec2 const &normal) const;
 
-        void OnCollisionStay(ColliderComponent const *collider, glm::vec2 const &normal) const;
+        void OnCollisionStay(ColliderComponent const *collider, glm::vec2 const &collisionNormal, glm::vec2 const &normal) const;
 
         void OnCollisionExit(ColliderComponent const *collider) const;
 
         void Start() override;
         void Update() override;
+        void OnDelete() override;
 
         [[nodiscard]] glm::vec4 const &GetColliderPosition() const
         {
@@ -35,8 +36,6 @@ namespace dae
 
         ColliderComponent(GameObject &owner, glm::vec2 const &colliderSize, uint32_t tag);
 
-        ~ColliderComponent() override;
-
     private:
         glm::vec4 m_collider{};
         glm::vec2 m_center{};
@@ -51,9 +50,10 @@ namespace dae
     public:
         ColliderComponent const *collider{};
         glm::vec2 const collisionNormal{};
+        glm::vec2 const normal{};
 
-        explicit ColliderData(ColliderComponent const *const collider, glm::vec2 const &normal) : ObserverData(),
-            collider(collider), collisionNormal(normal)
+        explicit ColliderData(ColliderComponent const *const collider, glm::vec2 const &collisionNormal, glm::vec2 const &normal) : ObserverData(),
+            collider(collider), collisionNormal(collisionNormal), normal(normal)
         {
         }
         ~ColliderData() override = default;

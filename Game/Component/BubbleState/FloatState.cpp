@@ -37,6 +37,14 @@ void game::bubble::FloatState::OnCollision(uint32_t event, const dae::ColliderDa
     }
 }
 
+glm::vec2 game::bubble::FloatState::ModifyPushAmount(glm::vec2 const &normal)
+{
+    return {
+        normal.x * 3.0f,
+        std::clamp(normal.y, 0.0f, 1.0f) * 4.0f
+    };
+}
+
 game::bubble::FloatState::FloatState(BubbleComponent &owner)
     : BubbleState(owner)
 {

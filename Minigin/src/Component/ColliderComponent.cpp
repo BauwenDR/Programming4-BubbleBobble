@@ -3,21 +3,21 @@
 #include "PhysicsSystem.hpp"
 #include "Event/Sdbm.hpp"
 
-void dae::ColliderComponent::OnCollisionEnter(ColliderComponent const *collider, glm::vec2 const &normal) const
+void dae::ColliderComponent::OnCollisionEnter(ColliderComponent const *collider, glm::vec2 const &collisionNormal, glm::vec2 const &normal) const
 {
-    const ColliderData data{collider, normal};
+    const ColliderData data{collider, collisionNormal, normal};
     GetGameObject().NotifyObservers(sdbm_hash("on_collision_enter"), &data);
 }
 
-void dae::ColliderComponent::OnCollisionStay(ColliderComponent const *collider, glm::vec2 const &normal) const
+void dae::ColliderComponent::OnCollisionStay(ColliderComponent const *collider, glm::vec2 const &collisionNormal, glm::vec2 const &normal) const
 {
-    const ColliderData data{collider, normal};
+    const ColliderData data{collider, collisionNormal, normal};
     GetGameObject().NotifyObservers(sdbm_hash("on_collision_stay"), &data);
 }
 
 void dae::ColliderComponent::OnCollisionExit(ColliderComponent const *collider) const
 {
-    const ColliderData data{collider, {}};
+    const ColliderData data{collider, {}, {}};
     GetGameObject().NotifyObservers(sdbm_hash("on_collision_exit"), &data);
 }
 
@@ -31,17 +31,17 @@ void dae::ColliderComponent::Update()
     RecalculateCollider();
 }
 
+void dae::ColliderComponent::OnDelete()
+{
+    PhysicsSystem::GetInstance().UnregisterCollider(this);
+}
+
 dae::ColliderComponent::ColliderComponent(GameObject &owner, glm::vec2 const &colliderSize, uint32_t const tag)
     : GameComponent(owner)
       , m_collider(glm::vec4{0.0f, 0.0f, colliderSize.x, colliderSize.y})
       , m_tag(tag)
 {
     PhysicsSystem::GetInstance().RegisterCollider(this);
-}
-
-dae::ColliderComponent::~ColliderComponent()
-{
-    PhysicsSystem::GetInstance().UnregisterCollider(this);
 }
 
 void dae::ColliderComponent::RecalculateCollider()

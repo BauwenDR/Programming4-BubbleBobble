@@ -18,6 +18,7 @@ namespace game {
     {
     public:
         void Start() override;
+        void Update() override {}
 
         PlayerInputComponent(dae::GameObject& owner, int player);
         ~PlayerInputComponent() override;

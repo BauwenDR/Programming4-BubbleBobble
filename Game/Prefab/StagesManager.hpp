@@ -41,6 +41,7 @@ namespace game
 
         void SpawnBubble(ProjectilePrefabData const &data) const;
         void SpawnPickup(PickupPrefabData const &data) const;
+        void SpawnDeadZenChanEnemy(ProjectilePrefabData const &data) const;
 
         void AttachGui(std::unique_ptr<dae::GuiWindow> &&gui) const;
 

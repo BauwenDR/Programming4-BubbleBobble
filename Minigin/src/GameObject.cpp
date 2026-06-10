@@ -8,6 +8,11 @@
 void dae::GameObject::MarkForDelete()
 {
     m_markedForDelete = true;
+
+    for (const auto &child: m_children)
+    {
+        child->MarkForDelete();
+    }
 }
 
 bool dae::GameObject::IsMarkedForDelete() const
@@ -24,6 +29,11 @@ dae::GameObject::GameObject()
 
 dae::GameObject::~GameObject()
 {
+    for (const auto &component: m_components)
+    {
+        component->OnDelete();
+    }
+
     const ObjectDestroyedData data(this);
     NotifyObservers(sdbm_hash("object_destroyed"), &data);
 }

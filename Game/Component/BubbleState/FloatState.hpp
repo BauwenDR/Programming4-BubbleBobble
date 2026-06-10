@@ -9,6 +9,7 @@ namespace game::bubble
     public:
         BubbleStates Update() override;
         void OnCollision(uint32_t event, const dae::ColliderData &data) override;
+       glm::vec2 ModifyPushAmount(glm::vec2 const &normal) override;
 
         explicit FloatState(BubbleComponent &owner);
         ~FloatState() override = default;

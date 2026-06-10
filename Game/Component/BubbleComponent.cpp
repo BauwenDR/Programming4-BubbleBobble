@@ -24,22 +24,28 @@ void game::BubbleComponent::Update()
     GetGameObject().SetLocalPosition(GetGameObject().GetLocalTransform().Position + glm::vec3{m_velocity, 0.0f});
 }
 
-// TODO pop bubbles that are nearby this one
-void game::BubbleComponent::Pop() const
+void game::BubbleComponent::Pop(int32_t popNumber)
 {
+    if (m_hasPopped) return;
+    m_hasPopped = true;
+
     GetGameObject().MarkForDelete();
+
+    for (auto bubble : m_collidingBubbles)
+    {
+        bubble->Pop(popNumber + 1);
+    }
 
     if (!m_hasTrappedEnemy) return;
 
-    PickupPrefabData const data{.location = {GetGameObject().GetWorldPosition().x, GetGameObject().GetWorldPosition().y}, .worth = 500};
+    // GetGameObject().GetChildAt(0)->GetComponent<>();
+    dae::EventManager::GetInstance().SendEvent(dae::sdbm_hash("enemy_died"));
+    PickupPrefabData const data{.location = {GetGameObject().GetWorldPosition().x, GetGameObject().GetWorldPosition().y}, .worth = 500 * popNumber};
     StagesManager::GetInstance().SpawnPickup(data);
 }
 
-// TODO have bubbles push each-other
 void game::BubbleComponent::Notify(uint32_t event, const dae::ObserverData *data)
 {
-    if (!(event == dae::sdbm_hash("on_collision_enter") || event == dae::sdbm_hash("on_collision_exit"))) return;
-
     if (data == nullptr) return;
     const auto colliderData{dynamic_cast<dae::ColliderData const *>(data)};
     if (colliderData == nullptr) return;
@@ -47,14 +53,14 @@ void game::BubbleComponent::Notify(uint32_t event, const dae::ObserverData *data
     m_currentState->OnCollision(event, *colliderData);
 
     // Vertical with player collision -> pop
-    if (event == dae::sdbm_hash("on_collision_enter") && colliderData->collider->GetTag() == dae::sdbm_hash("PLAYER") && colliderData->collisionNormal.x == 0.0f)
+    if (event == dae::sdbm_hash("on_collision_stay") && colliderData->collider->GetTag() == dae::sdbm_hash("PLAYER") && colliderData->collisionNormal.x == 0.0f)
     {
         Pop();
+    }
 
-        if (m_hasTrappedEnemy)
-        {
-            dae::EventManager::GetInstance().SendEvent(dae::sdbm_hash("enemy_died"));
-        }
+    if (colliderData->collider->GetTag() == dae::sdbm_hash("BUBBLE"))
+    {
+        OnBubbleCollision(event, colliderData);
     }
 }
 
@@ -84,5 +90,37 @@ void game::BubbleComponent::SwitchState(BubbleStates newState)
             break;
         case BubbleStates::DoNotSwitch:
             break;
+    }
+}
+
+void game::BubbleComponent::OnBubbleCollision(uint32_t event, dae::ColliderData const *colliderData)
+{
+    if (event == dae::sdbm_hash("on_collision_enter"))
+    {
+        m_collidingBubbles.emplace(colliderData->collider->GetGameObject().GetComponent<BubbleComponent>());
+    }
+
+    if (event == dae::sdbm_hash("on_collision_exit"))
+    {
+        m_collidingBubbles.erase(colliderData->collider->GetGameObject().GetComponent<BubbleComponent>());
+    }
+
+    if (event == dae::sdbm_hash("on_collision_stay"))
+    {
+        constexpr static float MAX_PUSH_DISTANCE{58.0f};
+        constexpr static float MIN_DISTANCE_FACTOR{0.1f};
+
+        auto const objPos{static_cast<glm::vec2>(GetGameObject().GetLocalTransform().Position)};
+        auto const collisionPoint{colliderData->collider->GetColliderCenter()};
+        float const dist{glm::distance(objPos, collisionPoint)};
+
+        float const t = glm::clamp(dist / MAX_PUSH_DISTANCE, 0.0f, 1.0f);
+        float const distanceFactor = glm::mix(1.0f, MIN_DISTANCE_FACTOR, t);
+
+        glm::vec2 const basePush{m_currentState->ModifyPushAmount(colliderData->normal) * distanceFactor};
+
+        auto pushPosition = GetGameObject().GetLocalTransform().Position;
+        pushPosition += glm::vec3(basePush, 0.0f) * PUSH_FORCE * Time::timeDelta();
+        GetGameObject().SetLocalPosition(pushPosition);
     }
 }

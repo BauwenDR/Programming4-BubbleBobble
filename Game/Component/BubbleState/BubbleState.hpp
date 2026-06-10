@@ -16,6 +16,7 @@ namespace game::bubble
     public:
         virtual BubbleStates Update() = 0;
         virtual void OnCollision(uint32_t event, dae::ColliderData const &data) = 0;
+        virtual glm::vec2 ModifyPushAmount(glm::vec2 const &normal);
 
         explicit BubbleState(BubbleComponent &owner);
         virtual ~BubbleState() = default;

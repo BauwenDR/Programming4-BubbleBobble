@@ -10,6 +10,7 @@ set(GAME_SOURCE_FILES
         Game/Component/BubbleState/StaticState.cpp
         Game/Component/AnimationComponent.cpp
         Game/Component/BubbleComponent.cpp
+        Game/Component/FallingDeadEnemy.cpp
         Game/Component/LivesScoreComponent.cpp
         Game/Component/PhysicsComponent.cpp
         Game/Component/PickupComponent.cpp

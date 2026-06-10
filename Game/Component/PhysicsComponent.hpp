@@ -29,18 +29,18 @@ namespace game
 
         void Notify(uint32_t event, const dae::ObserverData *data) override;
 
-        explicit PhysicsComponent(dae::GameObject &owner, bool isFacingLeft, float horizontalSpeed = 256.0f)
+        explicit PhysicsComponent(dae::GameObject &owner, bool isFacingLeft, float horizontalSpeed = 256.0f, float jumpForce = 288.0f)
             : GameComponent(owner)
               , m_maxHorizontalSpeed(horizontalSpeed)
               , m_groundAcceleration(horizontalSpeed * 8.0f)
               , m_airAcceleration(horizontalSpeed / 2.0f)
+              , m_jumpForce(jumpForce)
               , m_wasMovingLeft(isFacingLeft)
         {}
         ~PhysicsComponent() override = default;
     private:
         constexpr static float GRAVITY_FORCE{60.0f * 4};
         constexpr static float TERMINAL_VELOCITY{50.0f * 4};
-        constexpr static float JUMP_FORCE{72.0f * 4};
         constexpr static float SMALL_JUMP_DEVISOR{1.5f};
         constexpr static float MAX_JUMP_THROUGH_HEIGHT{8.0f * 4.0f};
 
@@ -58,6 +58,7 @@ namespace game
         float m_maxHorizontalSpeed{};
         float m_groundAcceleration{};
         float m_airAcceleration{};
+        float m_jumpForce{};
 
         float m_horizontalInput{};
 
@@ -67,6 +68,7 @@ namespace game
         int m_collidingWithCount{0};
 
         bool m_isOnGround{};
+        bool m_isOnBubble{};
         bool m_wasMovingLeft{};
     };
 }

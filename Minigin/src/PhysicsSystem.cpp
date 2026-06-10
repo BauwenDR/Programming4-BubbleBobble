@@ -21,6 +21,9 @@ void dae::PhysicsSystem::UnregisterCollider(ColliderComponent const *collider)
     // Remove any previous-collision pairs that include this collider
     std::erase_if(m_PreviousCollisions, [collider](const auto &p)
     {
+        if (p.first == collider) p.first->OnCollisionExit(p.second);
+        if (p.second == collider) p.second->OnCollisionExit(p.first);
+
         return p.first == collider || p.second == collider;
     });
 }
@@ -41,7 +44,7 @@ void dae::PhysicsSystem::PhysicsUpdate()
 
             if (!a->enabled || !b->enabled) continue;
 
-            const auto &[intersects, normal]{CollidersIntersecting(*a, *b)};
+            const auto &[intersects, collisionNormal, normal]{CollidersIntersecting(*a, *b)};
 
             if (intersects) {
                 std::pair<const ColliderComponent*, const ColliderComponent*> key{a, b};
@@ -50,11 +53,11 @@ void dae::PhysicsSystem::PhysicsUpdate()
                 bool wasColliding = m_PreviousCollisions.contains(key);
 
                 if (!wasColliding) {
-                    a->OnCollisionEnter(b, normal);
-                    b->OnCollisionEnter(a, -normal);
+                    a->OnCollisionEnter(b, collisionNormal, normal);
+                    b->OnCollisionEnter(a, -collisionNormal, -normal);
                 } else {
-                    a->OnCollisionStay(b, normal);
-                    b->OnCollisionStay(a, -normal);
+                    a->OnCollisionStay(b, collisionNormal, normal);
+                    b->OnCollisionStay(a, -collisionNormal, -normal);
                 }
             }
         }
@@ -80,12 +83,12 @@ dae::PhysicsSystem::ColliderResult dae::PhysicsSystem::CollidersIntersecting(
 
     if (r1.x + r1.z < r2.x || r2.x + r2.z < r1.x)
     {
-        return {false, {}};
+        return {false, {}, {}};
     }
 
     if (r1.y > r2.y + r2.w || r2.y > r1.y + r1.w)
     {
-        return {false, {}};
+        return {false, {}, {}};
     }
 
     const glm::vec2 c1{ r1.x + r1.z * 0.5f, r1.y + r1.w * 0.5f };
@@ -94,14 +97,14 @@ dae::PhysicsSystem::ColliderResult dae::PhysicsSystem::CollidersIntersecting(
     // Calculate what axis we overlap with the most, point the normal towards that axis
     const glm::vec2 distance = c1 - c2;
     const glm::vec2 extents{ r1.z * 0.49f + r2.z * 0.49f, r1.w * 0.5f + r2.w * 0.5f };
-    const glm::vec2 penetration = extents - glm::abs(distance);
+    const glm::vec2 penetration{extents - glm::abs(distance)};
 
     if (penetration.x < penetration.y)
     {
         const float sx = distance.x < 0.0f ? -1.0f : 1.0f;
-        return { true, glm::vec2(sx, 0.0f) };
+        return { true, glm::vec2(sx, 0.0f), glm::normalize(distance) };
     }
 
     const float sy = distance.y < 0.0f ? -1.0f : 1.0f;
-    return { true, glm::vec2(0.0f, sy) };
+    return { true, glm::vec2(0.0f, sy), glm::normalize(distance) };
 }
