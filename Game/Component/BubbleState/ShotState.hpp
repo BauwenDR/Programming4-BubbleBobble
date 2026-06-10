@@ -14,6 +14,7 @@ namespace game::bubble
     public:
         BubbleStates Update() override;
         void OnCollision(uint32_t event, dae::ColliderData const &data) override;
+        bool CanPop() override { return false; }
 
         ShotState(BubbleComponent &owner, bool movingLeft);
         ~ShotState() override = default;

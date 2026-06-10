@@ -35,13 +35,13 @@ void game::PlayerInputComponent::Start()
     dae::InputManager::GetInstance().Bind(kbLeft, KeyHeld, m_moveLeftCommand.get());
     dae::InputManager::GetInstance().Bind(kbRight, KeyHeld, m_moveRightCommand.get());
 
-    dae::InputManager::GetInstance().Bind(kbJump, KeyDown, m_jumpCommand.get());
+    dae::InputManager::GetInstance().Bind(kbJump, KeyHeld, m_jumpCommand.get());
     dae::InputManager::GetInstance().Bind(kbAttack, KeyDown, m_attackCommand.get());
 
     dae::InputManager::GetInstance().Bind(DpadLeft, player, KeyHeld, m_moveLeftCommand.get());
     dae::InputManager::GetInstance().Bind(DpadRight, player, KeyHeld, m_moveRightCommand.get());
 
-    dae::InputManager::GetInstance().Bind(A, player, KeyDown, m_jumpCommand.get());
+    dae::InputManager::GetInstance().Bind(A, player, KeyHeld, m_jumpCommand.get());
     dae::InputManager::GetInstance().Bind(X, player, KeyDown, m_attackCommand.get());
 }
 

@@ -54,6 +54,8 @@ namespace game
         std::unordered_set<BubbleComponent*> m_collidingBubbles{};
 
         std::unique_ptr<bubble::BubbleState> m_currentState{};
+        dae::ColliderComponent *m_collider{};
+
         glm::vec2 m_velocity{};
         bool m_isInWall{};
         bool m_isInAirCurrent{};

@@ -1,5 +1,7 @@
 #include "BubbleComponent.hpp"
 
+#include <glm/gtx/norm.inl>
+
 #include "PlatformAiMovement.hpp"
 #include "Time.hpp"
 #include "BubbleState/AirCurrentState.hpp"
@@ -14,6 +16,7 @@
 void game::BubbleComponent::Start()
 {
     GetGameObject().AddObserver(this);
+    m_collider = GetGameObject().GetComponent<dae::ColliderComponent>();
 }
 
 void game::BubbleComponent::Update()
@@ -31,7 +34,7 @@ void game::BubbleComponent::Pop(int32_t popNumber)
 
     GetGameObject().MarkForDelete();
 
-    for (auto bubble : m_collidingBubbles)
+    for (auto bubble: m_collidingBubbles)
     {
         bubble->Pop(popNumber + 1);
     }
@@ -50,17 +53,25 @@ void game::BubbleComponent::Notify(uint32_t event, const dae::ObserverData *data
     const auto colliderData{dynamic_cast<dae::ColliderData const *>(data)};
     if (colliderData == nullptr) return;
 
-    m_currentState->OnCollision(event, *colliderData);
-
-    // Vertical with player collision -> pop
-    if (event == dae::sdbm_hash("on_collision_stay") && colliderData->collider->GetTag() == dae::sdbm_hash("PLAYER") && colliderData->collisionNormal.x == 0.0f)
-    {
-        Pop();
-    }
-
     if (colliderData->collider->GetTag() == dae::sdbm_hash("BUBBLE"))
     {
         OnBubbleCollision(event, colliderData);
+        return;
+    }
+
+    m_currentState->OnCollision(event, *colliderData);
+
+
+    // Vertical with player collision -> pop
+    if (
+        event == dae::sdbm_hash("on_collision_stay") &&
+        colliderData->collider->GetTag() == dae::sdbm_hash("PLAYER") &&
+        std::abs(colliderData->normal.y) > 0.3f &&
+        m_currentState->CanPop() &&
+        glm::distance2(m_collider->GetColliderCenter(), colliderData->collider->GetColliderCenter()) < 32.0f * 32.0f
+    )
+    {
+        Pop();
     }
 }
 
@@ -110,10 +121,7 @@ void game::BubbleComponent::OnBubbleCollision(uint32_t event, dae::ColliderData 
         constexpr static float MAX_PUSH_DISTANCE{58.0f};
         constexpr static float MIN_DISTANCE_FACTOR{0.1f};
 
-        auto const objPos{static_cast<glm::vec2>(GetGameObject().GetLocalTransform().Position)};
-        auto const collisionPoint{colliderData->collider->GetColliderCenter()};
-        float const dist{glm::distance(objPos, collisionPoint)};
-
+        float const dist{glm::distance(m_collider->GetColliderCenter(), colliderData->collider->GetColliderCenter())};
         float const t = glm::clamp(dist / MAX_PUSH_DISTANCE, 0.0f, 1.0f);
         float const distanceFactor = glm::mix(1.0f, MIN_DISTANCE_FACTOR, t);
 

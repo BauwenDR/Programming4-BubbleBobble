@@ -52,6 +52,7 @@ namespace game
         dae::ColliderComponent *m_collider{};
         dae::ColliderComponent const *m_standingOn{};
         std::unordered_set<dae::ColliderComponent const *> m_ignoredColliders{};
+        std::unordered_set<dae::ColliderComponent const *> m_onBubbleColliders{};
 
         dae::Transform m_initialPosition{};
 
@@ -65,7 +66,7 @@ namespace game
         float m_velY{};
         float m_velX{};
 
-        int m_collidingWithCount{0};
+        int32_t m_collidingWithCount{0};
 
         bool m_isOnGround{};
         bool m_isOnBubble{};

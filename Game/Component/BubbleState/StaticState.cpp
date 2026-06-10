@@ -26,7 +26,7 @@ void game::bubble::StaticState::OnCollision(uint32_t event, dae::ColliderData co
 glm::vec2 game::bubble::StaticState::ModifyPushAmount(glm::vec2 const &normal)
 {
     return {
-        normal.x / 8.0f,
+        m_owner.m_isInWall ? 0.0f : normal.x / 8.0f,
         std::clamp(normal.y, 0.0f, 1.0f)
     };
 }

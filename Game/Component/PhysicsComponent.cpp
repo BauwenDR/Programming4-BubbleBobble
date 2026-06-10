@@ -65,6 +65,17 @@ void game::PhysicsComponent::Notify(uint32_t event, dae::ObserverData const *dat
     const auto colliderData{dynamic_cast<dae::ColliderData const *>(data)};
     if (colliderData == nullptr) return;
 
+    if (colliderData->collider->GetTag() == dae::sdbm_hash("BUBBLE"))
+    {
+        if (event == dae::sdbm_hash("on_collision_enter") && colliderData->collisionNormal.y == -1.0f)
+        {
+            m_onBubbleColliders.emplace(colliderData->collider);
+        } else if (event == dae::sdbm_hash("on_collision_exit"))
+        {
+            m_onBubbleColliders.erase(colliderData->collider);
+        }
+    }
+
     if (colliderData->collider->GetTag() != dae::sdbm_hash("STAGE")) return;
 
     if (event == dae::sdbm_hash("on_collision_enter"))
@@ -174,7 +185,7 @@ void game::PhysicsComponent::MoveHorizontal(float amount)
 
 void game::PhysicsComponent::Jump()
 {
-    if (m_isOnGround)
+    if ((m_isOnGround || !m_onBubbleColliders.empty()) && m_velY > 0.0f)
     {
         m_velY = -m_jumpForce;
         m_isOnGround = false;
@@ -184,7 +195,7 @@ void game::PhysicsComponent::Jump()
 
 void game::PhysicsComponent::SmallJump()
 {
-    if (m_isOnGround)
+    if ((m_isOnGround || !m_onBubbleColliders.empty()) && m_velY > 0.0f)
     {
         m_velY = -m_jumpForce / SMALL_JUMP_DEVISOR;
         m_isOnGround = false;
