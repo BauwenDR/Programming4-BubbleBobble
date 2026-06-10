@@ -7,6 +7,7 @@ namespace dae
 	{
 	public:
 		glm::vec3 Position{};
+		float Scale{1.0f};
 
 		Transform() = default;
 		explicit Transform(const glm::vec3 &position) : Position{ position } {}

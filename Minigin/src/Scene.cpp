@@ -1,5 +1,6 @@
 #include "Scene.hpp"
 
+#include <iterator>
 #include <algorithm>
 
 using namespace dae;
@@ -12,12 +13,14 @@ void Scene::Add(std::unique_ptr<GameObject> object)
 	m_objects.emplace_back(std::move(object));
 }
 
-void Scene::Remove(const GameObject &object)
+std::unique_ptr<GameObject> Scene::Remove(const GameObject *object)
 {
-	std::erase_if(
-		m_objects,
-		[&object](const auto &ptr) { return ptr.get() == &object; }
-	);
+	auto const it{std::ranges::find_if(m_objects, [object](const auto &ptr){ return ptr.get() == object; })};
+	if (it == m_objects.end()) return nullptr;
+
+	std::unique_ptr<GameObject> removed = std::move(*it);
+	m_objects.erase(it);
+	return removed;
 }
 
 void Scene::RemoveAll()

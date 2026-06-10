@@ -11,7 +11,7 @@ namespace dae
 	{
 	public:
 		void Add(std::unique_ptr<GameObject> object);
-		void Remove(const GameObject& object);
+		std::unique_ptr<GameObject> Remove(const GameObject* object);
 		void RemoveAll();
 
 		void AddGui(std::unique_ptr<GuiWindow> &&gui);

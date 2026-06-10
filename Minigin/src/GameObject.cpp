@@ -1,5 +1,6 @@
 #include "GameObject.hpp"
 
+#include "SceneManager.hpp"
 #include "Component/GameComponent.hpp"
 #include "Event/Sdbm.hpp"
 #include "Render/ResourceManager.hpp"
@@ -117,14 +118,19 @@ void dae::GameObject::SetParent(GameObject *parent, bool keepWorldPosition)
         }
     }
 
+    std::unique_ptr<GameObject> thisPointer{};
+    // Get moveable version of self and move to parent (or scene if new parent is nullptr)
     if (m_pParent != nullptr)
     {
-        m_pParent->RemoveChild(this);
+        thisPointer = m_pParent->RemoveChild(this);
+    } else
+    {
+        thisPointer = SceneManager::GetInstance().GetActive()->Remove(this);
     }
-    m_pParent = parent;
-    if (m_pParent != nullptr)
+    if (parent != nullptr)
     {
-        m_pParent->AddChild(this);
+        parent->AddChild(std::move(thisPointer));
+        m_pParent = parent;
     }
 }
 
@@ -160,6 +166,12 @@ void dae::GameObject::SetLocalPosition(const glm::vec3 &position)
     SetPositionDirty();
 }
 
+void dae::GameObject::SetLocalScale(float scale)
+{
+    m_localTransform->Scale = scale;
+    SetPositionDirty();
+}
+
 void dae::GameObject::AddObserver(IObserver *observer)
 {
     m_observers.push_back(observer);
@@ -175,16 +187,19 @@ void dae::GameObject::NotifyObservers(uint32_t event, ObserverData const * const
         observer->Notify(event, data);
 }
 
-void dae::GameObject::AddChild(GameObject *child)
+void dae::GameObject::AddChild(std::unique_ptr<GameObject> &&child)
 {
-    // This feels sketchy; like really sketchy
-    // We are *SILENTLY* transferring ownership to the new parent
-    m_children.push_back(std::unique_ptr<GameObject>(child));
+    m_children.push_back(std::move(child));
 }
 
-void dae::GameObject::RemoveChild(const GameObject *child)
+std::unique_ptr<dae::GameObject> dae::GameObject::RemoveChild(const GameObject *child)
 {
-    std::erase_if(m_children, [child](const auto &ptr) { return ptr.get() == child; });
+    auto const it{std::ranges::find_if(m_children, [child](const auto &ptr){ return ptr.get() == child; })};
+    if (it == m_children.end()) return nullptr;
+
+    std::unique_ptr<GameObject> removed = std::move(*it);
+    m_children.erase(it);
+    return removed;
 }
 
 bool dae::GameObject::IsChild(const GameObject *child) const

@@ -26,6 +26,8 @@ namespace dae
 
 		void Destroy();
 
+		Scene *GetActive() const;
+
 	private:
 		friend class Singleton;
 

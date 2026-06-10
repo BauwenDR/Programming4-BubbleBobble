@@ -38,6 +38,11 @@ void dae::SceneManager::Destroy()
 	m_newScene.scene.reset();
 }
 
+dae::Scene* dae::SceneManager::GetActive() const
+{
+	return m_activeScene.get();
+}
+
 void dae::SceneManager::SwitchScenes()
 {
 	if (m_activeScene && m_newScene.preserveKeepAlive)

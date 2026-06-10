@@ -77,9 +77,12 @@ void game::BubbleComponent::Notify(uint32_t event, const dae::ObserverData *data
     if (!m_hasTrappedEnemy && event == dae::sdbm_hash("on_collision_enter") && colliderData->collider->GetTag() == dae::sdbm_hash("ENEMY") && m_currentState->CanTrapEnemy())
     {
         auto &collidedEnemy{colliderData->collider->GetGameObject()};
-        collidedEnemy.MarkForDelete();
         collidedEnemy.GetComponent<PlatformAiMovement>()->enabled = false;
         collidedEnemy.GetComponent<PhysicsComponent>()->enabled = false;
+        collidedEnemy.GetComponent<dae::ColliderComponent>()->enabled = false;
+        collidedEnemy.SetParent(&GetGameObject(), false);
+        collidedEnemy.SetLocalPosition({8.0f, 8.0f, 8.0f});
+        collidedEnemy.SetLocalScale(0.75f);
         m_hasTrappedEnemy = true;
     }
 }

@@ -11,7 +11,8 @@ namespace dae
         if (m_texture != nullptr)
         {
             const auto &pos = GetGameObject().GetWorldPosition();
-            Renderer::GetInstance().RenderTexture(*m_texture, pos.x, pos.y, m_imageScale, &m_srcRect);
+            const auto scale = GetGameObject().GetLocalTransform().Scale;
+            Renderer::GetInstance().RenderTexture(*m_texture, pos.x, pos.y, m_imageScale * scale, &m_srcRect);
         }
     }
 

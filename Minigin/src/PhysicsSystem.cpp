@@ -38,6 +38,9 @@ void dae::PhysicsSystem::PhysicsUpdate()
 
             auto a = m_colliders[i];
             auto b = m_colliders[j];
+
+            if (!a->enabled || !b->enabled) continue;
+
             const auto &[intersects, normal]{CollidersIntersecting(*a, *b)};
 
             if (intersects) {

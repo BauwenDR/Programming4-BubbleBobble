@@ -32,6 +32,7 @@ namespace dae
 
 		[[nodiscard]] const Transform &GetLocalTransform() const;
 		void SetLocalPosition(const glm::vec3& transform);
+		void SetLocalScale(float scale);
 
 		void AddObserver(IObserver* observer);
 		void RemoveObserver(IObserver* observer);
@@ -81,14 +82,15 @@ namespace dae
 		GameObject& operator=(GameObject&& other) = delete;
 
 	private:
-		void AddChild(GameObject *child);
-		void RemoveChild(const GameObject *child);
+		void AddChild(std::unique_ptr<GameObject> &&child);
+
+		std::unique_ptr<GameObject> RemoveChild(const GameObject *child);
 		bool IsChild(const GameObject* child) const;
 
 		void UpdateWorldPosition() const;
 		void SetPositionDirty() const;
 
-		std::vector<std::unique_ptr<GameObject>> m_children{};	// TODO: find a clean way of converting these to unique_ptrs
+		std::vector<std::unique_ptr<GameObject>> m_children{};
 		std::vector<std::unique_ptr<GameComponent>> m_components{};
 
 		std::vector<IObserver*> m_observers{};
