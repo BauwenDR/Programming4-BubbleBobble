@@ -1,21 +1,28 @@
 #include "AirCurrentState.hpp"
 
 #include "Component/BubbleComponent.hpp"
+#include "Event/Sdbm.hpp"
 
-void game::bubble::AirCurrentState::Update()
+game::BubbleStates game::bubble::AirCurrentState::Update()
 {
     if (!m_owner.m_isInAirCurrent)
     {
-        m_owner.SwitchState(BubbleStates::Floating);
-        return;
+        return BubbleStates::Floating;
     }
 
     m_owner.m_velocity = {m_owner.m_isLeftCurrent ? -CURRENT_SPEED : CURRENT_SPEED, 0.0f};
+
+    return BubbleStates::DoNotSwitch;
 }
 
-bool game::bubble::AirCurrentState::CanTrapEnemy()
+void game::bubble::AirCurrentState::OnCollision(uint32_t event, const dae::ColliderData &data)
 {
-    return false;
+    if (event != dae::sdbm_hash("on_collision_exit")) return;
+
+    if (data.collider->GetTag() == dae::sdbm_hash("WIND_CURRENT_LEFT") || data.collider->GetTag() == dae::sdbm_hash("WIND_CURRENT_RIGHT"))
+    {
+        m_owner.m_isInAirCurrent = false;
+    }
 }
 
 game::bubble::AirCurrentState::AirCurrentState(BubbleComponent &owner)

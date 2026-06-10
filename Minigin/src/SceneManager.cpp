@@ -1,5 +1,7 @@
 #include "SceneManager.hpp"
 
+#include <algorithm>
+
 #include "Scene.hpp"
 #include "Event/Sdbm.hpp"
 

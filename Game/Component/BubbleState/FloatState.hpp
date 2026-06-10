@@ -7,8 +7,8 @@ namespace game::bubble
     class FloatState final : public BubbleState
     {
     public:
-        void Update() override;
-        bool CanTrapEnemy() override;
+        BubbleStates Update() override;
+        void OnCollision(uint32_t event, const dae::ColliderData &data) override;
 
         explicit FloatState(BubbleComponent &owner);
         ~FloatState() override = default;

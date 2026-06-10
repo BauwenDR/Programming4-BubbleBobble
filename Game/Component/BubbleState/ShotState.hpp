@@ -12,8 +12,8 @@ namespace game::bubble
     class ShotState final : public BubbleState
     {
     public:
-        void Update() override;
-        bool CanTrapEnemy() override;
+        BubbleStates Update() override;
+        void OnCollision(uint32_t event, dae::ColliderData const &data) override;
 
         ShotState(BubbleComponent &owner, bool movingLeft);
         ~ShotState() override = default;
@@ -22,7 +22,9 @@ namespace game::bubble
         static constexpr float HORIZONTAL_SPEED{512.0f};
 
         float m_timeRemaining{0.7f};
+        bool m_isInWall{};
         bool m_movingLeft{};
+        bool m_hasTrappedEnemy{};
     };
 }
 

@@ -7,8 +7,8 @@ namespace game::bubble
     class StaticState final : public BubbleState
     {
     public:
-        void Update() override;
-        bool CanTrapEnemy() override;
+        BubbleStates Update() override;
+        void OnCollision(uint32_t event, dae::ColliderData const &data) override;
 
         explicit StaticState(BubbleComponent &owner);
         ~StaticState() override = default;

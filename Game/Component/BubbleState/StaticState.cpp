@@ -1,18 +1,26 @@
 #include "StaticState.hpp"
 
 #include "Component/BubbleComponent.hpp"
+#include "Event/Sdbm.hpp"
 
-void game::bubble::StaticState::Update()
+game::BubbleStates game::bubble::StaticState::Update()
 {
     if (!m_owner.m_isStuckToRoof)
     {
-        m_owner.SwitchState(BubbleStates::Floating);
+        return BubbleStates::Floating;
     }
+
+    return BubbleStates::DoNotSwitch;
 }
 
-bool game::bubble::StaticState::CanTrapEnemy()
+void game::bubble::StaticState::OnCollision(uint32_t event, dae::ColliderData const &data)
 {
-    return false;
+    if (event != dae::sdbm_hash("on_collision_exit")) return;
+
+    if (data.collider->GetTag() == dae::sdbm_hash("LEVEL_ROOF"))
+    {
+        m_owner.m_isStuckToRoof = false;
+    }
 }
 
 game::bubble::StaticState::StaticState(BubbleComponent &owner)

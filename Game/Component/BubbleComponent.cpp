@@ -7,7 +7,6 @@
 #include "BubbleState/ShotState.hpp"
 #include "BubbleState/StaticState.hpp"
 #include "Component/ColliderComponent.hpp"
-#include "Component/PhysicsComponent.hpp"
 #include "Event/EventManager.hpp"
 #include "Event/Sdbm.hpp"
 #include "Prefab/StagesManager.hpp"
@@ -19,7 +18,7 @@ void game::BubbleComponent::Start()
 
 void game::BubbleComponent::Update()
 {
-    m_currentState->Update();
+    SwitchState(m_currentState->Update());
 
     m_velocity *= Time::timeDelta();
     GetGameObject().SetLocalPosition(GetGameObject().GetLocalTransform().Position + glm::vec3{m_velocity, 0.0f});
@@ -37,7 +36,6 @@ void game::BubbleComponent::Pop() const
 }
 
 // TODO have bubbles push each-other
-// TODO move state specific logic out of this function and delegate
 void game::BubbleComponent::Notify(uint32_t event, const dae::ObserverData *data)
 {
     if (!(event == dae::sdbm_hash("on_collision_enter") || event == dae::sdbm_hash("on_collision_exit"))) return;
@@ -46,21 +44,7 @@ void game::BubbleComponent::Notify(uint32_t event, const dae::ObserverData *data
     const auto colliderData{dynamic_cast<dae::ColliderData const *>(data)};
     if (colliderData == nullptr) return;
 
-    if (colliderData->collider->GetTag() == dae::sdbm_hash("LEVEL_ROOF"))
-    {
-        m_isStuckToRoof = event == dae::sdbm_hash("on_collision_enter");
-    }
-
-    if (colliderData->collider->GetTag() == dae::sdbm_hash("STAGE") && colliderData->collisionNormal.y == 0.0f)
-    {
-        m_isInWall = event == dae::sdbm_hash("on_collision_enter");
-    }
-
-    if (colliderData->collider->GetTag() == dae::sdbm_hash("WIND_CURRENT_LEFT") || colliderData->collider->GetTag() == dae::sdbm_hash("WIND_CURRENT_RIGHT"))
-    {
-        m_isInAirCurrent = event == dae::sdbm_hash("on_collision_enter");
-        m_isLeftCurrent = colliderData->collider->GetTag() == dae::sdbm_hash("WIND_CURRENT_LEFT");
-    }
+    m_currentState->OnCollision(event, *colliderData);
 
     // Vertical with player collision -> pop
     if (event == dae::sdbm_hash("on_collision_enter") && colliderData->collider->GetTag() == dae::sdbm_hash("PLAYER") && colliderData->collisionNormal.x == 0.0f)
@@ -71,19 +55,6 @@ void game::BubbleComponent::Notify(uint32_t event, const dae::ObserverData *data
         {
             dae::EventManager::GetInstance().SendEvent(dae::sdbm_hash("enemy_died"));
         }
-    }
-
-    // Trap if in a trappable state
-    if (!m_hasTrappedEnemy && event == dae::sdbm_hash("on_collision_enter") && colliderData->collider->GetTag() == dae::sdbm_hash("ENEMY") && m_currentState->CanTrapEnemy())
-    {
-        auto &collidedEnemy{colliderData->collider->GetGameObject()};
-        collidedEnemy.GetComponent<PlatformAiMovement>()->enabled = false;
-        collidedEnemy.GetComponent<PhysicsComponent>()->enabled = false;
-        collidedEnemy.GetComponent<dae::ColliderComponent>()->enabled = false;
-        collidedEnemy.SetParent(&GetGameObject(), false);
-        collidedEnemy.SetLocalPosition({8.0f, 8.0f, 8.0f});
-        collidedEnemy.SetLocalScale(0.75f);
-        m_hasTrappedEnemy = true;
     }
 }
 
@@ -110,6 +81,8 @@ void game::BubbleComponent::SwitchState(BubbleStates newState)
             break;
         case BubbleStates::Shot:
             m_currentState = std::make_unique<bubble::ShotState>(*this, false);
+            break;
+        case BubbleStates::DoNotSwitch:
             break;
     }
 }

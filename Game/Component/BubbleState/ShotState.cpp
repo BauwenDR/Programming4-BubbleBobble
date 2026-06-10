@@ -3,24 +3,46 @@
 #include "FloatState.hpp"
 #include "Time.hpp"
 #include "Component/BubbleComponent.hpp"
+#include "Component/PhysicsComponent.hpp"
+#include "Component/PlatformAiMovement.hpp"
+#include "Event/Sdbm.hpp"
 
-void game::bubble::ShotState::Update()
+game::BubbleStates game::bubble::ShotState::Update()
 {
-    if (m_timeRemaining <= 0.0f || m_owner.m_hasTrappedEnemy || m_owner.m_isInWall)
+    if (m_timeRemaining <= 0.0f || m_owner.m_hasTrappedEnemy || m_isInWall)
     {
-        m_owner.SwitchState(BubbleStates::Floating);
-        return;
+        return BubbleStates::Floating;
     }
 
     m_timeRemaining -= Time::timeDelta();
 
     const float direction{m_movingLeft ? -1.0f : 1.0f};
     m_owner.m_velocity = {HORIZONTAL_SPEED * direction, 0.0f};
+
+    return BubbleStates::DoNotSwitch;
 }
 
-bool game::bubble::ShotState::CanTrapEnemy()
+void game::bubble::ShotState::OnCollision(uint32_t event, dae::ColliderData const &data)
 {
-    return true;
+    if (event != dae::sdbm_hash("on_collision_enter")) return;
+
+    if (data.collider->GetTag() == dae::sdbm_hash("STAGE") && data.collisionNormal.y == 0.0f)
+    {
+        m_isInWall = true;
+    }
+
+    if (!m_owner.m_hasTrappedEnemy && data.collider->GetTag() == dae::sdbm_hash("ENEMY"))
+    {
+        auto &collidedEnemy{data.collider->GetGameObject()};
+        collidedEnemy.GetComponent<PlatformAiMovement>()->enabled = false;
+        collidedEnemy.GetComponent<PhysicsComponent>()->enabled = false;
+        collidedEnemy.GetComponent<dae::ColliderComponent>()->enabled = false;
+        collidedEnemy.SetParent(&m_owner.GetGameObject(), false);
+        collidedEnemy.SetLocalPosition({8.0f, 8.0f, 8.0f});
+        collidedEnemy.SetLocalScale(0.75f);
+
+        m_owner.m_hasTrappedEnemy = true;
+    }
 }
 
 game::bubble::ShotState::ShotState(BubbleComponent &owner, bool movingLeft)

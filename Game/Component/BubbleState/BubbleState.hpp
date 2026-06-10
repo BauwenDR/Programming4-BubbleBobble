@@ -1,6 +1,9 @@
 #ifndef MINIGIN_IBUBBLESTATE_HPP
 #define MINIGIN_IBUBBLESTATE_HPP
 
+#include "Component/BubbleComponent.hpp"
+#include "Component/ColliderComponent.hpp"
+
 namespace game
 {
     class BubbleComponent;
@@ -11,8 +14,8 @@ namespace game::bubble
     class BubbleState
     {
     public:
-        virtual void Update() = 0;
-        virtual bool CanTrapEnemy() = 0;
+        virtual BubbleStates Update() = 0;
+        virtual void OnCollision(uint32_t event, dae::ColliderData const &data) = 0;
 
         explicit BubbleState(BubbleComponent &owner);
         virtual ~BubbleState() = default;

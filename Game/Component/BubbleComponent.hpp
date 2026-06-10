@@ -20,6 +20,7 @@ namespace game
 
     enum class BubbleStates : uint8_t
     {
+        DoNotSwitch,
         Static,
         Shot,
         Floating,
@@ -29,7 +30,6 @@ namespace game
     class BubbleComponent final : public dae::GameComponent, public dae::IObserver
     {
     public:
-
         void Start() override;
         void Update() override;
 
@@ -39,6 +39,7 @@ namespace game
 
         BubbleComponent(dae::GameObject &owner, bool shotLeft);
         ~BubbleComponent() override;
+
     private:
         friend class bubble::AirCurrentState;
         friend class bubble::FloatState;
