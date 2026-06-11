@@ -1,0 +1,38 @@
+{
+  "scene-name": "main-menu",
+  "scalar": 4,
+  "prefabs": [
+    {
+      "name": "image",
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "image": "UI/Logo.png"
+    },
+    {
+      "name": "text",
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "text": "< Single player"
+    },
+    {
+      "name": "text",
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "text": "^ Coop game"
+    },
+    {
+      "name": "text",
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "text": "> Versus game"
+    }
+  ]
+}

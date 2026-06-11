@@ -10,7 +10,7 @@ game::BubbleStates game::bubble::StaticState::Update()
         return BubbleStates::Floating;
     }
 
-    return BubbleStates::DoNotSwitch;
+    return BubbleStates::DoNotChange;
 }
 
 void game::bubble::StaticState::OnCollision(uint32_t event, dae::ColliderData const &data)

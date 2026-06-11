@@ -18,7 +18,7 @@ game::BubbleStates game::bubble::FloatState::Update()
 
     m_owner.m_velocity = {0.0f, -FLOAT_SPEED};
 
-    return BubbleStates::DoNotSwitch;
+    return BubbleStates::DoNotChange;
 }
 
 void game::bubble::FloatState::OnCollision(uint32_t event, const dae::ColliderData &data)

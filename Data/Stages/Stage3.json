@@ -4,7 +4,7 @@
   "prefabs": [
     {
       "name": "background",
-      "texture": "Stage3.png",
+      "texture": "Stages/Stage3.png",
       "position": {
         "x": 0,
         "y": 0

@@ -2,7 +2,6 @@
 
 #include <glm/gtx/norm.inl>
 
-#include "PlatformAiMovement.hpp"
 #include "SpawnPickupOnDeath.hpp"
 #include "Time.hpp"
 #include "BubbleState/AirCurrentState.hpp"
@@ -36,7 +35,6 @@ void game::BubbleComponent::Pop(glm::vec2 poppedFrom, int32_t popNumber)
 
     if (m_hasTrappedEnemy)
     {
-        ++popNumber;
         auto const trappedEnemy{GetGameObject().GetChildAt(0)};
         trappedEnemy->GetComponent<SpawnPickupOnDeath>()->PopMultiplier = popNumber;
         trappedEnemy->GetComponent<dae::TextureComponent>()->Enabled = false;
@@ -46,6 +44,8 @@ void game::BubbleComponent::Pop(glm::vec2 poppedFrom, int32_t popNumber)
 
         auto const pickupObj{StagesManager::GetInstance().SpawnDeadEnemy(pickupData)};
         trappedEnemy->SetParent(pickupObj, false);
+
+        popNumber *= 2;
     }
 
     for (auto bubble: m_collidingBubbles)
@@ -112,7 +112,7 @@ void game::BubbleComponent::SwitchState(BubbleStates newState)
         case BubbleStates::Shot:
             m_currentState = std::make_unique<bubble::ShotState>(*this, false);
             break;
-        case BubbleStates::DoNotSwitch:
+        case BubbleStates::DoNotChange:
             break;
     }
 }

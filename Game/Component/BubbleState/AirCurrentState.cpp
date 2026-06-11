@@ -12,7 +12,7 @@ game::BubbleStates game::bubble::AirCurrentState::Update()
 
     m_owner.m_velocity = {m_owner.m_isLeftCurrent ? -CURRENT_SPEED : CURRENT_SPEED, 0.0f};
 
-    return BubbleStates::DoNotSwitch;
+    return BubbleStates::DoNotChange;
 }
 
 void game::bubble::AirCurrentState::OnCollision(uint32_t event, const dae::ColliderData &data)

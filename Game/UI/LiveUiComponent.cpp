@@ -53,7 +53,7 @@ void game::LiveUiComponent::ResizeLiveComponents(size_t lives)
     {
         auto newComp{std::make_unique<dae::TextureComponent>(
             GetGameObject(),
-            dae::ResourceManager::GetInstance().LoadTexture("PlayerLives.png"),
+            dae::ResourceManager::GetInstance().LoadTexture("Player/PlayerLives.png"),
             4.0f,
             glm::vec2{8.0f, 8.0f},
             glm::vec2{m_leftToRight ? 0.0f : 1.0f, 0.0f}

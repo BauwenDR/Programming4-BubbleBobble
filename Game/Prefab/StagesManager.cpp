@@ -38,7 +38,7 @@ void game::StagesManager::LoadNextStageFromJson()
 void game::StagesManager::LoadStageFromJson(int32_t stageNumber)
 {
 	m_currentStage = stageNumber;
-	LoadSceneFromJson(std::format("Stage{}", stageNumber));
+	LoadSceneFromJson(std::format("Stages/Stage{}", stageNumber));
 }
 
 void game::StagesManager::LoadSceneFromJson(std::string const &sceneName, bool preserveKeepAlive)
@@ -47,10 +47,13 @@ void game::StagesManager::LoadSceneFromJson(std::string const &sceneName, bool p
 
 	m_scene = &dae::SceneManager::GetInstance().CreateScene(preserveKeepAlive);
 
-	// TODO log the fact that it failed
-	// Return empty scene if JSON failed to load
 	std::ifstream jsonFile{dae::ResourceManager::GetInstance().LoadFile(sceneName + ".json")};
-	if (!jsonFile.is_open()) return;
+	if (!jsonFile.is_open())
+	{
+		throw std::runtime_error(
+			std::string("Failed to load Scene: ") + sceneName
+		);
+	}
 
 	const json &sceneJson{json::parse(jsonFile)};
 
@@ -76,7 +79,7 @@ void game::StagesManager::SpawnBubble(ProjectilePrefabData const &data) const
 
 	bubblePrefab->AddComponent(std::make_unique<dae::TextureComponent>(
 		*bubblePrefab,
-		dae::ResourceManager::GetInstance().LoadTexture("PlayerBubble.png"),
+		dae::ResourceManager::GetInstance().LoadTexture("Player/PlayerBubble.png"),
 		m_scaleFactor
 	));
 
@@ -121,7 +124,7 @@ dae::GameObject *game::StagesManager::SpawnDeadEnemy(ProjectilePrefabData const 
 
 	deadEnemyPrefab->AddComponent(std::make_unique<dae::TextureComponent>(
 		*deadEnemyPrefab,
-		dae::ResourceManager::GetInstance().LoadTexture("DeadEnemies.png"),
+		dae::ResourceManager::GetInstance().LoadTexture("Enemies/DeadEnemies.png"),
 		m_scaleFactor,
 		glm::vec2{16.0f, 16.0f},
 		glm::vec2{0.0f, 0.0f}
@@ -188,7 +191,7 @@ std::unique_ptr<dae::GameObject> game::StagesManager::PrefabLoader(nlohmann::jso
 
 		prefab->AddComponent(std::make_unique<dae::TextureComponent>(
 			*prefab,
-			dae::ResourceManager::GetInstance().LoadTexture("PlayerSprites.png"),
+			dae::ResourceManager::GetInstance().LoadTexture("Player/PlayerSprites.png"),
 			m_scaleFactor,
 			glm::vec2{16.0f, 16.0f},
 			glm::vec2{static_cast<float>(m_players.size()), 0.0f})
@@ -213,7 +216,7 @@ std::unique_ptr<dae::GameObject> game::StagesManager::PrefabLoader(nlohmann::jso
 
 		prefab->AddComponent(std::make_unique<dae::TextureComponent>(
 			*prefab,
-			dae::ResourceManager::GetInstance().LoadTexture("ZenChan.png"),
+			dae::ResourceManager::GetInstance().LoadTexture("Enemies/ZenChan.png"),
 			m_scaleFactor,
 			glm::vec2{16.0f, 16.0f},
 			glm::vec2{static_cast<float>(m_players.size()), 0.0f})
@@ -304,6 +307,6 @@ std::unique_ptr<dae::GameObject> game::StagesManager::PrefabLoader(nlohmann::jso
 }
 
 game::StagesManager::StagesManager()
-	: m_uiFont(dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 24))
+	: m_uiFont(dae::ResourceManager::GetInstance().LoadFont("UI/Lingua.otf", 24))
 {
 }

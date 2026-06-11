@@ -2,6 +2,7 @@
 
 #include "FloatState.hpp"
 #include "Time.hpp"
+#include "Component/AnimationComponent.hpp"
 #include "Component/BubbleComponent.hpp"
 #include "Component/PhysicsComponent.hpp"
 #include "Component/PlatformAiMovement.hpp"
@@ -9,7 +10,7 @@
 
 game::BubbleStates game::bubble::ShotState::Update()
 {
-    if (m_timeRemaining <= 0.0f || m_owner.m_hasTrappedEnemy || m_isInWall)
+    if (m_timeRemaining <= 0.0f || m_owner.m_hasTrappedEnemy || m_owner.m_isInWall)
     {
         return BubbleStates::Floating;
     }
@@ -19,7 +20,7 @@ game::BubbleStates game::bubble::ShotState::Update()
     const float direction{m_movingLeft ? -1.0f : 1.0f};
     m_owner.m_velocity = {HORIZONTAL_SPEED * direction, 0.0f};
 
-    return BubbleStates::DoNotSwitch;
+    return BubbleStates::DoNotChange;
 }
 
 void game::bubble::ShotState::OnCollision(uint32_t event, dae::ColliderData const &data)
@@ -29,7 +30,10 @@ void game::bubble::ShotState::OnCollision(uint32_t event, dae::ColliderData cons
     if (!m_owner.m_hasTrappedEnemy && data.collider->GetTag() == dae::sdbm_hash("ENEMY"))
     {
         auto &collidedEnemy{data.collider->GetGameObject()};
+
+        // TODO send out an event that triggers these
         collidedEnemy.GetComponent<PlatformAiMovement>()->Enabled = false;
+        collidedEnemy.GetComponent<AnimationComponent>()->Enabled = false;
         collidedEnemy.GetComponent<PhysicsComponent>()->Enabled = false;
         collidedEnemy.GetComponent<dae::ColliderComponent>()->Enabled = false;
         collidedEnemy.SetParent(&m_owner.GetGameObject(), false);

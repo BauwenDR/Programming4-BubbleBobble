@@ -23,7 +23,6 @@ namespace game::bubble
         static constexpr float HORIZONTAL_SPEED{512.0f};
 
         float m_timeRemaining{0.7f};
-        bool m_isInWall{};
         bool m_movingLeft{};
     };
 }

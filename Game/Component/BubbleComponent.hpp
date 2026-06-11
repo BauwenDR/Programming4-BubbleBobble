@@ -23,7 +23,7 @@ namespace game
 
     enum class BubbleStates : uint8_t
     {
-        DoNotSwitch,
+        DoNotChange,
         Static,
         Shot,
         Floating,
@@ -36,7 +36,7 @@ namespace game
         void Start() override;
         void Update() override;
 
-        void Pop(glm::vec2 poppedFrom, int32_t popNumber = 0);
+        void Pop(glm::vec2 poppedFrom, int32_t popNumber = 1);
 
         void Notify(uint32_t event, const dae::ObserverData *data) override;
 

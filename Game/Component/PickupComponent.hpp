@@ -9,9 +9,9 @@ namespace game
     class PickupData final : public dae::ObserverData
     {
     public:
-        int worth;
+        int32_t worth;
 
-        explicit PickupData(int worth) : worth(worth) {}
+        explicit PickupData(int32_t worth) : worth(worth) {}
         ~PickupData() override = default;
     };
 
@@ -33,7 +33,7 @@ namespace game
         PickupComponent &operator=(PickupComponent &&other) noexcept = delete;
 
     private:
-        int m_worth{};
+        int32_t m_worth{};
     };
 }
 
