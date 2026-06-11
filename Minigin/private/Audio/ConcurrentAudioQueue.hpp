@@ -6,7 +6,7 @@
 
 namespace dae
 {
-    enum class AudioRequestType
+    enum class AudioRequestType : uint8_t
     {
         None,
         PreLoad,       // TODO unimplemented
