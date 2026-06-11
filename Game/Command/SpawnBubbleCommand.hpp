@@ -2,27 +2,26 @@
 #define MINIGIN_SPAWNBUBBLECOMMAND_HPP
 #include "Event/ICommand.hpp"
 
-namespace game
-{
-    class PhysicsComponent;
-}
-
 namespace dae
 {
     class GameObject;
 }
 
-class SpawnBubbleCommand final : public dae::ICommand
-{
-public:
-    void Execute() override;
+namespace game {
+    class PhysicsComponent;
 
-    explicit SpawnBubbleCommand(dae::GameObject const *gameObject, game::PhysicsComponent const *physics);
-    ~SpawnBubbleCommand() override = default;
+    class SpawnBubbleCommand final : public dae::ICommand
+    {
+    public:
+        void Execute() override;
 
-private:
-    dae::GameObject const *m_gameObject{};
-    game::PhysicsComponent const *m_physicsComponent{};
-};
+        explicit SpawnBubbleCommand(dae::GameObject const *gameObject, PhysicsComponent const *physics);
+        ~SpawnBubbleCommand() override = default;
+
+    private:
+        dae::GameObject const *m_gameObject{};
+        PhysicsComponent const *m_physicsComponent{};
+    };
+}
 
 #endif //MINIGIN_SPAWNBUBBLECOMMAND_HPP

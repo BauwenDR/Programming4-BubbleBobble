@@ -3,6 +3,7 @@ set(GAME_SOURCE_FILES
         Game/Command/JumpCommand.cpp
         Game/Command/MoveCommand.cpp
         Game/Command/SpawnBubbleCommand.cpp
+        Game/Command/StartGameCommand.cpp
         Game/Component/BubbleState/AirCurrentState.cpp
         Game/Component/BubbleState/BubbleState.cpp
         Game/Component/BubbleState/FloatState.cpp
@@ -25,7 +26,9 @@ set(GAME_SOURCE_FILES
         Game/Prefab/StagesManager.cpp
         Game/UI/LivesUiComponent.cpp
         Game/UI/LiveUiComponent.cpp
+        Game/UI/MainMenu.cpp
         Game/UI/ScoreUiComponent.cpp
+        Game/GameManager.cpp
         Game/InstructionWindow.cpp
 )
 

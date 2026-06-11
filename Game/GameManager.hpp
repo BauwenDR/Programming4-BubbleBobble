@@ -15,6 +15,12 @@ namespace game
         Versus
     };
 
+    enum class PlayerTwoType : uint8_t
+    {
+        Bob,
+        Maita
+    };
+
     class GameManager final : public dae::Singleton<GameManager>
     {
     public:
@@ -22,9 +28,12 @@ namespace game
         int32_t TotalScore{};
         int32_t HighScore{};
 
-        std::vector<int32_t> GetHighScores();
+        // std::vector<int32_t> GetHighScores();
         void SaveScore(std::string_view const &name);
-        void Destroy();
+
+        int GetMaxPlayersForGame() const;
+        PlayerTwoType GetPlayerTwoTypeForGame() const;
+
 
     private:
         friend class Singleton;

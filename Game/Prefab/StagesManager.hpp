@@ -35,8 +35,7 @@ namespace game
     {
     public:
         void LoadNextStageFromJson();
-        void LoadStageFromJson(int32_t stageNumber);
-
+        void LoadStageFromJson(int32_t stageNumber, bool preserveKeepAlive = true);
         void LoadSceneFromJson(std::string const & sceneName, bool preserveKeepAlive = true);
 
         void SpawnBubble(ProjectilePrefabData const &data) const;
@@ -59,7 +58,6 @@ namespace game
 
         int32_t m_currentStage{1};
         float m_scaleFactor{1.0f};
-        int8_t m_maxPlayers{2};
 
         StagesManager();
     };

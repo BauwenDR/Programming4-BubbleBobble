@@ -29,16 +29,17 @@
 #include "glm/gtx/norm.inl"
 #include "Render/ResourceManager.hpp"
 #include "UI/LiveUiComponent.hpp"
+#include "UI/MainMenu.hpp"
 
 void game::StagesManager::LoadNextStageFromJson()
 {
 	LoadStageFromJson(m_currentStage+1);
 }
 
-void game::StagesManager::LoadStageFromJson(int32_t stageNumber)
+void game::StagesManager::LoadStageFromJson(int32_t stageNumber, bool preserveKeepAlive)
 {
 	m_currentStage = stageNumber;
-	LoadSceneFromJson(std::format("Stages/Stage{}", stageNumber));
+	LoadSceneFromJson(std::format("Stages/Stage{}", stageNumber), preserveKeepAlive);
 }
 
 void game::StagesManager::LoadSceneFromJson(std::string const &sceneName, bool preserveKeepAlive)
@@ -187,7 +188,7 @@ std::unique_ptr<dae::GameObject> game::StagesManager::PrefabLoader(nlohmann::jso
 	}
 
 	else if (prefabName == "player") {
-		if (m_players.size() == static_cast<size_t>(m_maxPlayers)) return nullptr;
+		if (m_players.size() == static_cast<size_t>(GameManager::GetInstance().GetMaxPlayersForGame())) return nullptr;
 
 		prefab->AddComponent(std::make_unique<dae::TextureComponent>(
 			*prefab,
@@ -318,6 +319,10 @@ std::unique_ptr<dae::GameObject> game::StagesManager::PrefabLoader(nlohmann::jso
 		auto const text{data["text"].get<std::string>()};
 		prefab->AddComponent(std::make_unique<dae::TextureComponent>(*prefab));
 		prefab->AddComponent(std::make_unique<dae::TextComponent>(*prefab, text, m_uiFont));
+	}
+
+	else if (prefabName == "main-menu-manager") {
+		prefab->AddComponent(std::make_unique<MainMenu>(*prefab));
 	}
 
 	return prefab;

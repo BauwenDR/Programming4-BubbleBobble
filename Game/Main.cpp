@@ -18,7 +18,6 @@
 
 namespace fs = std::filesystem;
 
-
 static void load()
 {
 	dae::AudioQueue::LoadSound(dae::sdbm_hash("PlayerJump"), "Audio/PlayerJump.wav");

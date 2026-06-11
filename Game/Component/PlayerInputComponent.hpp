@@ -5,9 +5,8 @@
 
 #include "Component/GameComponent.hpp"
 
-class SpawnBubbleCommand;
-
 namespace game {
+    class SpawnBubbleCommand;
     class JumpCommand;
     class IncreaseScoreCommand;
     class DecreaseLivesCommand;
