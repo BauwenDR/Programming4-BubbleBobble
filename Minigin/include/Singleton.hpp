@@ -1,6 +1,5 @@
 #pragma once
 
-// TODO Code guidelines I.3
 namespace dae
 {
 	template <typename T>

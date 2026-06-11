@@ -32,4 +32,5 @@ namespace game
         bool m_canSwitch{};
     };
 }
+
 #endif //MINIGIN_STAGEMANAGER_HPP

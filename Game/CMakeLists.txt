@@ -24,6 +24,7 @@ set(GAME_SOURCE_FILES
         Game/Component/ZenChanAnimationComponent.cpp
         Game/Prefab/StagesManager.cpp
         Game/UI/LivesUiComponent.cpp
+        Game/UI/LiveUiComponent.cpp
         Game/UI/ScoreUiComponent.cpp
         Game/InstructionWindow.cpp
 )

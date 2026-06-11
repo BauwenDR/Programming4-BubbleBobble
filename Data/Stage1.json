@@ -50,14 +50,14 @@
       "name": "player-lives",
       "position": {
         "x": 0,
-        "y": 224
+        "y": 216
       }
     },
     {
       "name": "player-lives",
       "position": {
-        "x": 225,
-        "y": 224
+        "x": 248,
+        "y": 216
       }
     },
     {

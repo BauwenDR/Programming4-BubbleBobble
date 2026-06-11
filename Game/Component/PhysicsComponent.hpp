@@ -22,6 +22,8 @@ namespace game
         void Jump();
         void SmallJump();
 
+        void ResetToStart();
+
         void MultiplyHorizontalSpeed(float factor);
 
         [[nodiscard]] float GetXInput() const;

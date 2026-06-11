@@ -14,8 +14,10 @@ namespace dae
     class TextureComponent : public GameComponent
     {
     public:
+        glm::vec2 RenderOffset{};
+
         void Render() const override;
-        void Update() override {};
+        void Update() override {}
 
         void SetTexture(const std::shared_ptr<Texture2D> &newTexture);
         void SetSpriteOffset(const glm::vec2 &spritePos);

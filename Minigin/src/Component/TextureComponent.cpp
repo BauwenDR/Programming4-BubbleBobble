@@ -10,7 +10,7 @@ namespace dae
     {
         if (m_texture != nullptr)
         {
-            const auto &pos = GetGameObject().GetWorldPosition();
+            const auto &pos = GetGameObject().GetWorldPosition() + glm::vec3(RenderOffset, 0.0f);
             const auto scale = GetGameObject().GetLocalTransform().Scale;
             Renderer::GetInstance().RenderTexture(*m_texture, pos.x, pos.y, m_imageScale * scale, &m_srcRect);
         }

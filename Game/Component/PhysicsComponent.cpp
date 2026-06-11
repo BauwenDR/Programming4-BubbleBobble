@@ -39,25 +39,21 @@ void game::PhysicsComponent::LateUpdate()
 }
 
 // TODO split this function up into three private ones
+// TODO also split off player specific functions
 void game::PhysicsComponent::Notify(uint32_t event, dae::ObserverData const *data)
 {
+    if (event == dae::sdbm_hash("scene_manager_scene_switch") || event == dae::sdbm_hash("lives_changed"))
+    {
+        ResetToStart();
+    }
+
     if (!(
         event == dae::sdbm_hash("on_collision_enter") ||
         event == dae::sdbm_hash("on_collision_stay") ||
-        event == dae::sdbm_hash("on_collision_exit") ||
-        event == dae::sdbm_hash("scene_manager_scene_switch")
+        event == dae::sdbm_hash("on_collision_exit")
     ))
     {
         return;
-    }
-
-    if (event == dae::sdbm_hash("scene_manager_scene_switch"))
-    {
-        m_ignoredColliders.clear();
-        m_collidingWithCount = 0;
-        GetGameObject().SetLocalPosition(m_initialPosition.Position);
-        m_velX = 0.0f;
-        m_velY = 0.0f;
     }
 
     if (data == nullptr) return;
@@ -206,6 +202,15 @@ void game::PhysicsComponent::SmallJump()
         m_isOnGround = false;
         GetGameObject().NotifyObservers(dae::sdbm_hash("on_jump"), {});
     }
+}
+
+void game::PhysicsComponent::ResetToStart()
+{
+    m_ignoredColliders.clear();
+    m_collidingWithCount = 0;
+    GetGameObject().SetLocalPosition(m_initialPosition.Position);
+    m_velX = 0.0f;
+    m_velY = 0.0f;
 }
 
 void game::PhysicsComponent::MultiplyHorizontalSpeed(float factor)

@@ -19,6 +19,11 @@ void game::ScoreUiComponent::Start()
     assert(m_playerLivesComponent != nullptr);
 }
 
+void game::ScoreUiComponent::OnDelete()
+{
+    if (m_observingPlayer != nullptr) m_observingPlayer->RemoveObserver(this);
+}
+
 void game::ScoreUiComponent::Notify(uint32_t event, const dae::ObserverData *)
 {
     if (event == dae::sdbm_hash("object_destroyed"))
@@ -38,9 +43,4 @@ game::ScoreUiComponent::ScoreUiComponent(dae::GameObject &owner, dae::GameObject
 : GameComponent(owner)
 , m_observingPlayer(player)
 {
-}
-
-game::ScoreUiComponent::~ScoreUiComponent()
-{
-    if (m_observingPlayer != nullptr) m_observingPlayer->RemoveObserver(this);
 }

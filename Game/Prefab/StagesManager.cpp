@@ -28,6 +28,7 @@
 #include "Event/Sdbm.hpp"
 #include "glm/gtx/norm.inl"
 #include "Render/ResourceManager.hpp"
+#include "UI/LiveUiComponent.hpp"
 
 void game::StagesManager::LoadNextStageFromJson()
 {
@@ -129,6 +130,7 @@ dae::GameObject *game::StagesManager::SpawnDeadEnemy(ProjectilePrefabData const 
 	deadEnemyPrefab->AddComponent(std::make_unique<dae::ColliderComponent>(*deadEnemyPrefab, glm::vec2{64.0f, 64.0f}, dae::sdbm_hash("DEAD_ENEMY")));
 	deadEnemyPrefab->AddComponent(std::make_unique<PhysicsComponent>(*deadEnemyPrefab, data.facingLeft, 520.0f * 2.0f, 280.0f));
 	deadEnemyPrefab->AddComponent(std::make_unique<FallingDeadEnemy>(*deadEnemyPrefab, data.facingLeft));
+	deadEnemyPrefab->AddComponent(std::make_unique<WrapAroundScreenComponent>(*deadEnemyPrefab));
 
 	m_scene->Add(std::move(deadEnemyPrefab));
 
@@ -236,6 +238,19 @@ std::unique_ptr<dae::GameObject> game::StagesManager::PrefabLoader(nlohmann::jso
 		prefab->AddComponent(std::make_unique<dae::TextComponent>(*prefab, "000000000", m_uiFont));
 		prefab->AddComponent(std::make_unique<ScoreUiComponent>(*prefab, m_players[playerNumber].object));
 
+		prefab->KeepAlive = true;
+		++playerNumber;
+	}
+
+	else if (prefabName == "player-lives")
+	{
+		static int playerNumber{0};
+
+		if (playerNumber >= static_cast<int>(m_players.size())) return prefab;
+
+		prefab->AddComponent(std::make_unique<LiveUiComponent>(*prefab, m_players[playerNumber].object, playerNumber == 0));
+
+		prefab->KeepAlive = true;
 		++playerNumber;
 	}
 

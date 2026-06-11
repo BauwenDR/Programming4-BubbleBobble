@@ -6,23 +6,32 @@
 
 namespace game
 {
+    class PhysicsComponent;
+
     class LivesScoreComponent final : public dae::GameComponent, public dae::IObserver
     {
     public:
         void Start() override;
-        void Update() override {}
+        void Update() override;
         void Render() const override {}
 
-        [[nodiscard]] int GetLives() const;
-        [[nodiscard]] int GetScore() const;
+        [[nodiscard]] int32_t GetLives() const;
+        [[nodiscard]] int32_t GetScore() const;
 
         void Notify(uint32_t event, const dae::ObserverData *data) override;
 
         explicit LivesScoreComponent(dae::GameObject &owner);
 
     private:
-        int m_lives{3};
-        int m_score{0};
+        constexpr static float INVULNERABILITY_TIME{3.0f};
+
+        int32_t m_lives{3};
+        int32_t m_score{0};
+
+        float m_invulnerabilityTimer{};
+
+        void OnScoreChange(dae::ObserverData const *data);
+        void OnEnemyCollision(dae::ObserverData const *data);
     };
 }
 

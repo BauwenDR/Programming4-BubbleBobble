@@ -42,7 +42,7 @@ namespace game
         void SpawnBubble(ProjectilePrefabData const &data) const;
         void SpawnPickup(PickupPrefabData const &data) const;
 
-        dae::GameObject *SpawnDeadEnemy(ProjectilePrefabData const &data) const;
+        [[nodiscard]] dae::GameObject *SpawnDeadEnemy(ProjectilePrefabData const &data) const;
 
         void AttachGui(std::unique_ptr<dae::GuiWindow> &&gui) const;
 

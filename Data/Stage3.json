@@ -25,20 +25,6 @@
       }
     },
     {
-      "name": "player-score",
-      "position": {
-        "x": 75,
-        "y": 0
-      }
-    },
-    {
-      "name": "player-score",
-      "position": {
-        "x": 150,
-        "y": 0
-      }
-    },
-    {
       "name": "player-lives",
       "position": {
         "x": 0,
