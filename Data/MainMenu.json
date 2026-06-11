@@ -5,34 +5,41 @@
     {
       "name": "image",
       "position": {
-        "x": 0,
-        "y": 0
+        "x": 40,
+        "y": 24
       },
       "image": "UI/Logo.png"
     },
     {
       "name": "text",
       "position": {
-        "x": 0,
-        "y": 0
+        "x": 92,
+        "y": 176
       },
       "text": "< Single player"
     },
     {
       "name": "text",
       "position": {
-        "x": 0,
-        "y": 0
+        "x": 92,
+        "y": 188
       },
       "text": "^ Coop game"
     },
     {
       "name": "text",
       "position": {
-        "x": 0,
-        "y": 0
+        "x": 92,
+        "y": 200
       },
       "text": "> Versus game"
+    },
+    {
+      "name": "main-menu-manager",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
     }
   ]
 }

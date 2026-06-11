@@ -303,10 +303,27 @@ std::unique_ptr<dae::GameObject> game::StagesManager::PrefabLoader(nlohmann::jso
 		dae::sdbm_hash("PLATFORM_EDGE")));
 	}
 
+	else if (prefabName == "image")
+	{
+		auto const textureName{data["image"].get<std::string>()};
+		prefab->AddComponent(std::make_unique<dae::TextureComponent>(
+			*prefab,
+			dae::ResourceManager::GetInstance().LoadTexture(textureName),
+			m_scaleFactor
+		));
+	}
+
+	else if (prefabName == "text")
+	{
+		auto const text{data["text"].get<std::string>()};
+		prefab->AddComponent(std::make_unique<dae::TextureComponent>(*prefab));
+		prefab->AddComponent(std::make_unique<dae::TextComponent>(*prefab, text, m_uiFont));
+	}
+
 	return prefab;
 }
 
 game::StagesManager::StagesManager()
-	: m_uiFont(dae::ResourceManager::GetInstance().LoadFont("UI/Lingua.otf", 24))
+	: m_uiFont(dae::ResourceManager::GetInstance().LoadFont("UI/Pixel_NES.otf", 24))
 {
 }
