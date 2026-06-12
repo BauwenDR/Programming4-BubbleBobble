@@ -65,6 +65,13 @@ void game::StagesManager::LoadSceneFromJson(std::string const &sceneName, bool p
 
 	m_scene = &dae::SceneManager::GetInstance().CreateScene(preserveKeepAlive);
 
+	if (!preserveKeepAlive)
+	{
+		m_players.clear();
+		m_playerLivesNumber = 0;
+		m_playerScoreNumber = 0;
+	}
+
 	std::ifstream jsonFile{dae::ResourceManager::GetInstance().LoadFile(sceneName + ".json")};
 	if (!jsonFile.is_open())
 	{
@@ -355,28 +362,24 @@ std::unique_ptr<dae::GameObject> game::StagesManager::PrefabLoader(nlohmann::jso
 
 	else if (prefabName == "player-score")
 	{
-		static int playerNumber{0};
-
-		if (playerNumber >= static_cast<int>(m_players.size())) return prefab;
+		if (m_playerScoreNumber >= static_cast<int>(m_players.size())) return prefab;
 
 		prefab->AddComponent(std::make_unique<dae::TextureComponent>(*prefab));
 		prefab->AddComponent(std::make_unique<dae::TextComponent>(*prefab, "000000000", m_uiFont));
-		prefab->AddComponent(std::make_unique<ScoreUiComponent>(*prefab, m_players[playerNumber].object));
+		prefab->AddComponent(std::make_unique<ScoreUiComponent>(*prefab, m_players[m_playerScoreNumber].object));
 
 		prefab->KeepAlive = true;
-		++playerNumber;
+		++m_playerScoreNumber;
 	}
 
 	else if (prefabName == "player-lives")
 	{
-		static int playerNumber{0};
+		if (m_playerLivesNumber >= static_cast<int>(m_players.size())) return prefab;
 
-		if (playerNumber >= static_cast<int>(m_players.size())) return prefab;
-
-		prefab->AddComponent(std::make_unique<LiveUiComponent>(*prefab, m_players[playerNumber].object, playerNumber == 0));
+		prefab->AddComponent(std::make_unique<LiveUiComponent>(*prefab, m_players[m_playerLivesNumber].object, m_playerLivesNumber == 0));
 
 		prefab->KeepAlive = true;
-		++playerNumber;
+		++m_playerLivesNumber;
 	}
 
 	else if (prefabName == "level-roof")

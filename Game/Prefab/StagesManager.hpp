@@ -62,6 +62,8 @@ namespace game
         const std::shared_ptr<dae::Font> m_uiFont{};
         dae::Scene *m_scene{};
         std::vector<PlayerData> m_players{};
+        int32_t m_playerLivesNumber{};
+        int32_t m_playerScoreNumber{};
 
         int32_t m_currentStage{1};
         float m_scaleFactor{1.0f};
