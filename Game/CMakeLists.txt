@@ -21,6 +21,7 @@ set(GAME_SOURCE_FILES
         Game/Component/BubbleExpireTimer.cpp
         Game/Component/CapturableComponent.cpp
         Game/Component/FallingDeadEnemy.cpp
+        Game/Component/FlickerComponent.cpp
         Game/Component/LivesScoreComponent.cpp
         Game/Component/MightaAnimationComponent.cpp
         Game/Component/PhysicsComponent.cpp

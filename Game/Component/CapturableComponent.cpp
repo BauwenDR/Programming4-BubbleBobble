@@ -55,6 +55,8 @@ void game::CapturableComponent::OnRelease() const
     self.GetComponent<PhysicsComponent>()->ResetMovement();
     self.GetComponent<dae::ColliderComponent>()->Enabled = true;
     self.SetLocalScale(1.0f);
+
+    self.NotifyObservers(dae::sdbm_hash("on_release"));
 }
 
 void game::CapturableComponent::OnPop(bool flyLeft, int32_t popNumber) const

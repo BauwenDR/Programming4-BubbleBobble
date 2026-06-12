@@ -21,6 +21,11 @@ void game::LivesScoreComponent::Update()
     if (m_invulnerabilityTimer > 0.0f)
     {
         m_invulnerabilityTimer -= Time::timeDelta();
+
+        if (m_invulnerabilityTimer <= 0.0f)
+        {
+            GetGameObject().NotifyObservers(dae::sdbm_hash("disable_flicker"));
+        }
     }
 }
 
@@ -56,6 +61,7 @@ void game::LivesScoreComponent::OnEnemyCollision(dae::ObserverData const *data)
 
     if (colliderData->collider->GetTag() == dae::sdbm_hash("ENEMY"))
     {
+        GetGameObject().NotifyObservers(dae::sdbm_hash("enable_flicker"));
         m_invulnerabilityTimer = INVULNERABILITY_TIME;
         --m_lives;
 

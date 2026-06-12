@@ -20,6 +20,7 @@
 
 #include "Component/ColliderComponent.hpp"
 #include "Component/FallingDeadEnemy.hpp"
+#include "Component/FlickerComponent.hpp"
 #include "Component/MightaAnimationComponent.hpp"
 #include "Component/PhysicsComponent.hpp"
 #include "Component/PlatformAiMovement.hpp"
@@ -99,6 +100,7 @@ void game::StagesManager::SpawnBubble(ProjectilePrefabData const &data, glm::vec
 	bubblePrefab->AddComponent(std::make_unique<dae::ColliderComponent>(*bubblePrefab, glm::vec2{64.0f,64.0f}, dae::sdbm_hash("BUBBLE")));
 	bubblePrefab->AddComponent(std::make_unique<BubbleComponent>(*bubblePrefab, data.facingLeft));
 	bubblePrefab->AddComponent(std::make_unique<BubbleExpireTimer>(*bubblePrefab, 6.0f));
+	bubblePrefab->AddComponent(std::make_unique<FlickerComponent>(*bubblePrefab));
 	bubblePrefab->AddComponent(std::make_unique<TimedKill>(*bubblePrefab, 6.2f));
 
 	m_scene->Add(std::move(bubblePrefab));
@@ -144,6 +146,8 @@ void game::StagesManager::SpawnPickup(PickupPrefabData const &data) const
 
 	pickupPrefab->AddComponent(std::make_unique<dae::ColliderComponent>(*pickupPrefab, glm::vec2{64.0f, 64.0f}, dae::sdbm_hash("PICKUP")));
 	pickupPrefab->AddComponent(std::make_unique<PickupComponent>(*pickupPrefab, data.worth));
+	pickupPrefab->AddComponent(std::make_unique<FlickerComponent>(*pickupPrefab));
+	pickupPrefab->AddComponent(std::make_unique<TimedKill>(*pickupPrefab, 8.0f));
 
 	m_scene->Add(std::move(pickupPrefab));
 }
@@ -220,7 +224,7 @@ std::unique_ptr<dae::GameObject> game::StagesManager::PrefabLoader(nlohmann::jso
 	else if (prefabName == "level-manager")
 	{
 		auto threshold{data["threshold"].get<int32_t>()};
-		if (GameState::GetInstance().GetPlayerTwoTypeForGame() == PlayerTwoType::Maita) ++threshold;
+		if (GameState::GetInstance().CurrentType == GameType::Versus) ++threshold;
 
 		prefab->AddComponent(std::make_unique<SwitchSceneOnEnemiesKilled>(*prefab, threshold));
 		prefab->AddComponent(std::make_unique<InGame>(*prefab));
@@ -247,6 +251,7 @@ std::unique_ptr<dae::GameObject> game::StagesManager::PrefabLoader(nlohmann::jso
 		prefab->AddComponent(std::make_unique<PlayerAnimationComponent>(*prefab));
 		prefab->AddComponent(std::make_unique<PlayerSoundProducer>(*prefab));
 		prefab->AddComponent(std::make_unique<PlayerPositionResetter>(*prefab));
+		prefab->AddComponent(std::make_unique<FlickerComponent>(*prefab));
 
 		prefab->KeepAlive = true;
 		m_players.emplace_back(prefab.get(), prefab->GetComponent<LivesScoreComponent>());

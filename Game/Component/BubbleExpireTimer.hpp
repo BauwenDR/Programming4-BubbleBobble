@@ -19,8 +19,8 @@ namespace game
 
         BubbleExpireTimer(dae::GameObject &owner, float timeToLive);
     private:
-        constexpr static float WARNING_TIME_PERCENT{0.6f};
-        constexpr static float DANGER_TIME_PERCENT{0.8f};
+        constexpr static float WARNING_TIME_PERCENT{0.5f};
+        constexpr static float DANGER_TIME_PERCENT{0.75f};
 
         constexpr static float WARNING_OFFSET{2.0f};
         constexpr static float DANGER_OFFSET{3.0f};

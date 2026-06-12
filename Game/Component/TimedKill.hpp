@@ -18,7 +18,7 @@ namespace game
         TimedKill(dae::GameObject &owner, float timeToLive);
 
     private:
-        constexpr static float FLICKER_START_PERCENT{0.9f};
+        constexpr static float FLICKER_START_PERCENT{0.75f};
 
         float const m_timeToLive{};
         float m_timeLived{};

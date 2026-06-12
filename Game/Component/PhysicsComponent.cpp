@@ -185,7 +185,7 @@ void game::PhysicsComponent::AirJump()
 {
     m_velY = -m_jumpForce;
     m_isOnGround = false;
-    GetGameObject().NotifyObservers(dae::sdbm_hash("on_jump"), {});
+    GetGameObject().NotifyObservers(dae::sdbm_hash("on_jump"));
 }
 
 void game::PhysicsComponent::Jump()
@@ -202,7 +202,7 @@ void game::PhysicsComponent::SmallJump()
     {
         m_velY = -m_jumpForce / SMALL_JUMP_DEVISOR;
         m_isOnGround = false;
-        GetGameObject().NotifyObservers(dae::sdbm_hash("on_jump"), {});
+        GetGameObject().NotifyObservers(dae::sdbm_hash("on_jump"));
     }
 }
 
