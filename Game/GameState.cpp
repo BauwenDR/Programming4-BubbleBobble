@@ -44,11 +44,6 @@ std::vector<game::GameRecord> game::GameState::GetHighScores()
     sqlite3_finalize(stmt);
     sqlite3_close(db);
 
-    if (records.size() > 0)
-    {
-        HighScore = records.front().Score;
-    }
-
     return records;
 }
 
@@ -87,6 +82,16 @@ void game::GameState::SaveScore(std::string_view const& name) const
     // Clean up
     sqlite3_finalize(stmt);
     sqlite3_close(db);
+}
+
+void game::GameState::LoadHighScore()
+{
+    auto records{GetHighScores()};
+
+    if (records.size() > 0)
+    {
+        HighScore = records.front().Score;
+    }
 }
 
 int game::GameState::GetMaxPlayersForGame() const

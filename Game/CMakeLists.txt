@@ -48,6 +48,7 @@ set(GAME_SOURCE_FILES
 
         Game/Prefab/StagesManager.cpp
 
+        Game/UI/HighScoreUiComponent.cpp
         Game/UI/LiveUiComponent.cpp
         Game/UI/ScoreUiComponent.cpp
 

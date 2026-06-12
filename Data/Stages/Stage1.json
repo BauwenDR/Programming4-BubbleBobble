@@ -40,6 +40,13 @@
       }
     },
     {
+      "name": "high-score",
+      "position": {
+        "x": 114,
+        "y": 8
+      }
+    },
+    {
       "name": "player-score",
       "position": {
         "x": 75,

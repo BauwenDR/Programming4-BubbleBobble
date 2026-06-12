@@ -13,6 +13,8 @@ void game::MainMenu::Start()
     inputManager.Bind(dae::Input::ControllerKey::DpadLeft, 0, dae::Input::CommandTrigger::KeyUp, &m_startSingleGameCommand);
     inputManager.Bind(dae::Input::ControllerKey::DpadUp, 0, dae::Input::CommandTrigger::KeyUp, &m_startCoopGameCommand);
     inputManager.Bind(dae::Input::ControllerKey::DpadRight, 0, dae::Input::CommandTrigger::KeyUp, &m_startVersusGameCommand);
+
+    GameState::GetInstance().LoadHighScore();
 }
 
 void game::MainMenu::OnDelete()

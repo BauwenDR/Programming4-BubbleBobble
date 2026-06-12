@@ -43,6 +43,7 @@
 #include "Manager/InGame.hpp"
 #include "Manager/NameSelector.hpp"
 #include "Render/ResourceManager.hpp"
+#include "UI/HighScoreUiComponent.hpp"
 #include "UI/LiveUiComponent.hpp"
 
 bool game::StagesManager::LoadNextStageFromJson()
@@ -196,7 +197,7 @@ dae::GameObject *game::StagesManager::SpawnDeadEnemy(ProjectilePrefabData const 
 void game::StagesManager::AddScoreDisplay(GameRecord const& record, float height) const
 {
 	auto scoreDisplay{std::make_unique<dae::GameObject>()};
-	auto const recordText{std::format("{}            {}", record.Name, record.Score)};
+	auto const recordText{std::format("{}{: 15}", record.Name, record.Score)};
 
 	scoreDisplay->SetLocalPosition({
 		88.0f * m_scaleFactor,
@@ -358,6 +359,16 @@ std::unique_ptr<dae::GameObject> game::StagesManager::PrefabLoader(nlohmann::jso
 		prefab->AddComponent(std::make_unique<MightaAnimationComponent>(*prefab));
 		prefab->AddComponent(std::make_unique<AttackIfPlayerAtSameHeight>(*prefab));
 		prefab->AddComponent(std::make_unique<CapturableComponent>(*prefab, glm::vec2{1.0f, 0.0f}, true));
+	}
+
+	else if (prefabName == "high-score")
+	{
+		auto textComp{std::make_unique<dae::TextComponent>(*prefab, "000000000", m_uiFont)};
+		textComp->SetColor({255, 0, 0, 255});
+
+		prefab->AddComponent(std::make_unique<dae::TextureComponent>(*prefab));
+		prefab->AddComponent(std::move(textComp));
+		prefab->AddComponent(std::make_unique<HighScoreUiComponent>(*prefab));
 	}
 
 	else if (prefabName == "player-score")

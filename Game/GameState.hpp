@@ -37,6 +37,7 @@ namespace game
         std::vector<GameRecord> GetHighScores();
         void SaveScore(std::string_view const &name) const;
 
+        void LoadHighScore();
         int GetMaxPlayersForGame() const;
         PlayerTwoType GetPlayerTwoTypeForGame() const;
         void SetScore(int totalScore);
