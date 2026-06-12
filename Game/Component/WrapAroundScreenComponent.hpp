@@ -7,10 +7,7 @@ namespace game
     class WrapAroundScreenComponent final : public dae::GameComponent
     {
     public:
-
-        void Start() override {}
         void Update() override;
-        void Render() const override {}
 
         explicit WrapAroundScreenComponent(dae::GameObject &owner)
             : GameComponent(owner)

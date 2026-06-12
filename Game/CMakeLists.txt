@@ -20,6 +20,7 @@ set(GAME_SOURCE_FILES
         Game/Component/BubbleComponent.cpp
         Game/Component/BubbleExpireTimer.cpp
         Game/Component/CapturableComponent.cpp
+        Game/Component/DisablePlayerOnZeroLives.cpp
         Game/Component/FallingDeadEnemy.cpp
         Game/Component/FlickerComponent.cpp
         Game/Component/LivesScoreComponent.cpp
@@ -42,7 +43,6 @@ set(GAME_SOURCE_FILES
 
         Game/Prefab/StagesManager.cpp
 
-        Game/UI/LivesUiComponent.cpp
         Game/UI/LiveUiComponent.cpp
         Game/UI/ScoreUiComponent.cpp
 

@@ -10,9 +10,7 @@ namespace dae
     {
     public:
         void OnCollisionEnter(ColliderComponent const *collider, glm::vec2 const &collisionNormal, glm::vec2 const &normal) const;
-
         void OnCollisionStay(ColliderComponent const *collider, glm::vec2 const &collisionNormal, glm::vec2 const &normal) const;
-
         void OnCollisionExit(ColliderComponent const *collider) const;
 
         void Start() override;

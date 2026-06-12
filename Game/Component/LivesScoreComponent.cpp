@@ -50,7 +50,6 @@ void game::LivesScoreComponent::OnScoreChange(dae::ObserverData const *data)
     GetGameObject().NotifyObservers(dae::sdbm_hash("score_changed"));
 }
 
-// TODO disable shooting and change sprite when cooldown active (using events)
 void game::LivesScoreComponent::OnEnemyCollision(dae::ObserverData const *data)
 {
     if (m_invulnerabilityTimer > 0.0f) return;

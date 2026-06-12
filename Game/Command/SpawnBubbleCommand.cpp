@@ -8,6 +8,8 @@
 
 void game::SpawnProjectileCommand::Execute()
 {
+    if (!m_physicsComponent->Enabled) return;
+
     ProjectilePrefabData const data{m_gameObject->GetWorldPosition(), m_physicsComponent->GetWasMovingLeft()};
 
     if (m_isBoulder)

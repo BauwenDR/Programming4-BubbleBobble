@@ -31,10 +31,11 @@ void game::LiveUiComponent::Notify(uint32_t event, dae::ObserverData const *data
     const auto liveChangeData{dynamic_cast<LiveChangedData const *>(data)};
     if (liveChangeData == nullptr) return;
 
-
+    // Use of std::max as sizt_t is an unsigned type
+    auto const enabledLives{std::max(0, liveChangeData->newLives)};
     for (size_t index{0}; index < m_healthComponents.size(); ++index)
     {
-        m_healthComponents.at(index)->Enabled = index < static_cast<size_t>(liveChangeData->newLives);
+        m_healthComponents.at(index)->Enabled = index < static_cast<size_t>(enabledLives);
     }
 }
 

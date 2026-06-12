@@ -20,6 +20,7 @@
 #include "UI/ScoreUiComponent.hpp"
 
 #include "Component/ColliderComponent.hpp"
+#include "Component/DisablePlayerOnZeroLives.hpp"
 #include "Component/FallingDeadEnemy.hpp"
 #include "Component/FlickerComponent.hpp"
 #include "Component/MightaAnimationComponent.hpp"
@@ -253,6 +254,7 @@ std::unique_ptr<dae::GameObject> game::StagesManager::PrefabLoader(nlohmann::jso
 		prefab->AddComponent(std::make_unique<PlayerSoundProducer>(*prefab));
 		prefab->AddComponent(std::make_unique<PlayerPositionResetter>(*prefab));
 		prefab->AddComponent(std::make_unique<FlickerComponent>(*prefab));
+		prefab->AddComponent(std::make_unique<DisablePlayerOnZeroLives>(*prefab));
 
 		prefab->KeepAlive = true;
 		m_players.emplace_back(prefab.get(), prefab->GetComponent<LivesScoreComponent>());
