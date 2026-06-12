@@ -104,6 +104,33 @@ add_library(implot STATIC
         ${implot_SOURCE_DIR}/implot_items.cpp
 )
 
+# Sqlite
+FetchContent_Declare(sqlite3
+        URL https://sqlite.org/2026/sqlite-amalgamation-3530200.zip
+        URL_HASH SHA256=8a310d0a16c7a90cacd4c884e70faa51c902afed2a89f63aaa0126ab83558a32
+)
+FetchContent_MakeAvailable(sqlite3)
+
+# Create library target from fetched source
+add_library(sqlite3_lib STATIC
+        ${sqlite3_SOURCE_DIR}/sqlite3.c
+)
+target_include_directories(sqlite3_lib PUBLIC
+        ${sqlite3_SOURCE_DIR}
+)
+target_compile_definitions(sqlite3_lib PRIVATE
+        SQLITE_THREADSAFE=1
+        SQLITE_ENABLE_FTS5
+        SQLITE_ENABLE_JSON1
+        SQLITE_ENABLE_COLUMN_METADATA
+        SQLITE_MAX_EXPR_DEPTH=10000
+)
+
+if(UNIX)
+    find_package(Threads REQUIRED)
+    target_link_libraries(sqlite3_lib PRIVATE Threads::Threads ${CMAKE_DL_LIBS})
+endif()
+
 target_include_directories(imgui PUBLIC ${imgui_SOURCE_DIR} ${sdl3_SOURCE_DIR}/include)
 target_include_directories(implot PUBLIC ${imgui_SOURCE_DIR} ${sdl3_SOURCE_DIR}/include)
 target_link_libraries(imgui PUBLIC SDL3::SDL3)

@@ -20,7 +20,7 @@ void game::SwitchSceneOnEnemiesKilled::Update()
 
     if (!StagesManager::GetInstance().LoadNextStageFromJson())
     {
-        StagesManager::GetInstance().LoadSceneFromJson("GameOver", false);
+        StagesManager::GetInstance().LoadSceneFromJson("NameSelector", false);
     }
 }
 

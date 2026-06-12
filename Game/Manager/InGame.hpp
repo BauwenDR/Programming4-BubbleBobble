@@ -21,6 +21,9 @@ namespace game
     private:
         SkipStageCommand m_skipStage{};
         MuteCommand m_mute{};
+
+        void HandleLiveChanged() const;
+        void HandleScoreChange() const;
     };
 }
 

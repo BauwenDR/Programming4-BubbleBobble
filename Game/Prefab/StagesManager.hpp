@@ -5,6 +5,7 @@
 #include <nlohmann/json.hpp>
 #include <glm/vec3.hpp>
 
+#include "GameState.hpp"
 #include "Prefabs.hpp"
 #include "Singleton.hpp"
 
@@ -41,8 +42,9 @@ namespace game
         void SpawnBubble(ProjectilePrefabData const& data, glm::vec2 const& spriteOffset) const;
         void SpawnBoulder(ProjectilePrefabData const &data) const;
         void SpawnPickup(PickupPrefabData const &data) const;
-
         [[nodiscard]] dae::GameObject *SpawnDeadEnemy(ProjectilePrefabData const& data, glm::vec2 const& spriteOffset) const;
+
+        void AddScoreDisplay(GameRecord const &record, float height) const;
 
         void AttachGui(std::unique_ptr<dae::GuiWindow> &&gui) const;
 

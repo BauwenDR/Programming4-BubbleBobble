@@ -49,6 +49,7 @@ void game::LivesScoreComponent::OnScoreChange(dae::ObserverData const *data)
     m_score += pickupData->worth;
 
     GetGameObject().NotifyObservers(dae::sdbm_hash("score_changed"));
+    dae::EventManager::GetInstance().SendEvent(dae::sdbm_hash("score_changed"));
 }
 
 void game::LivesScoreComponent::OnEnemyCollision(dae::ObserverData const *data)

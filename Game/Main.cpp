@@ -13,7 +13,6 @@
 #include "Prefab/StagesManager.hpp"
 #include "Audio/AudioQueue.hpp"
 #include "Event/Sdbm.hpp"
-#include "SceneManager.hpp"
 #include "Minigin.hpp"
 
 namespace fs = std::filesystem;
@@ -24,7 +23,6 @@ static void load()
 	dae::AudioQueue::LoadSound(dae::sdbm_hash("Pickup"), "Audio/Pickup.wav");
 	dae::AudioQueue::LoadSound(dae::sdbm_hash("PlayerShoot"), "Audio/PlayerShoot.wav");
 
-	// game::StagesManager::GetInstance().LoadStageFromJson(1);
 	game::StagesManager::GetInstance().LoadSceneFromJson("MainMenu");
 	game::StagesManager::GetInstance().AttachGui(std::make_unique<game::InstructionWindow>());
 }

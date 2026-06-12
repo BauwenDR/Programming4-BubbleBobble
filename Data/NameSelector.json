@@ -3,19 +3,27 @@
   "scalar": 4,
   "prefabs": [
     {
-      "name": "main-menu-manager",
+      "name": "text",
       "position": {
-        "x": 0,
-        "y": 0
-      }
-    },
-    {
-      "name": "image",
-      "position": {
-        "x": 40,
+        "x": 106,
         "y": 24
       },
-      "image": "UI/Logo.png"
+      "text": "Game Over"
+    },
+    {
+      "name": "text",
+      "position": {
+        "x": 92,
+        "y": 32
+      },
+      "text": "Enter your name"
+    },
+    {
+      "name": "name-selector",
+      "position": {
+        "x": 120,
+        "y": 60
+      }
     },
     {
       "name": "text",
@@ -23,7 +31,7 @@
         "x": 92,
         "y": 176
       },
-      "text": "< Single player"
+      "text": "^ Letter Up"
     },
     {
       "name": "text",
@@ -31,7 +39,7 @@
         "x": 92,
         "y": 188
       },
-      "text": "^ Coop game"
+      "text": "V Letter down"
     },
     {
       "name": "text",
@@ -39,7 +47,7 @@
         "x": 92,
         "y": 200
       },
-      "text": "> Versus game"
+      "text": "> Next Letter"
     }
   ]
 }

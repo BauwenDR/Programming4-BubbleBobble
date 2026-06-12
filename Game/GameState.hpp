@@ -21,6 +21,12 @@ namespace game
         Maita
     };
 
+    struct GameRecord
+    {
+        std::string Name;
+        int32_t Score;
+    };
+
     class GameState final : public dae::Singleton<GameState>
     {
     public:
@@ -28,12 +34,12 @@ namespace game
         int32_t TotalScore{};
         int32_t HighScore{};
 
-        // std::vector<int32_t> GetHighScores();
-        void SaveScore(std::string_view const &name);
+        std::vector<GameRecord> GetHighScores();
+        void SaveScore(std::string_view const &name) const;
 
         int GetMaxPlayersForGame() const;
         PlayerTwoType GetPlayerTwoTypeForGame() const;
-
+        void SetScore(int totalScore);
 
     private:
         friend class Singleton;

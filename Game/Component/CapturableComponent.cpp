@@ -1,6 +1,7 @@
 #include "CapturableComponent.hpp"
 
 #include "AnimationComponent.hpp"
+#include "AttackIfPlayerAtSameHeight.hpp"
 #include "GameObject.hpp"
 #include "PlatformAiMovement.hpp"
 #include "PlayerInputComponent.hpp"
@@ -27,9 +28,11 @@ void game::CapturableComponent::OnCapture() const
 
     auto const platformMovement{self.GetComponent<PlatformAiMovement>()};
     auto const playerInput{self.GetComponent<PlatformAiMovement>()};
+    auto const enemyAttack{self.GetComponent<AttackIfPlayerAtSameHeight>()};
 
     if (platformMovement) platformMovement->Enabled = false;
     if (playerInput) playerInput->Enabled = false;
+    if (enemyAttack) enemyAttack->Enabled = false;
 
     self.GetComponent<AnimationComponent>()->Enabled = false;
     self.GetComponent<PhysicsComponent>()->Enabled = false;
@@ -42,6 +45,7 @@ void game::CapturableComponent::OnRelease() const
     auto &self{GetGameObject()};
     auto const platformMovement{self.GetComponent<PlatformAiMovement>()};
     auto const playerInput{self.GetComponent<PlatformAiMovement>()};
+    auto const enemyAttack{self.GetComponent<AttackIfPlayerAtSameHeight>()};
 
     if (platformMovement)
     {
@@ -49,6 +53,7 @@ void game::CapturableComponent::OnRelease() const
         platformMovement->ResetMovement();
     }
     if (playerInput) playerInput->Enabled = true;
+    if (enemyAttack) enemyAttack->Enabled = true;
 
     self.GetComponent<AnimationComponent>()->Enabled = true;
     self.GetComponent<PhysicsComponent>()->Enabled = true;

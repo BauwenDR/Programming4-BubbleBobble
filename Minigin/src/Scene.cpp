@@ -10,10 +10,10 @@ void Scene::Add(std::unique_ptr<GameObject> object)
 	assert(object != nullptr && "Cannot add a null GameObject to the scene.");
 
 	object->Start();
-	m_objects.emplace_back(std::move(object));
+	m_newObjects.emplace_back(std::move(object));
 }
 
-std::unique_ptr<GameObject> Scene::Remove(const GameObject *object)
+std::unique_ptr<GameObject> Scene::Remove(GameObject const *object)
 {
 	auto const it{std::ranges::find_if(m_objects, [object](const auto &ptr){ return ptr.get() == object; })};
 	if (it == m_objects.end()) return nullptr;
@@ -54,11 +54,20 @@ void Scene::RemoveAllGui()
 	m_guis.clear();
 }
 
-void Scene::Start() const
+void Scene::Start()
 {
 	for (auto const &object: m_objects)
 	{
 		object->Start();
+	}
+
+	while (m_newObjects.size() > 0)
+	{
+		TransferNewObjects();
+		for (auto const &object: m_objects)
+		{
+			object->Start();
+		}
 	}
 }
 
@@ -86,6 +95,12 @@ void Scene::PostUpdate()
 	{
 		return gameObject->IsMarkedForDelete();
 	});
+
+	if (m_newObjects.size() > 0)
+	{
+		TransferNewObjects();
+	}
+
 }
 
 void Scene::Render() const
@@ -102,6 +117,14 @@ void Scene::RenderGui() const
 	{
 		gui->DrawWindow();
 	}
+}
+
+void Scene::TransferNewObjects()
+{
+	m_objects.insert(m_objects.end(),
+			   std::make_move_iterator(m_newObjects.begin()),
+			   std::make_move_iterator(m_newObjects.end()));
+	m_newObjects.clear();
 }
 
 void Scene::TransferKeepAliveObjects(Scene &newScene)

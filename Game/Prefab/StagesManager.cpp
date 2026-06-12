@@ -39,7 +39,9 @@
 #include "Manager/MainMenu.hpp"
 #include "Event/Sdbm.hpp"
 #include "glm/gtx/norm.inl"
+#include "Manager/GameOver.hpp"
 #include "Manager/InGame.hpp"
+#include "Manager/NameSelector.hpp"
 #include "Render/ResourceManager.hpp"
 #include "UI/LiveUiComponent.hpp"
 
@@ -182,6 +184,23 @@ dae::GameObject *game::StagesManager::SpawnDeadEnemy(ProjectilePrefabData const 
 	m_scene->Add(std::move(deadEnemyPrefab));
 
 	return newDeadEnemy;
+}
+
+void game::StagesManager::AddScoreDisplay(GameRecord const& record, float height) const
+{
+	auto scoreDisplay{std::make_unique<dae::GameObject>()};
+	auto const recordText{std::format("{}            {}", record.Name, record.Score)};
+
+	scoreDisplay->SetLocalPosition({
+		88.0f * m_scaleFactor,
+		height * m_scaleFactor,
+		0.0f
+	});
+
+	scoreDisplay->AddComponent(std::make_unique<dae::TextureComponent>(*scoreDisplay));
+	scoreDisplay->AddComponent(std::make_unique<dae::TextComponent>(*scoreDisplay, recordText, m_uiFont));
+
+	m_scene->Add(std::move(scoreDisplay));
 }
 
 void game::StagesManager::AttachGui(std::unique_ptr<dae::GuiWindow> &&gui) const
@@ -423,8 +442,18 @@ std::unique_ptr<dae::GameObject> game::StagesManager::PrefabLoader(nlohmann::jso
 		prefab->AddComponent(std::make_unique<dae::TextComponent>(*prefab, text, m_uiFont));
 	}
 
+	else if (prefabName == "name-selector") {
+		prefab->AddComponent(std::make_unique<dae::TextureComponent>(*prefab));
+		prefab->AddComponent(std::make_unique<dae::TextComponent>(*prefab, "AAA", m_uiFont));
+		prefab->AddComponent(std::make_unique<NameSelector>(*prefab));
+	}
+
 	else if (prefabName == "main-menu-manager") {
 		prefab->AddComponent(std::make_unique<MainMenu>(*prefab));
+	}
+
+	else if (prefabName == "game-over-manager") {
+		prefab->AddComponent(std::make_unique<GameOver>(*prefab));
 	}
 
 	return prefab;

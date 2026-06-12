@@ -12,7 +12,7 @@ namespace dae
 	public:
 		void Add(std::unique_ptr<GameObject> object);
 
-		std::unique_ptr<GameObject> Remove(const GameObject* object);
+		std::unique_ptr<GameObject> Remove(GameObject const *object);
 		void MoveInto(std::unique_ptr<GameObject> object);
 
 		void RemoveAll();
@@ -21,7 +21,7 @@ namespace dae
 		void RemoveGui(const GuiWindow &gui);
 		void RemoveAllGui();
 
-		void Start() const;
+		void Start();
 		void Update() const;
 		void PostUpdate();
 
@@ -41,6 +41,9 @@ namespace dae
 		std::vector <std::unique_ptr<GameObject>> m_objects{};
 		std::vector <std::unique_ptr<GuiWindow>> m_guis{};
 
+		std::vector<std::unique_ptr<GameObject>> m_newObjects{};
+
+		void TransferNewObjects();
 		void TransferKeepAliveObjects(Scene &newScene);
 	};
 

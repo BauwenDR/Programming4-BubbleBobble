@@ -18,6 +18,7 @@ namespace dae {
         void PhysicsUpdate();
     private:
         friend class Singleton;
+        PhysicsSystem() = default;
 
         std::vector<ColliderComponent*> m_colliders;
 

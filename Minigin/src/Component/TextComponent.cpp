@@ -55,6 +55,11 @@ void dae::TextComponent::SetColor(const SDL_Color& color)
 	m_needsUpdate = true;
 }
 
+std::string const& dae::TextComponent::GetText() const
+{
+	return m_text;
+}
+
 dae::TextComponent::TextComponent(GameObject &gameObject, const std::string_view& text, std::shared_ptr<Font> font, const SDL_Color& color)
 	: GameComponent(gameObject), m_needsUpdate(true), m_text(text), m_color(color), m_font(std::move(font))
 {

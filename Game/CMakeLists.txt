@@ -1,7 +1,10 @@
 set(GAME_SOURCE_FILES
         Game/Main.cpp
 
+        Game/Command/ConfirmCommand.cpp
         Game/Command/JumpCommand.cpp
+        Game/Command/LetterChangeCommand.cpp
+        Game/Command/MainMenuCommand.cpp
         Game/Command/MoveCommand.cpp
         Game/Command/MuteCommand.cpp
         Game/Command/SkipStageCommand.cpp
@@ -38,8 +41,10 @@ set(GAME_SOURCE_FILES
         Game/Component/WrapAroundScreenComponent.cpp
         Game/Component/ZenChanAnimationComponent.cpp
 
+        Game/Manager/GameOver.cpp
         Game/Manager/InGame.cpp
         Game/Manager/MainMenu.cpp
+        Game/Manager/NameSelector.cpp
 
         Game/Prefab/StagesManager.cpp
 
@@ -54,11 +59,12 @@ add_executable(${TARGET_NAME} ${TARGET_PARAM}
         ${GAME_SOURCE_FILES}
 )
 
-target_include_directories(${TARGET_NAME} PUBLIC Minigin/include Game)
+target_include_directories(${TARGET_NAME} PUBLIC Minigin/include Game ${sqlite3_SOURCE_DIR})
 target_compile_features(${TARGET_NAME} PUBLIC cxx_std_20)
 
 target_link_libraries("${TARGET_NAME}" PUBLIC
         minigin
+        sqlite3_lib
 )
 if(MSVC)
     # compile at warning level 4 + treat warnings as errors

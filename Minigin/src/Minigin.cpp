@@ -90,6 +90,7 @@ dae::Minigin::Minigin(const std::filesystem::path& dataPath)
 
 	AudioQueue::Launch();
 
+	// This allocation gives memory leaks, not quire sure why
 	m_pWindow = SDL_CreateWindow(
 		"Programming 4 assignment - Bubble Bobble",
 		1024,
