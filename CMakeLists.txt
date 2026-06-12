@@ -19,5 +19,7 @@ include(Minigin/CMakeLists.txt)
 include(Game/CMakeLists.txt)
 
 # Hint VS to set our game as the default startup project
-set_property(TARGET bubble-bobble PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}")
-set_property(GLOBAL PROPERTY VS_STARTUP_PROJECT bubble-bobble)
+if(NOT EMSCRIPTEN)
+    set_property(TARGET bubble-bobble PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}")
+    set_property(GLOBAL PROPERTY VS_STARTUP_PROJECT bubble-bobble)
+endif()
