@@ -3,6 +3,7 @@
 #include "AnimationComponent.hpp"
 #include "GameObject.hpp"
 #include "PlatformAiMovement.hpp"
+#include "PlayerInputComponent.hpp"
 #include "SpawnPickupOnDeath.hpp"
 #include "Component/ColliderComponent.hpp"
 #include "Component/PhysicsComponent.hpp"
@@ -25,18 +26,29 @@ game::CapturableComponent::CapturableComponent(dae::GameObject& owner, glm::vec2
 
 void game::CapturableComponent::OnCapture() const
 {
-    auto &collidedEnemy{GetGameObject()};
-    collidedEnemy.GetComponent<PlatformAiMovement>()->Enabled = false;
-    collidedEnemy.GetComponent<AnimationComponent>()->Enabled = false;
-    collidedEnemy.GetComponent<PhysicsComponent>()->Enabled = false;
-    collidedEnemy.GetComponent<dae::ColliderComponent>()->Enabled = false;
-    collidedEnemy.SetLocalScale(0.75f);
+    auto &self{GetGameObject()};
+
+    auto const platformMovement{self.GetComponent<PlatformAiMovement>()};
+    auto const playerInput{self.GetComponent<PlatformAiMovement>()};
+
+    if (platformMovement) platformMovement->Enabled = false;
+    if (playerInput) playerInput->Enabled = false;
+
+    self.GetComponent<AnimationComponent>()->Enabled = false;
+    self.GetComponent<PhysicsComponent>()->Enabled = false;
+    self.GetComponent<dae::ColliderComponent>()->Enabled = false;
+    self.SetLocalScale(0.75f);
 }
 
 void game::CapturableComponent::OnRelease() const
 {
     auto &self{GetGameObject()};
-    self.GetComponent<PlatformAiMovement>()->Enabled = true;
+    auto const platformMovement{self.GetComponent<PlatformAiMovement>()};
+    auto const playerInput{self.GetComponent<PlatformAiMovement>()};
+
+    if (platformMovement) platformMovement->Enabled = true;
+    if (playerInput) playerInput->Enabled = true;
+
     self.GetComponent<AnimationComponent>()->Enabled = true;
     self.GetComponent<PhysicsComponent>()->Enabled = true;
     self.GetComponent<dae::ColliderComponent>()->Enabled = true;

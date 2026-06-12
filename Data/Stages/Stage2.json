@@ -33,6 +33,13 @@
       }
     },
     {
+      "name": "enemy-player",
+      "position": {
+        "x": 216,
+        "y": 200
+      }
+    },
+    {
       "name": "zen-chan-enemy",
       "position": {
         "x": 112,

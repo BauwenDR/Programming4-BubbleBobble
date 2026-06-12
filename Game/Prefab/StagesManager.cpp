@@ -213,13 +213,16 @@ std::unique_ptr<dae::GameObject> game::StagesManager::PrefabLoader(nlohmann::jso
 
 	else if (prefabName == "level-manager")
 	{
-		auto const threshold{data["threshold"].get<int32_t>()};
+		auto threshold{data["threshold"].get<int32_t>()};
+		if (GameState::GetInstance().GetPlayerTwoTypeForGame() == PlayerTwoType::Maita) ++threshold;
+
 		prefab->AddComponent(std::make_unique<SwitchSceneOnEnemiesKilled>(*prefab, threshold));
 		prefab->AddComponent(std::make_unique<InGame>(*prefab));
 	}
 
 	else if (prefabName == "player") {
 		if (m_players.size() == static_cast<size_t>(GameState::GetInstance().GetMaxPlayersForGame())) return nullptr;
+		if (m_players.size() == 1 && GameState::GetInstance().GetPlayerTwoTypeForGame() != PlayerTwoType::Bob) return nullptr;
 
 		prefab->AddComponent(std::make_unique<dae::TextureComponent>(
 			*prefab,
@@ -232,7 +235,7 @@ std::unique_ptr<dae::GameObject> game::StagesManager::PrefabLoader(nlohmann::jso
 		prefab->AddComponent(std::make_unique<dae::ColliderComponent>(*prefab, glm::vec2{64.0f,64.0f}, dae::sdbm_hash("PLAYER")));
 		prefab->AddComponent(std::make_unique<PhysicsComponent>(*prefab, !m_players.empty()));
 		prefab->AddComponent(std::make_unique<LivesScoreComponent>(*prefab));
-		prefab->AddComponent(std::make_unique<PlayerInputComponent>(*prefab, static_cast<int>(m_players.size())));
+		prefab->AddComponent(std::make_unique<PlayerInputComponent>(*prefab, static_cast<int>(m_players.size()), false));
 		prefab->AddComponent(std::make_unique<WrapAroundScreenComponent>(*prefab));
 		prefab->AddComponent(std::make_unique<AnimationComponent>(*prefab, &PLAYER_ANIMATIONS.at(!m_players.empty() ? PlayerAnimationStates::IdleLeft : PlayerAnimationStates::IdleRight), 1.0f/3.0f, glm::vec2{static_cast<float>(m_players.size()) * 4.0f, 0.0f} ));
 		prefab->AddComponent(std::make_unique<PlayerAnimationComponent>(*prefab));
@@ -241,6 +244,28 @@ std::unique_ptr<dae::GameObject> game::StagesManager::PrefabLoader(nlohmann::jso
 
 		prefab->KeepAlive = true;
 		m_players.emplace_back(prefab.get(), prefab->GetComponent<LivesScoreComponent>());
+	}
+
+	else if (prefabName == "enemy-player")
+	{
+		if (GameState::GetInstance().GetPlayerTwoTypeForGame() != PlayerTwoType::Maita) return nullptr;
+
+		prefab->AddComponent(std::make_unique<dae::TextureComponent>(
+			*prefab,
+			dae::ResourceManager::GetInstance().LoadTexture("Enemies/Mighta.png"),
+			m_scaleFactor,
+			glm::vec2{16.0f, 16.0f},
+			glm::vec2{static_cast<float>(m_players.size()), 0.0f})
+		);
+
+		prefab->AddComponent(std::make_unique<dae::ColliderComponent>(*prefab, glm::vec2{64.0f,64.0f}, dae::sdbm_hash("ENEMY")));
+		prefab->AddComponent(std::make_unique<PhysicsComponent>(*prefab, true, 320.0f));
+		prefab->AddComponent(std::make_unique<WrapAroundScreenComponent>(*prefab));
+		prefab->AddComponent(std::make_unique<AnimationComponent>(*prefab, &MIGHTA_ANIMATIONS.at(MightaAnimationStates::WalkingLeft), 1.0f / 6.0f));
+		prefab->AddComponent(std::make_unique<PlayerInputComponent>(*prefab, static_cast<int>(m_players.size()), true));
+		prefab->AddComponent(std::make_unique<SpawnPickupOnDeath>(*prefab, 200));
+		prefab->AddComponent(std::make_unique<MightaAnimationComponent>(*prefab));
+		prefab->AddComponent(std::make_unique<CapturableComponent>(*prefab, glm::vec2{1.0f, 0.0f}, true));
 	}
 
 	else if (prefabName == "zen-chan-enemy")

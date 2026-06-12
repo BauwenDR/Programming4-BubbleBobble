@@ -16,10 +16,6 @@ void game::PlayerInputComponent::Start()
     using enum dae::Input::CommandTrigger;
     using enum dae::Input::ControllerKey;
 
-    m_livesScoreComponent = GetGameObject().GetComponent<LivesScoreComponent>();
-
-    assert(m_livesScoreComponent != nullptr && "There was no lives component attached!");
-
     const auto kbLeft{player == 0 ? SDLK_A : SDLK_LEFT};
     const auto kbRight{player == 0 ? SDLK_D : SDLK_RIGHT};
     const auto kbJump{player == 0 ? SDLK_Z : SDLK_UP};
@@ -28,7 +24,7 @@ void game::PlayerInputComponent::Start()
     auto physics{GetGameObject().GetComponent<PhysicsComponent>()};
 
     m_jumpCommand = std::make_unique<JumpCommand>(physics);
-    m_attackCommand = std::make_unique<SpawnBubbleCommand>(&GetGameObject(), physics);
+    m_attackCommand = std::make_unique<SpawnProjectileCommand>(&GetGameObject(), physics, m_isEnemy);
     m_moveLeftCommand = std::make_unique<MoveCommand>(physics, -1.0f);
     m_moveRightCommand = std::make_unique<MoveCommand>(physics, 1.0f);
 
@@ -45,8 +41,10 @@ void game::PlayerInputComponent::Start()
     dae::InputManager::GetInstance().Bind(X, player, KeyDown, m_attackCommand.get());
 }
 
-game::PlayerInputComponent::PlayerInputComponent(dae::GameObject &owner, int player)
-    : GameComponent(owner), player(player)
+game::PlayerInputComponent::PlayerInputComponent(dae::GameObject &owner, int player, bool isEnemy)
+    : GameComponent(owner)
+      , player(player)
+      , m_isEnemy(isEnemy)
 {
 }
 

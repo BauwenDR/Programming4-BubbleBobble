@@ -33,6 +33,13 @@
       }
     },
     {
+      "name": "enemy-player",
+      "position": {
+        "x": 216,
+        "y": 200
+      }
+    },
+    {
       "name": "player-score",
       "position": {
         "x": 75,

@@ -6,7 +6,7 @@
 #include "Component/GameComponent.hpp"
 
 namespace game {
-    class SpawnBubbleCommand;
+    class SpawnProjectileCommand;
     class JumpCommand;
     class IncreaseScoreCommand;
     class DecreaseLivesCommand;
@@ -19,7 +19,7 @@ namespace game {
         void Start() override;
         void Update() override {}
 
-        PlayerInputComponent(dae::GameObject& owner, int player);
+        PlayerInputComponent(dae::GameObject& owner, int player, bool m_isEnemy);
         ~PlayerInputComponent() override;
 
         PlayerInputComponent(const PlayerInputComponent &other) = delete;
@@ -30,13 +30,13 @@ namespace game {
     private:
         int player{};
 
-        LivesScoreComponent *m_livesScoreComponent{};
-
         std::unique_ptr<MoveCommand> m_moveLeftCommand{};
         std::unique_ptr<MoveCommand> m_moveRightCommand{};
 
         std::unique_ptr<JumpCommand> m_jumpCommand{};
-        std::unique_ptr<SpawnBubbleCommand> m_attackCommand{};
+        std::unique_ptr<SpawnProjectileCommand> m_attackCommand{};
+
+        bool m_isEnemy{};
     };
 }
 
