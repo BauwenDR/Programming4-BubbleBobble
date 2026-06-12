@@ -4,9 +4,12 @@
 #include <fstream>
 
 #include "SceneManager.hpp"
+#include "Animations/MightaAnimation.hpp"
 #include "Animations/PlayerAnimations.hpp"
 #include "Animations/ZenChanAnimation.hpp"
 #include "Component/AnimationComponent.hpp"
+#include "Component/AttackIfPlayerAtSameHeight.hpp"
+#include "Component/BoulderComponent.hpp"
 #include "Component/BubbleComponent.hpp"
 #include "Component/LivesScoreComponent.hpp"
 #include "Component/PlayerInputComponent.hpp"
@@ -15,6 +18,7 @@
 
 #include "Component/ColliderComponent.hpp"
 #include "Component/FallingDeadEnemy.hpp"
+#include "Component/MightaAnimationComponent.hpp"
 #include "Component/PhysicsComponent.hpp"
 #include "Component/PlatformAiMovement.hpp"
 #include "Component/PlayerAnimationComponent.hpp"
@@ -74,7 +78,7 @@ void game::StagesManager::SpawnBubble(ProjectilePrefabData const &data) const
 	auto bubblePrefab{std::make_unique<dae::GameObject>()};
 
 	bubblePrefab->SetLocalPosition({
-		data.location,
+		data.location + PROJECTILE_OFFSET,
 		0.0f
 	});
 
@@ -88,6 +92,27 @@ void game::StagesManager::SpawnBubble(ProjectilePrefabData const &data) const
 	bubblePrefab->AddComponent(std::make_unique<BubbleComponent>(*bubblePrefab, data.facingLeft));
 
 	m_scene->Add(std::move(bubblePrefab));
+}
+
+void game::StagesManager::SpawnBoulder(ProjectilePrefabData const& data) const
+{
+	auto boulderPrefab{std::make_unique<dae::GameObject>()};
+
+	boulderPrefab->SetLocalPosition({
+		data.location + PROJECTILE_OFFSET,
+		0.0f
+	});
+
+	boulderPrefab->AddComponent(std::make_unique<dae::TextureComponent>(
+		*boulderPrefab,
+		dae::ResourceManager::GetInstance().LoadTexture("Enemies/MightaBoulder.png"),
+		m_scaleFactor
+	));
+
+	boulderPrefab->AddComponent(std::make_unique<dae::ColliderComponent>(*boulderPrefab, glm::vec2{64.0f,64.0f}, dae::sdbm_hash("ENEMY")));
+	boulderPrefab->AddComponent(std::make_unique<BoulderComponent>(*boulderPrefab, data.facingLeft));
+
+	m_scene->Add(std::move(boulderPrefab));
 }
 
 void game::StagesManager::SpawnPickup(PickupPrefabData const &data) const
@@ -162,6 +187,7 @@ game::PlayerData game::StagesManager::GetClosestActivePlayer(glm::vec3 const &se
 	return {};
 }
 
+// TODO not very extendable, a system where JSON files contain the needed components & properties for said components would be a better system
 std::unique_ptr<dae::GameObject> game::StagesManager::PrefabLoader(nlohmann::json const &data)
 {
 	auto prefab = std::make_unique<dae::GameObject>();
@@ -229,7 +255,29 @@ std::unique_ptr<dae::GameObject> game::StagesManager::PrefabLoader(nlohmann::jso
 		prefab->AddComponent(std::make_unique<AnimationComponent>(*prefab, &ZEN_CHAN_ANIMATIONS.at(facingLeft ? ZenChanAnimationStates::WalkingLeft : ZenChanAnimationStates::WalkingRight), 1.0f / 6.0f));
 		prefab->AddComponent(std::make_unique<PlatformAiMovement>(*prefab, facingLeft ? PlatformAiActions::WalkingLeft : PlatformAiActions::WalkingRight));
 		prefab->AddComponent(std::make_unique<ZenChanAnimationComponent>(*prefab));
-		prefab->AddComponent(std::make_unique<SpawnPickupOnDeath>(*prefab, 500));
+		prefab->AddComponent(std::make_unique<SpawnPickupOnDeath>(*prefab, 100));
+	}
+
+	else if (prefabName == "mighta-enemy")
+	{
+		bool facingLeft{data["facingLeft"].get<bool>()};
+
+		prefab->AddComponent(std::make_unique<dae::TextureComponent>(
+			*prefab,
+			dae::ResourceManager::GetInstance().LoadTexture("Enemies/Mighta.png"),
+			m_scaleFactor,
+			glm::vec2{16.0f, 16.0f},
+			glm::vec2{static_cast<float>(m_players.size()), 0.0f})
+		);
+
+		prefab->AddComponent(std::make_unique<dae::ColliderComponent>(*prefab, glm::vec2{64.0f,64.0f}, dae::sdbm_hash("ENEMY")));
+		prefab->AddComponent(std::make_unique<PhysicsComponent>(*prefab, facingLeft, 320.0f));
+		prefab->AddComponent(std::make_unique<WrapAroundScreenComponent>(*prefab));
+		prefab->AddComponent(std::make_unique<AnimationComponent>(*prefab, &MIGHTA_ANIMATIONS.at(facingLeft ? MightaAnimationStates::WalkingLeft : MightaAnimationStates::WalkingRight), 1.0f / 6.0f));
+		prefab->AddComponent(std::make_unique<PlatformAiMovement>(*prefab, facingLeft ? PlatformAiActions::WalkingLeft : PlatformAiActions::WalkingRight));
+		prefab->AddComponent(std::make_unique<SpawnPickupOnDeath>(*prefab, 200));
+		prefab->AddComponent(std::make_unique<MightaAnimationComponent>(*prefab));
+		prefab->AddComponent(std::make_unique<AttackIfPlayerAtSameHeight>(*prefab));
 	}
 
 	else if (prefabName == "player-score")

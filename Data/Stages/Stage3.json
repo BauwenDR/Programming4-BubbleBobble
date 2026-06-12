@@ -39,7 +39,7 @@
       }
     },
     {
-      "name": "zen-chan-enemy",
+      "name": "mighta-enemy",
       "position": {
         "x": 80,
         "y": 40
@@ -47,7 +47,7 @@
       "facingLeft": false
     },
     {
-      "name": "zen-chan-enemy",
+      "name": "mighta-enemy",
       "position": {
         "x": 160,
         "y": 40

@@ -10,9 +10,12 @@ set(GAME_SOURCE_FILES
         Game/Component/BubbleState/ShotState.cpp
         Game/Component/BubbleState/StaticState.cpp
         Game/Component/AnimationComponent.cpp
+        Game/Component/AttackIfPlayerAtSameHeight.cpp
+        Game/Component/BoulderComponent.cpp
         Game/Component/BubbleComponent.cpp
         Game/Component/FallingDeadEnemy.cpp
         Game/Component/LivesScoreComponent.cpp
+        Game/Component/MightaAnimationComponent.cpp
         Game/Component/PhysicsComponent.cpp
         Game/Component/PickupComponent.cpp
         Game/Component/PlatformAiMovement.cpp

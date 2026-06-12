@@ -39,6 +39,7 @@ namespace game
         void LoadSceneFromJson(std::string const & sceneName, bool preserveKeepAlive = true);
 
         void SpawnBubble(ProjectilePrefabData const &data) const;
+        void SpawnBoulder(ProjectilePrefabData const &data) const;
         void SpawnPickup(PickupPrefabData const &data) const;
 
         [[nodiscard]] dae::GameObject *SpawnDeadEnemy(ProjectilePrefabData const &data) const;
@@ -49,6 +50,8 @@ namespace game
 
     private:
         friend class Singleton;
+
+        constexpr static glm::vec2 PROJECTILE_OFFSET{0.0f, -0.5f};
 
         std::unique_ptr<dae::GameObject> PrefabLoader(nlohmann::json const &data);
 

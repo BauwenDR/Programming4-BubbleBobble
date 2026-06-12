@@ -1,7 +1,5 @@
 #include "ZenChanAnimationComponent.hpp"
 
-#include <iostream>
-
 #include "Component/AnimationComponent.hpp"
 
 #include "PhysicsComponent.hpp"
