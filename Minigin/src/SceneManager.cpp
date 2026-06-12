@@ -1,9 +1,9 @@
 #include "SceneManager.hpp"
 
-#include <cstdint>
 #include <algorithm>
 
 #include "Scene.hpp"
+#include "Event/EventManager.hpp"
 #include "Event/Sdbm.hpp"
 
 void dae::SceneManager::Update() {
@@ -50,13 +50,10 @@ void dae::SceneManager::SwitchScenes()
 {
 	if (m_activeScene && m_newScene.preserveKeepAlive)
 	{
-		auto const oldLength{static_cast<int64_t>(m_newScene.scene->m_objects.size())};
 		m_activeScene->TransferKeepAliveObjects(*m_newScene.scene);
-		std::for_each(std::begin(m_newScene.scene->m_objects) + oldLength, std::end(m_newScene.scene->m_objects), [](const auto &object)
-		{
-			object->NotifyObservers(sdbm_hash("scene_manager_scene_switch"), {});
-		});
 	}
+
+	EventManager::GetInstance().SendEvent(sdbm_hash("scene_manager_scene_switch"));
 
 	m_activeScene = std::move(m_newScene.scene);
 	m_newScene.scene = nullptr;

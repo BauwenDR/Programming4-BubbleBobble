@@ -8,6 +8,21 @@ namespace game
 {
     class PhysicsComponent;
 
+    class LiveChangedData : public dae::ObserverData
+    {
+    public:
+        bool isOneUp{};
+        int32_t newLives{};
+
+        LiveChangedData(bool isOneUp, int32_t newLives)
+            : isOneUp(isOneUp),
+              newLives(newLives)
+        {
+        }
+
+        ~LiveChangedData() override = default;
+    };
+
     class LivesScoreComponent final : public dae::GameComponent, public dae::IObserver
     {
     public:

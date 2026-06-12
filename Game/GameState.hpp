@@ -1,5 +1,5 @@
-#ifndef MINIGIN_GAMEMANAGER_HPP
-#define MINIGIN_GAMEMANAGER_HPP
+#ifndef MINIGIN_GAMESTATE_HPP
+#define MINIGIN_GAMESTATE_HPP
 #include <cstdint>
 #include <string>
 #include <vector>
@@ -21,7 +21,7 @@ namespace game
         Maita
     };
 
-    class GameManager final : public dae::Singleton<GameManager>
+    class GameState final : public dae::Singleton<GameState>
     {
     public:
         GameType CurrentType{};
@@ -37,8 +37,8 @@ namespace game
 
     private:
         friend class Singleton;
-        GameManager();
+        GameState();
     };
 }
 
-#endif //MINIGIN_GAMEMANAGER_HPP
+#endif //MINIGIN_GAMESTATE_HPP

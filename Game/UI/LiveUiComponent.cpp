@@ -11,8 +11,6 @@ void game::LiveUiComponent::Start()
     m_observingPlayer->AddObserver(this);
 
     auto const livesComp{m_observingPlayer->GetComponent<LivesScoreComponent>()};
-    m_playerLivesComponent = livesComp;
-
     ResizeLiveComponents(livesComp->GetLives());
 }
 
@@ -21,7 +19,7 @@ void game::LiveUiComponent::OnDelete()
     if (m_observingPlayer != nullptr) m_observingPlayer->RemoveObserver(this);
 }
 
-void game::LiveUiComponent::Notify(uint32_t event, dae::ObserverData const *)
+void game::LiveUiComponent::Notify(uint32_t event, dae::ObserverData const *data)
 {
     if (event == dae::sdbm_hash("object_destroyed"))
     {
@@ -30,11 +28,13 @@ void game::LiveUiComponent::Notify(uint32_t event, dae::ObserverData const *)
     }
 
     if (event != dae::sdbm_hash("lives_changed")) return;
-    if (m_playerLivesComponent == nullptr) return;
+    const auto liveChangeData{dynamic_cast<LiveChangedData const *>(data)};
+    if (liveChangeData == nullptr) return;
+
 
     for (size_t index{0}; index < m_healthComponents.size(); ++index)
     {
-        m_healthComponents.at(index)->Enabled = index < static_cast<size_t>(m_playerLivesComponent->GetLives());
+        m_healthComponents.at(index)->Enabled = index < static_cast<size_t>(liveChangeData->newLives);
     }
 }
 

@@ -22,6 +22,7 @@
 #include "Component/PhysicsComponent.hpp"
 #include "Component/PlatformAiMovement.hpp"
 #include "Component/PlayerAnimationComponent.hpp"
+#include "Component/PlayerPositionResetter.hpp"
 #include "Component/PlayerSoundProducer.hpp"
 #include "Component/SpawnPickupOnDeath.hpp"
 #include "Component/SwitchSceneOnEnemiesKilled.hpp"
@@ -29,14 +30,16 @@
 #include "Component/TextureComponent.hpp"
 #include "Component/WrapAroundScreenComponent.hpp"
 #include "Component/ZenChanAnimationComponent.hpp"
+#include "Manager/MainMenu.hpp"
 #include "Event/Sdbm.hpp"
 #include "glm/gtx/norm.inl"
+#include "Manager/InGame.hpp"
 #include "Render/ResourceManager.hpp"
 #include "UI/LiveUiComponent.hpp"
-#include "UI/MainMenu.hpp"
 
 void game::StagesManager::LoadNextStageFromJson()
 {
+	if (m_currentStage == STAGE_COUNT) return;
 	LoadStageFromJson(m_currentStage+1);
 }
 
@@ -211,10 +214,11 @@ std::unique_ptr<dae::GameObject> game::StagesManager::PrefabLoader(nlohmann::jso
 	{
 		auto const threshold{data["threshold"].get<int32_t>()};
 		prefab->AddComponent(std::make_unique<SwitchSceneOnEnemiesKilled>(*prefab, threshold));
+		prefab->AddComponent(std::make_unique<InGame>(*prefab));
 	}
 
 	else if (prefabName == "player") {
-		if (m_players.size() == static_cast<size_t>(GameManager::GetInstance().GetMaxPlayersForGame())) return nullptr;
+		if (m_players.size() == static_cast<size_t>(GameState::GetInstance().GetMaxPlayersForGame())) return nullptr;
 
 		prefab->AddComponent(std::make_unique<dae::TextureComponent>(
 			*prefab,
@@ -232,6 +236,7 @@ std::unique_ptr<dae::GameObject> game::StagesManager::PrefabLoader(nlohmann::jso
 		prefab->AddComponent(std::make_unique<AnimationComponent>(*prefab, &PLAYER_ANIMATIONS.at(!m_players.empty() ? PlayerAnimationStates::IdleLeft : PlayerAnimationStates::IdleRight), 1.0f/3.0f, glm::vec2{static_cast<float>(m_players.size()) * 4.0f, 0.0f} ));
 		prefab->AddComponent(std::make_unique<PlayerAnimationComponent>(*prefab));
 		prefab->AddComponent(std::make_unique<PlayerSoundProducer>(*prefab));
+		prefab->AddComponent(std::make_unique<PlayerPositionResetter>(*prefab));
 
 		prefab->KeepAlive = true;
 		m_players.emplace_back(prefab.get(), prefab->GetComponent<LivesScoreComponent>());

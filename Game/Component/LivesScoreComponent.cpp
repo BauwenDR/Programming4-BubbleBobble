@@ -58,7 +58,9 @@ void game::LivesScoreComponent::OnEnemyCollision(dae::ObserverData const *data)
     {
         m_invulnerabilityTimer = INVULNERABILITY_TIME;
         --m_lives;
-        GetGameObject().NotifyObservers(dae::sdbm_hash("lives_changed"));
+
+        LiveChangedData const liveData{false, m_lives};
+        GetGameObject().NotifyObservers(dae::sdbm_hash("lives_changed"), &liveData);
     }
 }
 

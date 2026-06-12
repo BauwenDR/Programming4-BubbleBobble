@@ -1,6 +1,6 @@
 #ifndef MINIGIN_STARTGAMECOMMAND_HPP
 #define MINIGIN_STARTGAMECOMMAND_HPP
-#include "GameManager.hpp"
+#include "GameState.hpp"
 
 #include "Event/ICommand.hpp"
 

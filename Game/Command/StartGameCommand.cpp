@@ -3,7 +3,7 @@
 #include "Prefab/StagesManager.hpp"
 
 void game::StartGameCommand::Execute() {
-    GameManager::GetInstance().CurrentType = m_gameType;
+    GameState::GetInstance().CurrentType = m_gameType;
     StagesManager::GetInstance().LoadStageFromJson(1, false);
 }
 

@@ -27,7 +27,6 @@ namespace game
         std::vector<GameComponent*> m_healthComponents{};
 
         dae::GameObject *m_observingPlayer{};
-        LivesScoreComponent *m_playerLivesComponent{};
 
         bool m_leftToRight{};
 

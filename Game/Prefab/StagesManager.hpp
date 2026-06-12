@@ -52,6 +52,7 @@ namespace game
         friend class Singleton;
 
         constexpr static glm::vec2 PROJECTILE_OFFSET{0.0f, -0.5f};
+        constexpr static int32_t STAGE_COUNT{3};
 
         std::unique_ptr<dae::GameObject> PrefabLoader(nlohmann::json const &data);
 

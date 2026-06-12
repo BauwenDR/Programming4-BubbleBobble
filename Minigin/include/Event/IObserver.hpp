@@ -10,7 +10,7 @@ namespace dae
     class ObjectDestroyedData final : public ObserverData
     {
     public:
-        GameObject* m_destroyedObject;
+        GameObject* m_destroyedObject{};
 
         explicit ObjectDestroyedData(GameObject *mDestroyedObject)
             : m_destroyedObject(mDestroyedObject)

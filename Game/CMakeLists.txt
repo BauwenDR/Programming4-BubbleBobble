@@ -2,6 +2,8 @@ set(GAME_SOURCE_FILES
         Game/Main.cpp
         Game/Command/JumpCommand.cpp
         Game/Command/MoveCommand.cpp
+        Game/Command/MuteCommand.cpp
+        Game/Command/SkipStageCommand.cpp
         Game/Command/SpawnBubbleCommand.cpp
         Game/Command/StartGameCommand.cpp
         Game/Component/BubbleState/AirCurrentState.cpp
@@ -21,17 +23,19 @@ set(GAME_SOURCE_FILES
         Game/Component/PlatformAiMovement.cpp
         Game/Component/PlayerAnimationComponent.cpp
         Game/Component/PlayerInputComponent.cpp
+        Game/Component/PlayerPositionResetter.cpp
         Game/Component/PlayerSoundProducer.cpp
         Game/Component/SpawnPickupOnDeath.cpp
         Game/Component/SwitchSceneOnEnemiesKilled.cpp
         Game/Component/WrapAroundScreenComponent.cpp
         Game/Component/ZenChanAnimationComponent.cpp
+        Game/Manager/InGame.cpp
+        Game/Manager/MainMenu.cpp
         Game/Prefab/StagesManager.cpp
         Game/UI/LivesUiComponent.cpp
         Game/UI/LiveUiComponent.cpp
-        Game/UI/MainMenu.cpp
         Game/UI/ScoreUiComponent.cpp
-        Game/GameManager.cpp
+        Game/GameState.cpp
         Game/InstructionWindow.cpp
 )
 
