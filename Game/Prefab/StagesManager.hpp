@@ -42,7 +42,7 @@ namespace game
         void SpawnBoulder(ProjectilePrefabData const &data) const;
         void SpawnPickup(PickupPrefabData const &data) const;
 
-        [[nodiscard]] dae::GameObject *SpawnDeadEnemy(ProjectilePrefabData const &data) const;
+        [[nodiscard]] dae::GameObject *SpawnDeadEnemy(ProjectilePrefabData const& data, glm::vec2 const& spriteOffset) const;
 
         void AttachGui(std::unique_ptr<dae::GuiWindow> &&gui) const;
 

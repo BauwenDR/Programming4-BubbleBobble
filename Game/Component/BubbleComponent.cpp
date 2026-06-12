@@ -2,6 +2,7 @@
 
 #include <glm/gtx/norm.inl>
 
+#include "CapturableComponent.hpp"
 #include "SpawnPickupOnDeath.hpp"
 #include "Time.hpp"
 #include "BubbleState/AirCurrentState.hpp"
@@ -36,15 +37,11 @@ void game::BubbleComponent::Pop(glm::vec2 poppedFrom, int32_t popNumber)
     if (m_hasTrappedEnemy)
     {
         auto const trappedEnemy{GetGameObject().GetChildAt(0)};
-        trappedEnemy->GetComponent<SpawnPickupOnDeath>()->PopMultiplier = popNumber;
-        trappedEnemy->GetComponent<dae::TextureComponent>()->Enabled = false;
+        auto const captureComp{trappedEnemy->GetComponent<CapturableComponent>()};
 
-        dae::EventManager::GetInstance().SendEvent(dae::sdbm_hash("enemy_died"));
-        ProjectilePrefabData pickupData{glm::vec2{GetGameObject().GetWorldPosition()}, poppedFrom.x < m_collider->GetColliderCenter().x};
+        if (!captureComp) return;
 
-        auto const pickupObj{StagesManager::GetInstance().SpawnDeadEnemy(pickupData)};
-        trappedEnemy->SetParent(pickupObj, false);
-
+        captureComp->OnPop(poppedFrom.x < m_collider->GetColliderCenter().x, popNumber);
         popNumber *= 2;
     }
 
@@ -68,6 +65,7 @@ void game::BubbleComponent::Notify(uint32_t event, const dae::ObserverData *data
         BubblePushCollision(event, colliderData);
     }
 
+    // TODO not a proper way of dealing with multiple walls
     if (colliderData->collider->GetTag() == dae::sdbm_hash("STAGE") && colliderData->collisionNormal.y == 0.0f)
     {
         m_isInWall = event == dae::sdbm_hash("on_collision_enter");

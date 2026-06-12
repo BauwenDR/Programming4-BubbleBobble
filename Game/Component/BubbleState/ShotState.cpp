@@ -4,6 +4,7 @@
 #include "Time.hpp"
 #include "Component/AnimationComponent.hpp"
 #include "Component/BubbleComponent.hpp"
+#include "Component/CapturableComponent.hpp"
 #include "Component/PhysicsComponent.hpp"
 #include "Component/PlatformAiMovement.hpp"
 #include "Event/Sdbm.hpp"
@@ -30,15 +31,13 @@ void game::bubble::ShotState::OnCollision(uint32_t event, dae::ColliderData cons
     if (!m_owner.m_hasTrappedEnemy && data.collider->GetTag() == dae::sdbm_hash("ENEMY"))
     {
         auto &collidedEnemy{data.collider->GetGameObject()};
+        auto const capturable{collidedEnemy.GetComponent<CapturableComponent>()};
 
-        // TODO send out an event that triggers these
-        collidedEnemy.GetComponent<PlatformAiMovement>()->Enabled = false;
-        collidedEnemy.GetComponent<AnimationComponent>()->Enabled = false;
-        collidedEnemy.GetComponent<PhysicsComponent>()->Enabled = false;
-        collidedEnemy.GetComponent<dae::ColliderComponent>()->Enabled = false;
+        if (!capturable) return;
+
+        capturable->OnCapture();
         collidedEnemy.SetParent(&m_owner.GetGameObject(), false);
         collidedEnemy.SetLocalPosition({8.0f, 8.0f, 8.0f});
-        collidedEnemy.SetLocalScale(0.75f);
 
         m_owner.m_hasTrappedEnemy = true;
     }

@@ -11,6 +11,7 @@
 #include "Component/AttackIfPlayerAtSameHeight.hpp"
 #include "Component/BoulderComponent.hpp"
 #include "Component/BubbleComponent.hpp"
+#include "Component/CapturableComponent.hpp"
 #include "Component/LivesScoreComponent.hpp"
 #include "Component/PlayerInputComponent.hpp"
 #include "Component/PickupComponent.hpp"
@@ -141,7 +142,7 @@ void game::StagesManager::SpawnPickup(PickupPrefabData const &data) const
 	m_scene->Add(std::move(pickupPrefab));
 }
 
-dae::GameObject *game::StagesManager::SpawnDeadEnemy(ProjectilePrefabData const &data) const
+dae::GameObject *game::StagesManager::SpawnDeadEnemy(ProjectilePrefabData const &data, glm::vec2 const &spriteOffset) const
 {
 	auto deadEnemyPrefab{std::make_unique<dae::GameObject>()};
 	auto const newDeadEnemy{deadEnemyPrefab.get()};
@@ -156,7 +157,7 @@ dae::GameObject *game::StagesManager::SpawnDeadEnemy(ProjectilePrefabData const 
 		dae::ResourceManager::GetInstance().LoadTexture("Enemies/DeadEnemies.png"),
 		m_scaleFactor,
 		glm::vec2{16.0f, 16.0f},
-		glm::vec2{0.0f, 0.0f}
+		spriteOffset
 	));
 
 	deadEnemyPrefab->AddComponent(std::make_unique<dae::ColliderComponent>(*deadEnemyPrefab, glm::vec2{64.0f, 64.0f}, dae::sdbm_hash("DEAD_ENEMY")));
@@ -261,6 +262,7 @@ std::unique_ptr<dae::GameObject> game::StagesManager::PrefabLoader(nlohmann::jso
 		prefab->AddComponent(std::make_unique<PlatformAiMovement>(*prefab, facingLeft ? PlatformAiActions::WalkingLeft : PlatformAiActions::WalkingRight));
 		prefab->AddComponent(std::make_unique<ZenChanAnimationComponent>(*prefab));
 		prefab->AddComponent(std::make_unique<SpawnPickupOnDeath>(*prefab, 100));
+		prefab->AddComponent(std::make_unique<CapturableComponent>(*prefab, glm::vec2{0.0f, 0.0f}, true));
 	}
 
 	else if (prefabName == "mighta-enemy")
@@ -283,6 +285,7 @@ std::unique_ptr<dae::GameObject> game::StagesManager::PrefabLoader(nlohmann::jso
 		prefab->AddComponent(std::make_unique<SpawnPickupOnDeath>(*prefab, 200));
 		prefab->AddComponent(std::make_unique<MightaAnimationComponent>(*prefab));
 		prefab->AddComponent(std::make_unique<AttackIfPlayerAtSameHeight>(*prefab));
+		prefab->AddComponent(std::make_unique<CapturableComponent>(*prefab, glm::vec2{1.0f, 0.0f}, true));
 	}
 
 	else if (prefabName == "player-score")
