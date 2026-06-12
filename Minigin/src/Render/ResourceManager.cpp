@@ -56,6 +56,12 @@ std::string dae::ResourceManager::GetFilePath(const std::string &file) const
 	return (m_dataPath / file).string();
 }
 
+void dae::ResourceManager::Destroy()
+{
+	m_loadedFonts.clear();
+	m_loadedTextures.clear();
+}
+
 void dae::ResourceManager::UnloadUnusedResources()
 {
 	for (auto it = m_loadedTextures.begin(); it != m_loadedTextures.end();)

@@ -37,6 +37,9 @@ void dae::SceneManager::RenderGui() const
 
 void dae::SceneManager::Destroy()
 {
+	EventManager::GetInstance().SendEvent(sdbm_hash("scene_manager_scene_switch"));
+	EventManager::GetInstance().TriggerEvents();
+
 	m_activeScene.reset();
 	m_newScene.scene.reset();
 }

@@ -18,6 +18,7 @@ namespace dae
 		[[nodiscard]] std::ifstream LoadFile(const std::string& file) const;
 		[[nodiscard]] std::string GetFilePath(const std::string& file) const;
 
+		void Destroy();
 	private:
 		friend class Singleton;
 

@@ -72,17 +72,21 @@ dae::Minigin::Minigin(const std::filesystem::path& dataPath)
 	}
 
 #if not (_WIN32 or _WIN64)
-	SDL_InitSubSystem(SDL_INIT_GAMEPAD | SDL_INIT_JOYSTICK);
+	if (!SDL_InitSubSystem(SDL_INIT_GAMEPAD | SDL_INIT_JOYSTICK))
+	{
+		SDL_Log("Input error: %s", SDL_GetError());
+		throw std::runtime_error(std::string("SDL_Init Error: ") + SDL_GetError());
+	}
 #endif
 
-	std::unique_ptr<ISoundSystem> m_soundSystem{};
+	std::unique_ptr<ISoundSystem> soundSystem{};
 
 #if _DEBUG or not NDEBUG
-	m_soundSystem = std::make_unique<LoggingSoundSystem>(std::make_unique<SdlSoundSystem>());
+	soundSystem = std::make_unique<LoggingSoundSystem>(std::make_unique<SdlSoundSystem>());
 #else
-	m_soundSystem = std::make_unique<SdlSoundSystem>();
+	soundSystem = std::make_unique<SdlSoundSystem>();
 #endif
-	ServiceLocator::RegisterSoundSystem(std::move(m_soundSystem));
+	ServiceLocator::RegisterSoundSystem(std::move(soundSystem));
 
 	AudioQueue::Launch();
 
@@ -105,6 +109,7 @@ dae::Minigin::Minigin(const std::filesystem::path& dataPath)
 dae::Minigin::~Minigin()
 {
 	AudioQueue::Shutdown();
+	ResourceManager::GetInstance().Destroy();
 	SceneManager::GetInstance().Destroy();
 	Renderer::GetInstance().Destroy();
 	SDL_DestroyWindow(m_pWindow);

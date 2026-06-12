@@ -1,6 +1,6 @@
 #include "private/Audio/SdlSoundSystem.hpp"
 
-#include <SDL3/SDL_init.h>
+#include <SDL3/SDL.h>
 
 #include "Audio/AudioQueue.hpp"
 #include "private/Audio/AudioQueue.hpp"
@@ -51,4 +51,7 @@ dae::SdlSoundSystem::SdlSoundSystem()
 {
 }
 
-dae::SdlSoundSystem::~SdlSoundSystem() = default;
+dae::SdlSoundSystem::~SdlSoundSystem()
+{
+    SDL_QuitSubSystem(SDL_INIT_AUDIO);
+}
