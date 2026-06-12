@@ -3,19 +3,25 @@
 #include "Command/MuteCommand.hpp"
 #include "Command/SkipStageCommand.hpp"
 #include "Component/GameComponent.hpp"
+#include "Event/EventManager.hpp"
 
-class InGame final : public dae::GameComponent
+namespace game
 {
-public:
-    void Start() override;
-    void Update() override {}
-    void OnDelete() override;
+    class InGame final : public dae::GameComponent, public dae::IEventHandler
+    {
+    public:
+        void Start() override;
+        void Update() override {}
+        void OnDelete() override;
 
-    explicit InGame(dae::GameObject &owner);
+        void HandleEvent(uint32_t event) override;
 
-private:
-    SkipStageCommand m_skipStage{};
-    MuteCommand m_mute{};
-};
+        explicit InGame(dae::GameObject &owner);
+
+    private:
+        SkipStageCommand m_skipStage{};
+        MuteCommand m_mute{};
+    };
+}
 
 #endif //MINIGIN_INGAME_H

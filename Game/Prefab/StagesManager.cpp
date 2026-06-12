@@ -43,10 +43,12 @@
 #include "Render/ResourceManager.hpp"
 #include "UI/LiveUiComponent.hpp"
 
-void game::StagesManager::LoadNextStageFromJson()
+bool game::StagesManager::LoadNextStageFromJson()
 {
-	if (m_currentStage == STAGE_COUNT) return;
+	if (m_currentStage == STAGE_COUNT) return false;
+
 	LoadStageFromJson(m_currentStage+1);
+	return true;
 }
 
 void game::StagesManager::LoadStageFromJson(int32_t stageNumber, bool preserveKeepAlive)
@@ -185,6 +187,11 @@ dae::GameObject *game::StagesManager::SpawnDeadEnemy(ProjectilePrefabData const 
 void game::StagesManager::AttachGui(std::unique_ptr<dae::GuiWindow> &&gui) const
 {
 	m_scene->AddGui(std::move(gui));
+}
+
+std::vector<game::PlayerData> const& game::StagesManager::GetPlayers() const
+{
+	return m_players;
 }
 
 game::PlayerData game::StagesManager::GetClosestActivePlayer(glm::vec3 const &searchPos) const

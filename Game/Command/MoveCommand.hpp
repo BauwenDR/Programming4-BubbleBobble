@@ -10,8 +10,10 @@ namespace game
     class MoveCommand final : public dae::ICommand
     {
     public:
-        MoveCommand(PhysicsComponent *physics, float direction);
         void Execute() override;
+
+        MoveCommand(PhysicsComponent *physics, float direction);
+        ~MoveCommand() override = default;
 
     private:
         PhysicsComponent *m_physicsComponent{};

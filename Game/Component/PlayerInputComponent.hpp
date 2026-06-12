@@ -3,29 +3,21 @@
 
 #include <memory>
 
+#include "Command/JumpCommand.hpp"
+#include "Command/MoveCommand.hpp"
+#include "Command/SpawnBubbleCommand.hpp"
 #include "Component/GameComponent.hpp"
 
 namespace game {
-    class SpawnProjectileCommand;
-    class JumpCommand;
-    class IncreaseScoreCommand;
-    class DecreaseLivesCommand;
-    class LivesScoreComponent;
-    class MoveCommand;
-
     class PlayerInputComponent final : public dae::GameComponent
     {
     public:
         void Start() override;
         void Update() override {}
 
-        PlayerInputComponent(dae::GameObject& owner, int player, bool isEnemy);
-        ~PlayerInputComponent() override;
+        void OnDelete() override;
 
-        PlayerInputComponent(const PlayerInputComponent &other) = delete;
-        PlayerInputComponent(PlayerInputComponent &&other) noexcept = delete;
-        PlayerInputComponent & operator=(const PlayerInputComponent &other) = delete;
-        PlayerInputComponent & operator=(PlayerInputComponent &&other) noexcept = delete;
+        PlayerInputComponent(dae::GameObject& owner, int player, bool isEnemy);
 
     private:
         int m_player{};

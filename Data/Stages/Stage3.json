@@ -11,6 +11,14 @@
       }
     },
     {
+      "name": "level-manager",
+      "threshold": 4,
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
       "name": "player",
       "position": {
         "x": 24,

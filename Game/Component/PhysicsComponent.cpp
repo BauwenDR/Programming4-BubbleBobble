@@ -40,7 +40,7 @@ void game::PhysicsComponent::LateUpdate()
 
 // TODO split this function up into three private ones
 // TODO also split off player specific functions
-void game::PhysicsComponent::Notify(uint32_t event, dae::ObserverData const *data)
+void game::PhysicsComponent::Notify(uint32_t event, dae::ObserverData const* data)
 {
     if (!Enabled) return;
 
@@ -60,7 +60,7 @@ void game::PhysicsComponent::Notify(uint32_t event, dae::ObserverData const *dat
 
     if (data == nullptr) return;
 
-    const auto colliderData{dynamic_cast<dae::ColliderData const *>(data)};
+    const auto colliderData{dynamic_cast<dae::ColliderData const*>(data)};
     if (colliderData == nullptr) return;
 
     if (colliderData->collider->GetTag() == dae::sdbm_hash("BUBBLE"))
@@ -68,7 +68,8 @@ void game::PhysicsComponent::Notify(uint32_t event, dae::ObserverData const *dat
         if (event == dae::sdbm_hash("on_collision_enter") && colliderData->collisionNormal.y == -1.0f)
         {
             m_onBubbleColliders.emplace(colliderData->collider);
-        } else if (event == dae::sdbm_hash("on_collision_exit"))
+        }
+        else if (event == dae::sdbm_hash("on_collision_exit"))
         {
             m_onBubbleColliders.erase(colliderData->collider);
         }
@@ -78,8 +79,8 @@ void game::PhysicsComponent::Notify(uint32_t event, dae::ObserverData const *dat
 
     if (event == dae::sdbm_hash("on_collision_enter"))
     {
-        const glm::vec4 &ownCollider{m_collider->GetColliderPosition()};
-        const glm::vec4 &otherCollider{colliderData->collider->GetColliderPosition()};
+        const glm::vec4& ownCollider{m_collider->GetColliderPosition()};
+        const glm::vec4& otherCollider{colliderData->collider->GetColliderPosition()};
 
         if (
             colliderData->collisionNormal.y == 1.0f ||
@@ -113,7 +114,8 @@ void game::PhysicsComponent::Notify(uint32_t event, dae::ObserverData const *dat
                 }
 
                 m_velX = 0.0f;
-            } else if (colliderData->collisionNormal.x < 0.0f)
+            }
+            else if (colliderData->collisionNormal.x < 0.0f)
             {
                 displacementPos.x = colliderXPos - m_collider->GetColliderPosition().z;
                 if (m_horizontalInput <= 0.0f)
@@ -125,7 +127,8 @@ void game::PhysicsComponent::Notify(uint32_t event, dae::ObserverData const *dat
             }
 
             GetGameObject().SetLocalPosition(displacementPos);
-        } else if (m_velY > 0.0f && colliderData->collisionNormal.x == 0.0f)
+        }
+        else if (m_velY > 0.0f && colliderData->collisionNormal.x == 0.0f)
         {
             const float colliderYPos{colliderData->collider->GetColliderPosition().y};
             glm::vec3 currentPos{GetGameObject().GetLocalTransform().Position};
@@ -198,12 +201,9 @@ void game::PhysicsComponent::Jump()
 
 void game::PhysicsComponent::SmallJump()
 {
-    if ((m_isOnGround || !m_onBubbleColliders.empty()) && m_velY > 0.0f)
-    {
-        m_velY = -m_jumpForce / SMALL_JUMP_DEVISOR;
-        m_isOnGround = false;
-        GetGameObject().NotifyObservers(dae::sdbm_hash("on_jump"));
-    }
+    m_velY = -m_jumpForce / SMALL_JUMP_DEVISOR;
+    m_isOnGround = false;
+    GetGameObject().NotifyObservers(dae::sdbm_hash("on_jump"));
 }
 
 void game::PhysicsComponent::ResetMovement()

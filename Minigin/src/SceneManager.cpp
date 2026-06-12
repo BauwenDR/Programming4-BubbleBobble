@@ -54,6 +54,7 @@ void dae::SceneManager::SwitchScenes()
 	}
 
 	EventManager::GetInstance().SendEvent(sdbm_hash("scene_manager_scene_switch"));
+	EventManager::GetInstance().TriggerEvents();
 
 	m_activeScene = std::move(m_newScene.scene);
 	m_activeScene->Start();

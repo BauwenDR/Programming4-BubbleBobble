@@ -18,7 +18,10 @@ void game::SwitchSceneOnEnemiesKilled::Update()
 
     if (m_switchCountdown > 0.0f) return;
 
-    StagesManager::GetInstance().LoadNextStageFromJson();
+    if (!StagesManager::GetInstance().LoadNextStageFromJson())
+    {
+        StagesManager::GetInstance().LoadSceneFromJson("GameOver", false);
+    }
 }
 
 void game::SwitchSceneOnEnemiesKilled::HandleEvent(uint32_t event)

@@ -4,6 +4,7 @@
 #include "PickupComponent.hpp"
 #include "Time.hpp"
 #include "Component/ColliderComponent.hpp"
+#include "Event/EventManager.hpp"
 #include "Event/Sdbm.hpp"
 
 int game::LivesScoreComponent::GetScore() const
@@ -66,6 +67,7 @@ void game::LivesScoreComponent::OnEnemyCollision(dae::ObserverData const *data)
 
         LiveChangedData const liveData{false, m_lives};
         GetGameObject().NotifyObservers(dae::sdbm_hash("lives_changed"), &liveData);
+        dae::EventManager::GetInstance().SendEvent(dae::sdbm_hash("player_died"));
     }
 }
 

@@ -1,0 +1,14 @@
+{
+  "scene-name": "game-over",
+  "scalar": 4,
+  "prefabs": [
+    {
+      "name": "text",
+      "position": {
+        "x": 92,
+        "y": 176
+      },
+      "text": "Game Over"
+    }
+  ]
+}

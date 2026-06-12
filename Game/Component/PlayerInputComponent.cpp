@@ -41,17 +41,17 @@ void game::PlayerInputComponent::Start()
     dae::InputManager::GetInstance().Bind(X, m_player, KeyDown, m_attackCommand.get());
 }
 
-game::PlayerInputComponent::PlayerInputComponent(dae::GameObject &owner, int player, bool isEnemy)
-    : GameComponent(owner)
-      , m_player(player)
-      , m_isEnemy(isEnemy)
-{
-}
-
-game::PlayerInputComponent::~PlayerInputComponent()
+void game::PlayerInputComponent::OnDelete()
 {
     dae::InputManager::GetInstance().Unbind(m_attackCommand.get());
     dae::InputManager::GetInstance().Unbind(m_jumpCommand.get());
     dae::InputManager::GetInstance().Unbind(m_moveRightCommand.get());
     dae::InputManager::GetInstance().Unbind(m_moveLeftCommand.get());
+}
+
+game::PlayerInputComponent::PlayerInputComponent(dae::GameObject &owner, int player, bool isEnemy)
+    : GameComponent(owner)
+      , m_player(player)
+      , m_isEnemy(isEnemy)
+{
 }

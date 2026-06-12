@@ -34,7 +34,7 @@ namespace game
     class StagesManager final : public dae::Singleton<StagesManager>
     {
     public:
-        void LoadNextStageFromJson();
+        bool LoadNextStageFromJson();
         void LoadStageFromJson(int32_t stageNumber, bool preserveKeepAlive = true);
         void LoadSceneFromJson(std::string const & sceneName, bool preserveKeepAlive = true);
 
@@ -46,6 +46,7 @@ namespace game
 
         void AttachGui(std::unique_ptr<dae::GuiWindow> &&gui) const;
 
+        [[nodiscard]] std::vector<PlayerData> const& GetPlayers() const;
         [[nodiscard]] PlayerData GetClosestActivePlayer(glm::vec3 const &searchPos) const;
 
     private:
