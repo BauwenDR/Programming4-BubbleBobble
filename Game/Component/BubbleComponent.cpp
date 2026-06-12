@@ -11,7 +11,6 @@
 #include "BubbleState/StaticState.hpp"
 #include "Component/ColliderComponent.hpp"
 #include "Component/TextureComponent.hpp"
-#include "Event/EventManager.hpp"
 #include "Event/Sdbm.hpp"
 #include "Prefab/StagesManager.hpp"
 
@@ -48,6 +47,24 @@ void game::BubbleComponent::Pop(glm::vec2 poppedFrom, int32_t popNumber)
     for (auto bubble: m_collidingBubbles)
     {
         bubble->Pop(poppedFrom, popNumber);
+    }
+
+    GetGameObject().MarkForDelete();
+}
+
+void game::BubbleComponent::Release()
+{
+    if (m_hasTrappedEnemy)
+    {
+        auto const trappedEnemy{GetGameObject().GetChildAt(0)};
+        auto const captureComp{trappedEnemy->GetComponent<CapturableComponent>()};
+
+        if (!captureComp) return;
+        captureComp->OnRelease();
+        trappedEnemy->SetLocalPosition(glm::vec3{0.0f, 0.0f, 0.0f});
+        trappedEnemy->SetParent(nullptr, true);
+
+        m_hasTrappedEnemy = false;
     }
 
     GetGameObject().MarkForDelete();

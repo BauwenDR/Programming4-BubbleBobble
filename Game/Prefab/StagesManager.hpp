@@ -38,7 +38,7 @@ namespace game
         void LoadStageFromJson(int32_t stageNumber, bool preserveKeepAlive = true);
         void LoadSceneFromJson(std::string const & sceneName, bool preserveKeepAlive = true);
 
-        void SpawnBubble(ProjectilePrefabData const &data) const;
+        void SpawnBubble(ProjectilePrefabData const& data, glm::vec2 const& spriteOffset) const;
         void SpawnBoulder(ProjectilePrefabData const &data) const;
         void SpawnPickup(PickupPrefabData const &data) const;
 

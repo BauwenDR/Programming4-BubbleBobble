@@ -11,6 +11,7 @@
 #include "Component/AttackIfPlayerAtSameHeight.hpp"
 #include "Component/BoulderComponent.hpp"
 #include "Component/BubbleComponent.hpp"
+#include "Component/BubbleExpireTimer.hpp"
 #include "Component/CapturableComponent.hpp"
 #include "Component/LivesScoreComponent.hpp"
 #include "Component/PlayerInputComponent.hpp"
@@ -29,6 +30,7 @@
 #include "Component/SwitchSceneOnEnemiesKilled.hpp"
 #include "Component/TextComponent.hpp"
 #include "Component/TextureComponent.hpp"
+#include "Component/TimedKill.hpp"
 #include "Component/WrapAroundScreenComponent.hpp"
 #include "Component/ZenChanAnimationComponent.hpp"
 #include "Manager/MainMenu.hpp"
@@ -77,7 +79,7 @@ void game::StagesManager::LoadSceneFromJson(std::string const &sceneName, bool p
 	}
 }
 
-void game::StagesManager::SpawnBubble(ProjectilePrefabData const &data) const
+void game::StagesManager::SpawnBubble(ProjectilePrefabData const &data, glm::vec2 const &spriteOffset) const
 {
 	auto bubblePrefab{std::make_unique<dae::GameObject>()};
 
@@ -89,11 +91,15 @@ void game::StagesManager::SpawnBubble(ProjectilePrefabData const &data) const
 	bubblePrefab->AddComponent(std::make_unique<dae::TextureComponent>(
 		*bubblePrefab,
 		dae::ResourceManager::GetInstance().LoadTexture("Player/PlayerBubble.png"),
-		m_scaleFactor
+		m_scaleFactor,
+		glm::vec2{16.0f, 16.0f},
+		spriteOffset
 	));
 
 	bubblePrefab->AddComponent(std::make_unique<dae::ColliderComponent>(*bubblePrefab, glm::vec2{64.0f,64.0f}, dae::sdbm_hash("BUBBLE")));
 	bubblePrefab->AddComponent(std::make_unique<BubbleComponent>(*bubblePrefab, data.facingLeft));
+	bubblePrefab->AddComponent(std::make_unique<BubbleExpireTimer>(*bubblePrefab, 6.0f));
+	bubblePrefab->AddComponent(std::make_unique<TimedKill>(*bubblePrefab, 6.2f));
 
 	m_scene->Add(std::move(bubblePrefab));
 }
@@ -248,7 +254,7 @@ std::unique_ptr<dae::GameObject> game::StagesManager::PrefabLoader(nlohmann::jso
 
 	else if (prefabName == "enemy-player")
 	{
-		if (GameState::GetInstance().GetPlayerTwoTypeForGame() != PlayerTwoType::Maita) return nullptr;
+		if (GameState::GetInstance().CurrentType != GameType::Versus) return nullptr;
 
 		prefab->AddComponent(std::make_unique<dae::TextureComponent>(
 			*prefab,

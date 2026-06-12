@@ -22,6 +22,7 @@ namespace game
         void Jump();
         void SmallJump();
 
+        void ResetMovement();
         void ResetToStart();
 
         void MultiplyHorizontalSpeed(float factor);

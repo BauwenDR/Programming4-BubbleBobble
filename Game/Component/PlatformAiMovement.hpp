@@ -31,6 +31,8 @@ namespace game
 
         void InvertWalkDirection();
 
+        void ResetMovement();
+
         void Notify(uint32_t event, dae::ObserverData const *data) override;
 
         PlatformAiMovement(dae::GameObject &owner, PlatformAiActions initialAction);

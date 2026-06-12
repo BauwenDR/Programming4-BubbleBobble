@@ -19,7 +19,7 @@ namespace game {
         void Start() override;
         void Update() override {}
 
-        PlayerInputComponent(dae::GameObject& owner, int player, bool m_isEnemy);
+        PlayerInputComponent(dae::GameObject& owner, int player, bool isEnemy);
         ~PlayerInputComponent() override;
 
         PlayerInputComponent(const PlayerInputComponent &other) = delete;
@@ -28,7 +28,7 @@ namespace game {
         PlayerInputComponent & operator=(PlayerInputComponent &&other) noexcept = delete;
 
     private:
-        int player{};
+        int m_player{};
 
         std::unique_ptr<MoveCommand> m_moveLeftCommand{};
         std::unique_ptr<MoveCommand> m_moveRightCommand{};

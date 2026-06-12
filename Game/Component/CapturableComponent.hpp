@@ -9,7 +9,7 @@ namespace game
     class CapturableComponent final : public dae::GameComponent
     {
     public:
-        void Update() override;
+        void Update() override {}
 
         void OnCapture() const;
         void OnRelease() const;

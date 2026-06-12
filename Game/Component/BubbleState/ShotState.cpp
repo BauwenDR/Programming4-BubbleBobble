@@ -37,7 +37,7 @@ void game::bubble::ShotState::OnCollision(uint32_t event, dae::ColliderData cons
 
         capturable->OnCapture();
         collidedEnemy.SetParent(&m_owner.GetGameObject(), false);
-        collidedEnemy.SetLocalPosition({8.0f, 8.0f, 8.0f});
+        collidedEnemy.SetLocalPosition({8.0f, 8.0f, 0.0f});
 
         m_owner.m_hasTrappedEnemy = true;
     }

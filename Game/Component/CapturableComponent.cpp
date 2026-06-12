@@ -5,6 +5,7 @@
 #include "PlatformAiMovement.hpp"
 #include "PlayerInputComponent.hpp"
 #include "SpawnPickupOnDeath.hpp"
+#include "WrapAroundScreenComponent.hpp"
 #include "Component/ColliderComponent.hpp"
 #include "Component/PhysicsComponent.hpp"
 #include "Component/TextureComponent.hpp"
@@ -12,10 +13,6 @@
 #include "Event/Sdbm.hpp"
 #include "Prefab/Prefabs.hpp"
 #include "Prefab/StagesManager.hpp"
-
-void game::CapturableComponent::Update()
-{
-}
 
 game::CapturableComponent::CapturableComponent(dae::GameObject& owner, glm::vec2 poppedSpriteOffset, bool isEnemy)
     : GameComponent(owner)
@@ -46,11 +43,16 @@ void game::CapturableComponent::OnRelease() const
     auto const platformMovement{self.GetComponent<PlatformAiMovement>()};
     auto const playerInput{self.GetComponent<PlatformAiMovement>()};
 
-    if (platformMovement) platformMovement->Enabled = true;
+    if (platformMovement)
+    {
+        platformMovement->Enabled = true;
+        platformMovement->ResetMovement();
+    }
     if (playerInput) playerInput->Enabled = true;
 
     self.GetComponent<AnimationComponent>()->Enabled = true;
     self.GetComponent<PhysicsComponent>()->Enabled = true;
+    self.GetComponent<PhysicsComponent>()->ResetMovement();
     self.GetComponent<dae::ColliderComponent>()->Enabled = true;
     self.SetLocalScale(1.0f);
 }

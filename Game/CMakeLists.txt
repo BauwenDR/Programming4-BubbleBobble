@@ -18,6 +18,7 @@ set(GAME_SOURCE_FILES
         Game/Component/AttackIfPlayerAtSameHeight.cpp
         Game/Component/BoulderComponent.cpp
         Game/Component/BubbleComponent.cpp
+        Game/Component/BubbleExpireTimer.cpp
         Game/Component/CapturableComponent.cpp
         Game/Component/FallingDeadEnemy.cpp
         Game/Component/LivesScoreComponent.cpp
@@ -31,6 +32,7 @@ set(GAME_SOURCE_FILES
         Game/Component/PlayerSoundProducer.cpp
         Game/Component/SpawnPickupOnDeath.cpp
         Game/Component/SwitchSceneOnEnemiesKilled.cpp
+        Game/Component/TimedKill.cpp
         Game/Component/WrapAroundScreenComponent.cpp
         Game/Component/ZenChanAnimationComponent.cpp
 

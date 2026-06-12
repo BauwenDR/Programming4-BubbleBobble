@@ -23,6 +23,12 @@ std::unique_ptr<GameObject> Scene::Remove(const GameObject *object)
 	return removed;
 }
 
+void Scene::MoveInto(std::unique_ptr<GameObject> object)
+{
+	assert(object != nullptr && "Cannot add a null GameObject to the scene.");
+	m_objects.emplace_back(std::move(object));
+}
+
 void Scene::RemoveAll()
 {
 	m_objects.clear();

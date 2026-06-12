@@ -10,6 +10,11 @@
 
 #include "Event/IObserver.hpp"
 
+namespace dae
+{
+    class TextureComponent;
+}
+
 namespace game
 {
     namespace bubble
@@ -37,6 +42,7 @@ namespace game
         void Update() override;
 
         void Pop(glm::vec2 poppedFrom, int32_t popNumber = 1);
+        void Release();
 
         void Notify(uint32_t event, const dae::ObserverData *data) override;
 

@@ -86,8 +86,15 @@ void game::PlatformAiMovement::InvertWalkDirection()
     }
 }
 
+void game::PlatformAiMovement::ResetMovement()
+{
+    m_decisionCooldown = DECISION_TIMEOUT;
+    TakeNextMovementDecision();
+}
+
 void game::PlatformAiMovement::Notify(uint32_t event, dae::ObserverData const *data)
 {
+    if (!Enabled) return;
     if (event != dae::sdbm_hash("on_collision_enter") && event != dae::sdbm_hash("on_collision_exit")) return;
 
     if (data == nullptr) return;
@@ -140,7 +147,7 @@ void game::PlatformAiMovement::TakeNextMovementDecision()
 
     auto const [playerObject, _]{StagesManager::GetInstance().GetClosestActivePlayer(GetGameObject().GetWorldPosition())};
 
-    if (playerObject == nullptr) return;    // TODO if both players are invulnerable, take random decisions
+    if (playerObject == nullptr) return;
     const auto &playerPos{playerObject->GetWorldPosition()};
     const auto &selfPos{GetGameObject().GetWorldPosition()};
 

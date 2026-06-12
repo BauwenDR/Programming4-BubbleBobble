@@ -42,6 +42,8 @@ void game::PhysicsComponent::LateUpdate()
 // TODO also split off player specific functions
 void game::PhysicsComponent::Notify(uint32_t event, dae::ObserverData const *data)
 {
+    if (!Enabled) return;
+
     if (event == dae::sdbm_hash("scene_manager_scene_switch") || event == dae::sdbm_hash("lives_changed"))
     {
         ResetToStart();
@@ -204,13 +206,19 @@ void game::PhysicsComponent::SmallJump()
     }
 }
 
-void game::PhysicsComponent::ResetToStart()
+void game::PhysicsComponent::ResetMovement()
 {
     m_ignoredColliders.clear();
     m_collidingWithCount = 0;
-    GetGameObject().SetLocalPosition(m_initialPosition.Position);
     m_velX = 0.0f;
     m_velY = 0.0f;
+    m_isOnGround = false;
+}
+
+void game::PhysicsComponent::ResetToStart()
+{
+    ResetMovement();
+    GetGameObject().SetLocalPosition(m_initialPosition.Position);
 }
 
 void game::PhysicsComponent::MultiplyHorizontalSpeed(float factor)

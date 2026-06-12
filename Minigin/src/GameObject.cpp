@@ -137,14 +137,15 @@ void dae::GameObject::SetParent(GameObject *parent, bool keepWorldPosition)
     {
         thisPointer = SceneManager::GetInstance().GetActive()->Remove(this);
     }
+
     if (parent != nullptr)
     {
         parent->AddChild(std::move(thisPointer));
-        m_pParent = parent;
     } else
     {
-        SceneManager::GetInstance().GetActive()->Add(std::move(thisPointer));
+        SceneManager::GetInstance().GetActive()->MoveInto(std::move(thisPointer));
     }
+    m_pParent = parent;
 }
 
 size_t dae::GameObject::GetChildCount() const
