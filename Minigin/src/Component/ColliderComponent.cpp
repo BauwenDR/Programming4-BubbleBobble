@@ -36,14 +36,6 @@ void dae::ColliderComponent::OnDelete()
     PhysicsSystem::GetInstance().UnregisterCollider(this);
 }
 
-dae::ColliderComponent::ColliderComponent(GameObject &owner, glm::vec2 const &colliderSize, uint32_t const tag)
-    : GameComponent(owner)
-      , m_collider(glm::vec4{0.0f, 0.0f, colliderSize.x, colliderSize.y})
-      , m_tag(tag)
-{
-    PhysicsSystem::GetInstance().RegisterCollider(this);
-}
-
 void dae::ColliderComponent::RecalculateCollider()
 {
     m_collider.x = GetGameObject().GetWorldPosition().x;
@@ -51,4 +43,12 @@ void dae::ColliderComponent::RecalculateCollider()
 
     m_center.x = m_collider.x + m_collider.z / 2.0f;
     m_center.y = m_collider.y + m_collider.w / 2.0f;
+}
+
+dae::ColliderComponent::ColliderComponent(GameObject &owner, glm::vec2 const &colliderSize, uint32_t const tag)
+    : GameComponent(owner)
+      , m_collider(glm::vec4{0.0f, 0.0f, colliderSize.x, colliderSize.y})
+      , m_tag(tag)
+{
+    PhysicsSystem::GetInstance().RegisterCollider(this);
 }

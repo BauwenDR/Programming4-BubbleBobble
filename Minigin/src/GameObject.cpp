@@ -42,7 +42,11 @@ void dae::GameObject::Start() const
 {
     for (const auto &component: m_components)
     {
-        component->Start();
+        if (!component->m_hasStarted)
+        {
+            component->m_hasStarted = true;
+            component->Start();
+        }
     }
 
     for (const auto &child: m_children)

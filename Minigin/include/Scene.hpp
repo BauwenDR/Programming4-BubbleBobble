@@ -21,6 +21,7 @@ namespace dae
 		void RemoveGui(const GuiWindow &gui);
 		void RemoveAllGui();
 
+		void Start() const;
 		void Update() const;
 		void PostUpdate();
 

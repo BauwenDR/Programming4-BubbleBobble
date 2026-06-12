@@ -19,6 +19,8 @@ namespace dae
         void Update() override;
         void OnDelete() override;
 
+        void RecalculateCollider();
+
         [[nodiscard]] glm::vec4 const &GetColliderPosition() const
         {
             return m_collider;
@@ -42,7 +44,6 @@ namespace dae
 
         uint32_t m_tag{};
 
-        void RecalculateCollider();
     };
 
     class ColliderData final : public ObserverData

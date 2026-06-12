@@ -219,6 +219,7 @@ void game::PhysicsComponent::ResetToStart()
 {
     ResetMovement();
     GetGameObject().SetLocalPosition(m_initialPosition.Position);
+    m_collider->RecalculateCollider();
 }
 
 void game::PhysicsComponent::MultiplyHorizontalSpeed(float factor)

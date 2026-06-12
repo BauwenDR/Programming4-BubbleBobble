@@ -5,6 +5,7 @@
 
 #include "SceneManager.hpp"
 #include "Animations/MightaAnimation.hpp"
+#include "Animations/PickupSprites.hpp"
 #include "Animations/PlayerAnimations.hpp"
 #include "Animations/ZenChanAnimation.hpp"
 #include "Component/AnimationComponent.hpp"
@@ -75,7 +76,7 @@ void game::StagesManager::LoadSceneFromJson(std::string const &sceneName, bool p
 	{
 		if (auto newItem{PrefabLoader(item)})
 		{
-			m_scene->Add(std::move(newItem));
+			m_scene->MoveInto(std::move(newItem));
 		}
 	}
 }
@@ -99,9 +100,9 @@ void game::StagesManager::SpawnBubble(ProjectilePrefabData const &data, glm::vec
 
 	bubblePrefab->AddComponent(std::make_unique<dae::ColliderComponent>(*bubblePrefab, glm::vec2{64.0f,64.0f}, dae::sdbm_hash("BUBBLE")));
 	bubblePrefab->AddComponent(std::make_unique<BubbleComponent>(*bubblePrefab, data.facingLeft));
-	bubblePrefab->AddComponent(std::make_unique<BubbleExpireTimer>(*bubblePrefab, 6.0f));
+	bubblePrefab->AddComponent(std::make_unique<BubbleExpireTimer>(*bubblePrefab, 8.0f));
 	bubblePrefab->AddComponent(std::make_unique<FlickerComponent>(*bubblePrefab));
-	bubblePrefab->AddComponent(std::make_unique<TimedKill>(*bubblePrefab, 6.2f));
+	bubblePrefab->AddComponent(std::make_unique<TimedKill>(*bubblePrefab, 8.2f));
 
 	m_scene->Add(std::move(bubblePrefab));
 }
@@ -141,7 +142,7 @@ void game::StagesManager::SpawnPickup(PickupPrefabData const &data) const
 		dae::ResourceManager::GetInstance().LoadTexture("PickupSprites.png"),
 		m_scaleFactor,
 		glm::vec2{16.0f, 16.0f},
-		glm::vec2{0.0f, 0.0f}
+		PICKUP_SPRITE_OFFSETS.at(data.worth)
 	));
 
 	pickupPrefab->AddComponent(std::make_unique<dae::ColliderComponent>(*pickupPrefab, glm::vec2{64.0f, 64.0f}, dae::sdbm_hash("PICKUP")));

@@ -31,10 +31,13 @@ namespace dae
 
     protected:
         explicit GameComponent(GameObject &owner) : m_GameObject(owner) {}
+        bool m_hasStarted{false};
 
     private:
         GameObject &m_GameObject;
         bool m_markedForDeletion{false};
+
+        friend class GameObject;
     };
 }
 

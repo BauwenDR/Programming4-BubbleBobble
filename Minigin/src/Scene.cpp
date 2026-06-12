@@ -54,6 +54,14 @@ void Scene::RemoveAllGui()
 	m_guis.clear();
 }
 
+void Scene::Start() const
+{
+	for (auto const &object: m_objects)
+	{
+		object->Start();
+	}
+}
+
 void Scene::Update() const
 {
 	for (auto const &object: m_objects)
