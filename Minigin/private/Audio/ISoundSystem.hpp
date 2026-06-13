@@ -8,6 +8,7 @@ namespace  dae
     {
     public:
         virtual void PlaySound(uint32_t soundId, float volume) = 0;
+        virtual void MuteSound() = 0;
 
         virtual ~ISoundSystem() = default;
     };

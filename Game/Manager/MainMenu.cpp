@@ -14,6 +14,8 @@ void game::MainMenu::Start()
     inputManager.Bind(dae::Input::ControllerKey::DpadUp, 0, dae::Input::CommandTrigger::KeyUp, &m_startCoopGameCommand);
     inputManager.Bind(dae::Input::ControllerKey::DpadRight, 0, dae::Input::CommandTrigger::KeyUp, &m_startVersusGameCommand);
 
+    inputManager.Bind(SDLK_F2, dae::Input::CommandTrigger::KeyDown, &m_muteCommand);
+
     GameState::GetInstance().LoadHighScore();
 }
 
@@ -21,6 +23,7 @@ void game::MainMenu::OnDelete()
 {
     auto const &inputManager{dae::InputManager::GetInstance()};
 
+    inputManager.Unbind(&m_muteCommand);
     inputManager.Unbind(&m_startVersusGameCommand);
     inputManager.Unbind(&m_startCoopGameCommand);
     inputManager.Unbind(&m_startSingleGameCommand);

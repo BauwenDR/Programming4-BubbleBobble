@@ -10,6 +10,7 @@ namespace dae
     {
     public:
         void PlaySound(uint32_t soundId, float volume) override;
+        void MuteSound() override;
 
         SdlSoundSystem();
         ~SdlSoundSystem() override;

@@ -1,5 +1,6 @@
 #ifndef MINIGIN_MAINMENU_HPP
 #define MINIGIN_MAINMENU_HPP
+#include "Command/MuteCommand.hpp"
 #include "Command/StartGameCommand.hpp"
 #include "Component/GameComponent.hpp"
 
@@ -18,6 +19,8 @@ namespace game
         StartGameCommand m_startSingleGameCommand;
         StartGameCommand m_startCoopGameCommand;
         StartGameCommand m_startVersusGameCommand;
+
+        MuteCommand m_muteCommand{};
     };
 }
 

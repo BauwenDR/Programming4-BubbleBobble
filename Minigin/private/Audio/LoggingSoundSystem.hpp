@@ -35,6 +35,21 @@ namespace dae
             m_soundSystem->PlaySound(soundId, volume);
         }
 
+        void MuteSound() override
+        {
+
+            // TODO this kind of logging is not maintainable at all (same TODO as in Minigin.cpp)
+#if _WIN32
+            std::stringstream ss;
+            ss << "(Un)muting all sound \n";
+            OutputDebugString(ss.str().c_str());
+#else
+            std::cout << "(Un)muting all sound \n";
+#endif
+
+            m_soundSystem->MuteSound();
+        }
+
     private:
         std::unique_ptr<ISoundSystem> m_soundSystem{};
     };

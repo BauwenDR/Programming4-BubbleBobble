@@ -10,12 +10,18 @@ class dae::SdlSoundSystem::Impl
 {
 public:
     void PlaySound(uint32_t soundId, float volume) const;
+    void MuteSound();
 
     Impl();
+
+private:
+    bool m_muted{false};
 };
 
 void dae::SdlSoundSystem::Impl::PlaySound(uint32_t soundId, float volume) const
 {
+    if (m_muted) return;
+
     SDL_AudioSpec wavSpec{};
     Uint32 wavLength{};
     Uint8 *wavBuffer{};
@@ -36,6 +42,11 @@ void dae::SdlSoundSystem::Impl::PlaySound(uint32_t soundId, float volume) const
     SDL_free(wavBuffer);
 }
 
+void dae::SdlSoundSystem::Impl::MuteSound()
+{
+    m_muted = !m_muted;
+}
+
 dae::SdlSoundSystem::Impl::Impl()
 {
     SDL_InitSubSystem(SDL_INIT_AUDIO);
@@ -44,6 +55,11 @@ dae::SdlSoundSystem::Impl::Impl()
 void dae::SdlSoundSystem::PlaySound(uint32_t soundId, float volume)
 {
     m_impl->PlaySound(soundId, volume);
+}
+
+void dae::SdlSoundSystem::MuteSound()
+{
+    m_impl->MuteSound();
 }
 
 dae::SdlSoundSystem::SdlSoundSystem()

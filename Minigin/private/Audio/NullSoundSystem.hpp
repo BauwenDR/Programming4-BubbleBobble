@@ -14,6 +14,11 @@ namespace dae
             std::cerr << "Tried playing sound " << sound_id << " while no sound system was attached!\n";
         }
 
+        void MuteSound() override
+        {
+            std::cerr << "Tried muting while no sound system was attached!\n";
+        }
+
         ~NullSoundSystem() override = default;
     };
 }
