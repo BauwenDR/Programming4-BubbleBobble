@@ -116,21 +116,21 @@ if (NOT EMSCRIPTEN)
     add_library(sqlite3_lib STATIC
             ${sqlite3_SOURCE_DIR}/sqlite3.c
     )
-endif ()
-target_include_directories(sqlite3_lib PUBLIC
-        ${sqlite3_SOURCE_DIR}
-)
-target_compile_definitions(sqlite3_lib PRIVATE
-        SQLITE_THREADSAFE=1
-        SQLITE_ENABLE_FTS5
-        SQLITE_ENABLE_JSON1
-        SQLITE_ENABLE_COLUMN_METADATA
-        SQLITE_MAX_EXPR_DEPTH=10000
-)
+    target_include_directories(sqlite3_lib PUBLIC
+            ${sqlite3_SOURCE_DIR}
+    )
+    target_compile_definitions(sqlite3_lib PRIVATE
+            SQLITE_THREADSAFE=1
+            SQLITE_ENABLE_FTS5
+            SQLITE_ENABLE_JSON1
+            SQLITE_ENABLE_COLUMN_METADATA
+            SQLITE_MAX_EXPR_DEPTH=10000
+    )
 
-if (UNIX)
-    find_package(Threads REQUIRED)
-    target_link_libraries(sqlite3_lib PRIVATE Threads::Threads ${CMAKE_DL_LIBS})
+    if (UNIX)
+        find_package(Threads REQUIRED)
+        target_link_libraries(sqlite3_lib PRIVATE Threads::Threads ${CMAKE_DL_LIBS})
+    endif ()
 endif ()
 
 target_include_directories(imgui PUBLIC ${imgui_SOURCE_DIR} ${sdl3_SOURCE_DIR}/include)
