@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-#ifndef __emscripten__
+#ifndef __EMSCRIPTEN__
 #define SQLITE_CORE
 #include <sqlite3.h>
 #endif
@@ -13,7 +13,7 @@
 std::vector<game::GameRecord> game::GameState::GetHighScores()
 {
     std::vector<GameRecord> records{};
-#ifndef __emscripten__
+#ifndef __EMSCRIPTEN__
     sqlite3* db{};
 
     if (sqlite3_open("game_records.db", &db) != SQLITE_OK)
@@ -53,7 +53,7 @@ std::vector<game::GameRecord> game::GameState::GetHighScores()
 
 void game::GameState::SaveScore([[maybe_unused]] std::string_view const& name) const
 {
-#ifndef __emscripten__
+#ifndef __EMSCRIPTEN__
     sqlite3* db{};
 
     // Open the database
@@ -123,7 +123,7 @@ void game::GameState::SetScore(int totalScore)
 
 game::GameState::GameState()
 {
-#ifndef __emscripten__
+#ifndef __EMSCRIPTEN__
     sqlite3* db{};
 
     if (sqlite3_open("game_records.db", &db) != SQLITE_OK)
