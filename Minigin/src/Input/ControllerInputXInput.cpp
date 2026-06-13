@@ -10,11 +10,6 @@
 #include <Windows.h>
 #include <Xinput.h>
 
-// TODO: test with 2 controllers on Windows
-// When writing this implementation I only had one (XInput compatible) Controller lying around
-// I will test with multiple controllers when I can get my hand on some (most likely when going home)
-// For the time being this class is only guaranteed to work with one controller
-
 namespace dae::Input::Controller
 {
     class ControllerInput::Impl {

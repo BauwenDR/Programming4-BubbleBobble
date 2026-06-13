@@ -111,12 +111,12 @@ if (NOT EMSCRIPTEN)
             URL_HASH SHA256=8a310d0a16c7a90cacd4c884e70faa51c902afed2a89f63aaa0126ab83558a32
     )
     FetchContent_MakeAvailable(sqlite3)
-endif ()
 
-# Create library target from fetched source
-add_library(sqlite3_lib STATIC
-        ${sqlite3_SOURCE_DIR}/sqlite3.c
-)
+    # Create library target from fetched source
+    add_library(sqlite3_lib STATIC
+            ${sqlite3_SOURCE_DIR}/sqlite3.c
+    )
+endif ()
 target_include_directories(sqlite3_lib PUBLIC
         ${sqlite3_SOURCE_DIR}
 )
