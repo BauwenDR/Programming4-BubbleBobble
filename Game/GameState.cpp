@@ -2,16 +2,19 @@
 
 #include <iostream>
 
+#ifndef __emscripten__
 #define SQLITE_CORE
 #include <sqlite3.h>
+#endif
 
 #include "Event/EventManager.hpp"
 #include "Event/Sdbm.hpp"
 
 std::vector<game::GameRecord> game::GameState::GetHighScores()
 {
-    sqlite3* db{};
     std::vector<GameRecord> records{};
+#ifndef __emscripten__
+    sqlite3* db{};
 
     if (sqlite3_open("game_records.db", &db) != SQLITE_OK)
     {
@@ -43,12 +46,14 @@ std::vector<game::GameRecord> game::GameState::GetHighScores()
     // Clean up
     sqlite3_finalize(stmt);
     sqlite3_close(db);
+#endif
 
     return records;
 }
 
-void game::GameState::SaveScore(std::string_view const& name) const
+void game::GameState::SaveScore([[maybe_unused]] std::string_view const& name) const
 {
+#ifndef __emscripten__
     sqlite3* db{};
 
     // Open the database
@@ -82,6 +87,7 @@ void game::GameState::SaveScore(std::string_view const& name) const
     // Clean up
     sqlite3_finalize(stmt);
     sqlite3_close(db);
+#endif
 }
 
 void game::GameState::LoadHighScore()
@@ -117,6 +123,7 @@ void game::GameState::SetScore(int totalScore)
 
 game::GameState::GameState()
 {
+#ifndef __emscripten__
     sqlite3* db{};
 
     if (sqlite3_open("game_records.db", &db) != SQLITE_OK)
@@ -141,4 +148,5 @@ game::GameState::GameState()
     }
 
     sqlite3_close(db);
+#endif
 }

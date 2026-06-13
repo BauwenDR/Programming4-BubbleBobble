@@ -65,8 +65,15 @@ target_compile_features(${TARGET_NAME} PUBLIC cxx_std_20)
 
 target_link_libraries("${TARGET_NAME}" PUBLIC
         minigin
-        sqlite3_lib
 )
+
+if (NOT EMSCRIPTEN)
+    target_link_libraries("${TARGET_NAME}" PRIVATE
+            minigin
+            sqlite3_lib
+    )
+endif()
+
 if(MSVC)
     # compile at warning level 4 + treat warnings as errors
     target_compile_options(${TARGET_NAME} PRIVATE /W4 /WX)

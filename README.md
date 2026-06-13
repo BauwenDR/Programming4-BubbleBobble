@@ -1,4 +1,6 @@
 ﻿# Programming 4 - Bubble Bobble
+## Bauwen De Ron
+Github: https://github.com/BauwenDR/Programming4-BubbleBobble
 
 [![Build Status](https://github.com/BauwenDR/Programming4-BubbleBobble/actions/workflows/cmake.yml/badge.svg)](https://github.com/BauwenDR/Programming4-BubbleBobble/actions/workflows/cmake.yml)
 [![Build Status](https://github.com/BauwenDR/Programming4-BubbleBobble/actions/workflows/emscripten.yml/badge.svg)](https://github.com/BauwenDR/Programming4-BubbleBobble/actions/workflows/emscripten.yml)
@@ -6,6 +8,44 @@
 This repository contains my Programming 4 Demo and Exam assignments.
 The assignment was to recreate the arcade game 'Bubble Bobble' using Minigin as a template.
 Throughout the course we were provided programming patters and advice for transforming the starting project into a propper game engine.
+
+## Controls
+### Keyboard
+#### Player 1
+**A/D**: Walk left/ right
+**Z**: Jump
+**X**: Attack
+
+#### Player 2
+**LEFT/RIGHT**: Walk left/ right
+**UP**: Jump
+**DOWN**: Attack
+
+### Gamepad
+**DPAD-LEFT/DPAD-RIGHT**: Walk left/ right
+**A**: Jump
+**X**: Attack
+
+## Specifics/ Design choices
+- Sound system: SDL3 (core) - On a separate thread through an Event Queue
+- Service locator for audio
+- Level format: JSON
+- State pattern: Bubble component (Shot, floating, static, wind current)
+- High scores: Sqlite (not available for webbuilds)
+- Command pattern for player and ui input
+- Event Queue for:
+  - New stage ready
+  - High score changed
+  - An enemy has died
+  - A player has died
+- Observer pattern for:
+  - Collision Handling (on enter, stay & exit)
+  - On jump
+  - On attack
+  - On object destroyed
+  - ...
+- GameLoop pattern (no fixed time)
+- Component based game engine
 
 The Demo can be viewed at: [https://bauwendr.github.io/Programming4-BubbleBobble/](https://bauwendr.github.io/Programming4-BubbleBobble/)
 

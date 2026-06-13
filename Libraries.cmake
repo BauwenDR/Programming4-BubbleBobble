@@ -1,7 +1,7 @@
 include(FetchContent)
 # add glm
 find_package(glm CONFIG QUIET)
-if(NOT glm_FOUND)
+if (NOT glm_FOUND)
     FetchContent_Declare(
             glm
             URL https://github.com/g-truc/glm/releases/download/1.0.3/glm-1.0.3.zip
@@ -9,11 +9,11 @@ if(NOT glm_FOUND)
             DOWNLOAD_DIR ${CMAKE_BINARY_DIR}/downloads
     )
     FetchContent_MakeAvailable(glm)
-endif()
+endif ()
 
 # Add SDL3
 find_package(SDL3 3.4 CONFIG QUIET)
-if(NOT SDL3_FOUND)
+if (NOT SDL3_FOUND)
     if (WIN32)
         FetchContent_Declare(
                 SDL3
@@ -24,7 +24,7 @@ if(NOT SDL3_FOUND)
         FetchContent_MakeAvailable(SDL3)
         list(PREPEND CMAKE_PREFIX_PATH "${sdl3_SOURCE_DIR}")
         find_package(SDL3 CONFIG REQUIRED)
-    else()
+    else ()
         FetchContent_Declare(
                 SDL3
                 GIT_REPOSITORY https://github.com/libsdl-org/SDL.git
@@ -33,12 +33,12 @@ if(NOT SDL3_FOUND)
                 GIT_PROGRESS TRUE
         )
         FetchContent_MakeAvailable(SDL3)
-    endif()
-endif()
+    endif ()
+endif ()
 
 # Add SDL3_ttf
 find_package(SDL3_ttf 3.2.2 CONFIG QUIET)
-if(NOT SDL3_ttf_FOUND)
+if (NOT SDL3_ttf_FOUND)
     if (WIN32)
         FetchContent_Declare(
                 SDL3_ttf
@@ -49,7 +49,7 @@ if(NOT SDL3_ttf_FOUND)
         FetchContent_MakeAvailable(SDL3_ttf)
         list(PREPEND CMAKE_PREFIX_PATH "${sdl3_ttf_SOURCE_DIR}")
         find_package(SDL3_ttf CONFIG REQUIRED)
-    else()
+    else ()
         FetchContent_Declare(
                 SDL3_ttf
                 GIT_REPOSITORY https://github.com/libsdl-org/SDL_ttf.git
@@ -58,17 +58,17 @@ if(NOT SDL3_ttf_FOUND)
                 GIT_PROGRESS TRUE
         )
         set(SDL3TTF_INSTALL OFF)
-        if(EMSCRIPTEN)
+        if (EMSCRIPTEN)
             list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/emscripten")
             set(SDL3TTF_USE_SYSTEM_FREETYPE ON)
             set(SDL3TTF_VENDORED OFF)
             set(SDLTTF_PLUTOSVG OFF)
             add_compile_options(-sUSE_FREETYPE=1 -sUSE_HARFBUZZ=1)
             add_link_options(-sUSE_FREETYPE=1 -sUSE_HARFBUZZ=1)
-        endif()
+        endif ()
         FetchContent_MakeAvailable(SDL3_ttf)
-    endif()
-endif()
+    endif ()
+endif ()
 
 # Dear ImGui
 FetchContent_Declare(
@@ -105,11 +105,13 @@ add_library(implot STATIC
 )
 
 # Sqlite
-FetchContent_Declare(sqlite3
-        URL https://sqlite.org/2026/sqlite-amalgamation-3530200.zip
-        URL_HASH SHA256=8a310d0a16c7a90cacd4c884e70faa51c902afed2a89f63aaa0126ab83558a32
-)
-FetchContent_MakeAvailable(sqlite3)
+if (NOT EMSCRIPTEN)
+    FetchContent_Declare(sqlite3
+            URL https://sqlite.org/2026/sqlite-amalgamation-3530200.zip
+            URL_HASH SHA256=8a310d0a16c7a90cacd4c884e70faa51c902afed2a89f63aaa0126ab83558a32
+    )
+    FetchContent_MakeAvailable(sqlite3)
+endif ()
 
 # Create library target from fetched source
 add_library(sqlite3_lib STATIC
@@ -126,10 +128,10 @@ target_compile_definitions(sqlite3_lib PRIVATE
         SQLITE_MAX_EXPR_DEPTH=10000
 )
 
-if(UNIX)
+if (UNIX)
     find_package(Threads REQUIRED)
     target_link_libraries(sqlite3_lib PRIVATE Threads::Threads ${CMAKE_DL_LIBS})
-endif()
+endif ()
 
 target_include_directories(imgui PUBLIC ${imgui_SOURCE_DIR} ${sdl3_SOURCE_DIR}/include)
 target_include_directories(implot PUBLIC ${imgui_SOURCE_DIR} ${sdl3_SOURCE_DIR}/include)
@@ -142,7 +144,7 @@ target_compile_features(implot PUBLIC cxx_std_20)
 if (WIN32)
     # Add VLD (Visual Leak Detector) for memory leak detection on Windows
     find_package(VLD CONFIG)
-endif()
+endif ()
 
 # Add steam if available
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/steam")

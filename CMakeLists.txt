@@ -13,6 +13,9 @@ else()
     set(TARGET_PARAM WIN32)
 endif()
 
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
 include(Libraries.cmake)
 
 include(Minigin/CMakeLists.txt)
